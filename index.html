@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Earth Visual Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #4A7C59;
+  --green-dark: #2C4A35;
+  --green-light: #EAF3DE;
+  --cream: #F5F0E8;
+  --cream-dark: #EDE6D6;
+  --terracotta: #C9714A;
+  --gold: #D4AF37;
+  --sky: #A8C5DA;
+  --text: #1C2B22;
+  --text-mid: #4A5B50;
+  --text-soft: #8A9B90;
+  --white: #FEFEFE;
+  --warn: #E8593C;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(44,74,53,0.10);
+  --shadow-lg: 0 8px 40px rgba(44,74,53,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3{font-family:'Playfair Display',serif}
+
+/* ─── HEADER ─── */
+.header{background:var(--green-dark);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px;color:var(--cream)}
+.logo-icon{width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.logo h1{font-size:18px;letter-spacing:0.3px}
+.logo span{font-size:11px;color:var(--sky);font-family:'DM Sans',sans-serif;font-weight:300;display:block;line-height:1}
+.header-right{display:flex;gap:10px;align-items:center}
+.btn-history{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--cream);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-history:hover{background:rgba(255,255,255,0.2)}
+.cost-badge{background:var(--green);color:var(--cream);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500}
+
+/* ─── LAYOUT ─── */
+.app{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
+
+/* ─── SIDEBAR ─── */
+.sidebar{background:var(--white);border-right:1px solid var(--cream-dark);padding:24px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.step-item{padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.2s;border-left:3px solid transparent;font-size:14px;color:var(--text-mid)}
+.step-item:hover{background:var(--cream);color:var(--text)}
+.step-item.active{border-left-color:var(--green);background:var(--green-light);color:var(--green-dark);font-weight:600}
+.step-item.done{color:var(--green)}
+.step-item.done .step-num{background:var(--green);color:white}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--cream-dark);color:var(--text-soft);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-item.active .step-num{background:var(--green-dark);color:white}
+.sidebar-tip{margin:20px 16px 0;padding:14px;background:var(--green-light);border-radius:var(--radius-sm);font-size:12px;color:var(--green-dark);line-height:1.5}
+.sidebar-tip strong{display:block;margin-bottom:4px}
+
+/* ─── MAIN ─── */
+.main{padding:28px 32px;max-width:900px}
+.step-panel{display:none;animation:fadeIn .25s ease}
+.step-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-header{margin-bottom:24px}
+.step-header h2{font-size:22px;color:var(--green-dark);margin-bottom:4px}
+.step-header p{font-size:14px;color:var(--text-soft)}
+
+/* ─── TEMPLATES ─── */
+.template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.template-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius);padding:16px;cursor:pointer;transition:.2s;text-align:center}
+.template-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow)}
+.template-icon{font-size:28px;margin-bottom:8px}
+.template-card h3{font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px}
+.template-card p{font-size:12px;color:var(--text-soft)}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-soft);font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
+
+/* ─── OPTION CARDS ─── */
+.options-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.options-grid.wide{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.opt-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius);cursor:pointer;transition:.2s;overflow:hidden;position:relative}
+.opt-card:hover{border-color:var(--green);box-shadow:var(--shadow)}
+.opt-card.selected{border-color:var(--green);background:var(--green-light)}
+.opt-card.selected::after{content:'✓';position:absolute;top:8px;right:8px;width:20px;height:20px;background:var(--green);color:white;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center}
+.opt-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:32px}
+.opt-img.placeholder{font-size:32px;display:flex;align-items:center;justify-content:center;background:var(--cream)}
+.opt-body{padding:10px 12px}
+.opt-label{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
+.opt-desc{font-size:11px;color:var(--text-soft);line-height:1.4}
+.opt-card.warn-combo{border-color:var(--warn)!important;background:#FFF5F3}
+
+/* ─── SECTION LABELS ─── */
+.section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-soft);margin:20px 0 10px}
+.section-label:first-child{margin-top:0}
+
+/* ─── WARNING BANNER ─── */
+.warn-banner{background:#FFF3F0;border:1px solid #F4A58A;border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:#A03010;margin-bottom:16px;display:none;align-items:flex-start;gap:8px}
+.warn-banner.show{display:flex}
+
+/* ─── AI RECOMMENDATION ─── */
+.ai-rec{background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;color:var(--cream);font-size:13px;display:none}
+.ai-rec.show{display:block}
+.ai-rec strong{display:block;margin-bottom:6px;font-size:14px}
+
+/* ─── NAV BUTTONS ─── */
+.step-nav{display:flex;gap:12px;margin-top:28px;padding-top:20px;border-top:1px solid var(--cream-dark)}
+.btn{padding:11px 24px;border-radius:25px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:.2s;border:none}
+.btn-primary{background:var(--green);color:white}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-secondary{background:var(--white);color:var(--text);border:1.5px solid var(--cream-dark)}
+.btn-secondary:hover{border-color:var(--green);color:var(--green)}
+.btn-generate{background:var(--green-dark);color:var(--cream);padding:14px 32px;font-size:15px;letter-spacing:0.3px}
+.btn-generate:hover{background:var(--terracotta)}
+.btn-generate:disabled{opacity:.5;cursor:not-allowed}
+
+/* ─── GENERATE STEP ─── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.summary-item{background:var(--white);border-radius:var(--radius-sm);padding:12px 16px}
+.summary-item label{font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-soft);display:block;margin-bottom:4px}
+.summary-item span{font-size:14px;font-weight:600;color:var(--text)}
+.token-estimate{background:var(--green-light);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--green-dark);margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+
+/* ─── OUTPUT AREA ─── */
+.output-panel{margin-top:24px;display:none}
+.output-panel.show{display:block}
+.output-section{background:var(--white);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+.output-header{padding:14px 20px;background:var(--green-dark);color:var(--cream);display:flex;justify-content:space-between;align-items:center}
+.output-header h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600}
+.output-actions{display:flex;gap:8px}
+.btn-copy{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--cream);padding:5px 12px;border-radius:15px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-copy:hover{background:rgba(255,255,255,0.25)}
+.btn-copy.copied{background:var(--gold);border-color:var(--gold);color:var(--green-dark)}
+.output-body{padding:16px 20px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:'DM Sans',sans-serif}
+.tool-links{padding:12px 20px;background:var(--cream);display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--cream-dark)}
+.tool-link{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:.2s;border:1.5px solid var(--cream-dark);background:white;color:var(--text)}
+.tool-link:hover{border-color:var(--green);color:var(--green)}
+.tool-link span{font-size:14px}
+
+/* ─── LOADING ─── */
+.loading{display:none;text-align:center;padding:40px;color:var(--green)}
+.loading.show{display:block}
+.loader{width:40px;height:40px;border:3px solid var(--green-light);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── HISTORY DRAWER ─── */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:none}
+.drawer-overlay.open{display:block}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:360px;background:var(--white);z-index:201;overflow-y:auto;transform:translateX(100%);transition:.3s ease;padding:24px}
+.drawer.open{transform:translateX(0)}
+.drawer h2{font-size:18px;margin-bottom:16px;color:var(--green-dark)}
+.drawer-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-soft)}
+.history-item{background:var(--cream);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;cursor:pointer;transition:.2s}
+.history-item:hover{background:var(--green-light)}
+.history-item .hi-meta{font-size:11px;color:var(--text-soft);margin-bottom:6px}
+.history-item .hi-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.history-item .hi-preview{font-size:12px;color:var(--text-mid);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.history-empty{text-align:center;padding:40px 20px;color:var(--text-soft);font-size:13px}
+
+/* ─── PLATFORM BADGES ─── */
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.plat-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius-sm);padding:14px 10px;cursor:pointer;text-align:center;transition:.2s}
+.plat-card:hover{border-color:var(--green)}
+.plat-card.selected{border-color:var(--green);background:var(--green-light)}
+.plat-icon{font-size:22px;margin-bottom:6px}
+.plat-name{font-size:13px;font-weight:600;color:var(--text);display:block}
+.plat-ratio{font-size:11px;color:var(--text-soft)}
+
+/* ─── LANG TOGGLE ─── */
+.lang-toggle{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;padding:2px}
+.lang-btn{background:none;border:none;color:rgba(255,255,255,0.6);padding:5px 12px;border-radius:18px;cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:.2s}
+.lang-btn.active{background:var(--gold);color:var(--green-dark)}
+
+/* ─── CATEGORY TABS ─── */
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.cat-tab{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--white);color:var(--text-mid);font-size:13px;font-weight:500;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.cat-tab:hover{border-color:var(--green);color:var(--green)}
+.cat-tab.active{background:var(--green);border-color:var(--green);color:white}
+
+/* ─── SEARCH BAR ─── */
+.search-wrap{position:relative;margin-bottom:18px}
+.search-wrap input{width:100%;padding:11px 16px 11px 40px;border:1.5px solid var(--cream-dark);border-radius:25px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--white);outline:none;transition:.2s;color:var(--text)}
+.search-wrap input:focus{border-color:var(--green)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
+.search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-soft);display:none}
+.no-results{text-align:center;padding:32px;color:var(--text-soft);font-size:14px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--cream-dark);border-radius:2px}
+
+/* ─── CUSTOM BUILDER BUTTONS ─── */
+.cb-btn{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--cream);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
+.cb-btn:hover{border-color:var(--green);color:var(--green)}
+.cb-btn.active{background:var(--green);border-color:var(--green);color:white;font-weight:600}
+
+/* ─── CLICKABLE SUMMARY CARDS ─── */
+.summary-item{background:var(--white);border-radius:var(--radius-sm);padding:12px 16px;cursor:pointer;transition:.2s;border:1.5px solid transparent;position:relative}
+.summary-item:hover{border-color:var(--green);background:var(--green-light)}
+.summary-item:hover::after{content:'✏️ 修改';position:absolute;top:8px;right:10px;font-size:10px;color:var(--green);font-weight:600}
+.summary-item label{font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-soft);display:block;margin-bottom:4px;cursor:pointer}
+.summary-item span{font-size:14px;font-weight:600;color:var(--text)}
+
+/* ─── MOBILE ─── */
+@media(max-width:700px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:20px 16px}
+  .template-grid{grid-template-columns:1fr 1fr}
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">🌿</div>
+    <div>
+      <h1>Visual Studio</h1>
+      <span>Love Earth Organic</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="cost-badge">💰 ~USD $0.003/gen</span>
+    <div class="lang-toggle">
+      <button id="langEN" class="lang-btn" onclick="setLang('en')">EN</button>
+      <button id="langCN" class="lang-btn active" onclick="setLang('cn')">中</button>
+    </div>
+    <button class="btn-history" onclick="toggleDrawer()" data-i18n="history_btn">📋 历史记录</button>
+  </div>
+</div>
+
+<div class="app">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="step-item active" onclick="goStep(0)" id="nav0">
+    <span class="step-num">1</span> <span data-i18n="nav0">快速开始</span>
+  </div>
+  <div class="step-item" onclick="goStep(1)" id="nav1">
+    <span class="step-num">2</span> <span data-i18n="nav1">选代言人</span>
+  </div>
+  <div class="step-item" onclick="goStep(2)" id="nav2">
+    <span class="step-num">3</span> <span data-i18n="nav2">平台 & 格式</span>
+  </div>
+  <div class="step-item" onclick="goStep(3)" id="nav3">
+    <span class="step-num">4</span> <span data-i18n="nav3">产品 & 主题</span>
+  </div>
+  <div class="step-item" onclick="goStep(4)" id="nav4">
+    <span class="step-num">5</span> <span data-i18n="nav4">场景设置</span>
+  </div>
+  <div class="step-item" onclick="goStep(5)" id="nav5">
+    <span class="step-num">6</span> <span data-i18n="nav5">动作 & 产品</span>
+  </div>
+  <div class="step-item" onclick="goStep(6)" id="nav6">
+    <span class="step-num">7</span> <span data-i18n="nav6">✨ 生成</span>
+  </div>
+
+  <div class="sidebar-tip" id="sidebarTip">
+    <strong>💡 小提示</strong>
+    选择快速模板快速开始，或逐步自定义所有选项。
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ─── STEP 0: QUICK START ─── -->
+<div class="step-panel active" id="step0">
+  <div class="step-header">
+    <h2>你好！今天要创作什么？ 👋</h2>
+    <p>选择一个模板快速开始，或自定义所有选项</p>
+  </div>
+
+  <div class="template-grid">
+    <div class="template-card" onclick="applyTemplate('new_product')">
+      <div class="template-icon">🆕</div>
+      <h3>新品发布</h3>
+      <p>Instagram Feed 产品主图</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate('raya')">
+      <div class="template-icon">🌙</div>
+      <h3>Raya 2026</h3>
+      <p>节庆温馨内容</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate('mum_baby')">
+      <div class="template-icon">👶</div>
+      <h3>妈妈 & 宝宝</h3>
+      <p>亲子温情场景</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate('healthy_lifestyle')">
+      <div class="template-icon">💪</div>
+      <h3>健康生活</h3>
+      <p>养生达人日常</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate('product_closeup')">
+      <div class="template-icon">📦</div>
+      <h3>产品特写</h3>
+      <p>Shopee / Lazada 主图</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate('reel_15s')">
+      <div class="template-icon">🎬</div>
+      <h3>15秒 Reel</h3>
+      <p>TikTok / Instagram</p>
+    </div>
+  </div>
+
+  <div class="divider">或者从第一步自定义</div>
+
+  <div class="step-nav">
+    <button class="btn btn-primary" onclick="goStep(1)">开始自定义 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 1: AMBASSADOR ─── -->
+<div class="step-panel" id="step1">
+  <div class="step-header">
+    <h2>选择代言人</h2>
+    <p>每位代言人有固定的外貌和性格，AI 会根据你的选择生成一致的角色</p>
+  </div>
+
+  <div class="ai-rec show" id="rec1">
+    <strong>✨ AI 推荐</strong>
+    选了蘑菇调味粉或 Raya 内容？推荐选 <strong>Aisyah</strong>。健康零食类推荐 <strong>Mei Lin</strong>。
+  </div>
+
+  <div class="options-grid">
+    <div class="opt-card" onclick="select('ambassador','aisyah',this)" data-value="aisyah">
+      <div class="opt-img placeholder">🧕</div>
+      <div class="opt-body">
+        <span class="opt-label">Aisyah</span>
+        <span class="opt-desc">28岁 · 马来妈妈 · 厨房料理</span>
+      </div>
+    </div>
+    <div class="opt-card" onclick="select('ambassador','meilin',this)" data-value="meilin">
+      <div class="opt-img placeholder">👩</div>
+      <div class="opt-body">
+        <span class="opt-label">Mei Lin</span>
+        <span class="opt-desc">32岁 · 华人OL · 养生健康</span>
+      </div>
+    </div>
+    <div class="opt-card" onclick="select('ambassador','linda',this)" data-value="linda">
+      <div class="opt-img placeholder">👩‍🦱</div>
+      <div class="opt-body">
+        <span class="opt-label">Linda</span>
+        <span class="opt-desc">42岁 · 成熟妈妈 · 家庭料理</span>
+      </div>
+    </div>
+    <div class="opt-card" onclick="select('ambassador','daniel',this)" data-value="daniel">
+      <div class="opt-img placeholder">👨</div>
+      <div class="opt-body">
+        <span class="opt-label">Daniel</span>
+        <span class="opt-desc">35岁 · 健康爸爸 · 运动生活</span>
+      </div>
+    </div>
+    <div class="opt-card" onclick="select('ambassador','none',this)" data-value="none">
+      <div class="opt-img placeholder">📦</div>
+      <div class="opt-body">
+        <span class="opt-label">不要代言人</span>
+        <span class="opt-desc">纯产品 / 静物拍摄</span>
+      </div>
+    </div>
+    <div class="opt-card" onclick="select('ambassador','custom',this);showCustomBuilder()" data-value="custom" id="customAmbCard">
+      <div class="opt-img placeholder">✏️</div>
+      <div class="opt-body">
+        <span class="opt-label">自定义代言人</span>
+        <span class="opt-desc">自己设计外貌特征</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM AMBASSADOR BUILDER -->
+  <div id="customBuilder" style="display:none;background:var(--white);border-radius:var(--radius);padding:20px;margin-top:8px;border:2px solid var(--green)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-size:16px;color:var(--green-dark)">✏️ 构造自定义代言人</h3>
+      <button onclick="hideCustomBuilder()" style="background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:18px">✕</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+      <div>
+        <div class="section-label" style="margin-top:0">种族</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_ethnicity">
+          <button class="cb-btn" onclick="setCB('ethnicity','Malay Malaysian',this)">🇲🇾 Malay</button>
+          <button class="cb-btn" onclick="setCB('ethnicity','Chinese Malaysian',this)">🇨🇳 Chinese</button>
+          <button class="cb-btn" onclick="setCB('ethnicity','Indian Malaysian',this)">🇮🇳 Indian</button>
+          <button class="cb-btn" onclick="setCB('ethnicity','mixed ethnicity',this)">🌏 Mixed</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">性别</div>
+        <div style="display:flex;gap:8px" id="cb_gender">
+          <button class="cb-btn" onclick="setCB('gender','woman',this)">👩 女</button>
+          <button class="cb-btn" onclick="setCB('gender','man',this)">👨 男</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">年龄</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_age">
+          <button class="cb-btn" onclick="setCB('age','22-28 years old',this)">20s</button>
+          <button class="cb-btn" onclick="setCB('age','28-35 years old',this)">30s</button>
+          <button class="cb-btn" onclick="setCB('age','35-45 years old',this)">40s</button>
+          <button class="cb-btn" onclick="setCB('age','45-55 years old',this)">50s</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">Hijab</div>
+        <div style="display:flex;gap:8px" id="cb_hijab">
+          <button class="cb-btn" onclick="setCB('hijab','wearing a neat hijab in soft neutral color',this)">🧕 戴 Hijab</button>
+          <button class="cb-btn" onclick="setCB('hijab','no hijab',this)">👱 不戴</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">发型</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_hair">
+          <button class="cb-btn" onclick="setCB('hair','short black hair',this)">✂️ 短发</button>
+          <button class="cb-btn" onclick="setCB('hair','medium-length black hair in loose ponytail',this)">👩 中长马尾</button>
+          <button class="cb-btn" onclick="setCB('hair','long straight black hair',this)">💇 长直发</button>
+          <button class="cb-btn" onclick="setCB('hair','shoulder-length hair with slight wave',this)">🌊 波浪肩长</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">肤色</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_skin">
+          <button class="cb-btn" onclick="setCB('skin','fair skin',this)">🤍 白皙</button>
+          <button class="cb-btn" onclick="setCB('skin','light-medium skin tone',this)">🟡 中等</button>
+          <button class="cb-btn" onclick="setCB('skin','warm medium-tan skin',this)">🟠 小麦</button>
+          <button class="cb-btn" onclick="setCB('skin','deep warm skin tone',this)">🤎 深棕</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">妆容</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_makeup">
+          <button class="cb-btn" onclick="setCB('makeup','no makeup, natural bare look',this)">✨ 无妆</button>
+          <button class="cb-btn" onclick="setCB('makeup','minimal natural makeup, light foundation nude lips',this)">💄 淡妆</button>
+          <button class="cb-btn" onclick="setCB('makeup','polished natural makeup, mascara and subtle blush',this)">💅 自然妆</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">服装风格</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_outfit">
+          <button class="cb-btn" onclick="setCB('outfit','casual home wear, modest blouse and cardigan',this)">🏠 休闲居家</button>
+          <button class="cb-btn" onclick="setCB('outfit','smart casual, linen shirt and trousers',this)">👔 商务休闲</button>
+          <button class="cb-btn" onclick="setCB('outfit','baju kurung in soft earth tone',this)">👘 Baju Kurung</button>
+          <button class="cb-btn" onclick="setCB('outfit','athletic wear, sports top',this)">🏃 运动装</button>
+          <button class="cb-btn" onclick="setCB('outfit','kitchen apron over casual blouse',this)">👨‍🍳 厨师围裙</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">表情基调</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_expression">
+          <button class="cb-btn" onclick="setCB('expression','warm friendly smile, approachable',this)">😊 温暖友善</button>
+          <button class="cb-btn" onclick="setCB('expression','confident and empowered expression',this)">💪 自信</button>
+          <button class="cb-btn" onclick="setCB('expression','gentle nurturing expression',this)">🤱 温柔母爱</button>
+          <button class="cb-btn" onclick="setCB('expression','focused and knowledgeable look',this)">🧠 专业感</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-top:0">身形</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="cb_build">
+          <button class="cb-btn" onclick="setCB('build','slim active build',this)">🏃 纤细</button>
+          <button class="cb-btn" onclick="setCB('build','average natural build',this)">🧍 普通</button>
+          <button class="cb-btn" onclick="setCB('build','slightly curvy well-proportioned build',this)">🌸 曲线</button>
+          <button class="cb-btn" onclick="setCB('build','athletic muscular build',this)">💪 运动型</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="section-label" style="margin-top:0">角色名字（可选）</div>
+      <input type="text" id="cb_name" placeholder="例如：Siti, Mei, Priya..." style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;background:var(--cream)" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+    </div>
+
+    <div style="margin-top:12px;background:var(--green-light);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:var(--green-dark)" id="customPreview">
+      <strong>预览描述：</strong> <span id="customPreviewText">请选择上方选项...</span>
+    </div>
+
+    <button class="btn btn-primary" onclick="confirmCustomAmbassador()" style="margin-top:14px;width:100%">✅ 确认使用此代言人</button>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(0)">← 返回</button>
+    <button class="btn btn-primary" onclick="goStep(2)">下一步 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 2: PLATFORM & FORMAT ─── -->
+<div class="step-panel" id="step2">
+  <div class="step-header">
+    <h2>平台 & 格式</h2>
+    <p>选择目标平台，比例会自动匹配</p>
+  </div>
+
+  <div class="section-label">平台</div>
+  <div class="platform-grid">
+    <div class="plat-card" onclick="selectPlat('instagram_feed',this)">
+      <div class="plat-icon">📸</div>
+      <span class="plat-name">Instagram Feed</span>
+      <span class="plat-ratio">4:5 · 方形</span>
+    </div>
+    <div class="plat-card" onclick="selectPlat('instagram_story',this)">
+      <div class="plat-icon">📱</div>
+      <span class="plat-name">Instagram Story</span>
+      <span class="plat-ratio">9:16 竖屏</span>
+    </div>
+    <div class="plat-card" onclick="selectPlat('tiktok',this)">
+      <div class="plat-icon">🎵</div>
+      <span class="plat-name">TikTok / Reels</span>
+      <span class="plat-ratio">9:16 竖屏</span>
+    </div>
+    <div class="plat-card" onclick="selectPlat('facebook',this)">
+      <div class="plat-icon">👥</div>
+      <span class="plat-name">Facebook Post</span>
+      <span class="plat-ratio">16:9 横屏</span>
+    </div>
+    <div class="plat-card" onclick="selectPlat('shopee',this)">
+      <div class="plat-icon">🛒</div>
+      <span class="plat-name">Shopee / Lazada</span>
+      <span class="plat-ratio">1:1 正方</span>
+    </div>
+    <div class="plat-card" onclick="selectPlat('pinterest',this)">
+      <div class="plat-icon">📌</div>
+      <span class="plat-name">Pinterest</span>
+      <span class="plat-ratio">2:3 长图</span>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:24px">内容类型</div>
+  <div class="options-grid">
+    <div class="opt-card" onclick="select('content_type','product_hero',this)">
+      <div class="opt-img placeholder">⭐</div>
+      <div class="opt-body"><span class="opt-label">产品主角</span><span class="opt-desc">产品是主角</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','lifestyle',this)">
+      <div class="opt-img placeholder">🌿</div>
+      <div class="opt-body"><span class="opt-label">生活方式</span><span class="opt-desc">代言人+场景</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','educational',this)">
+      <div class="opt-img placeholder">📚</div>
+      <div class="opt-body"><span class="opt-label">教育内容</span><span class="opt-desc">成分/功效介绍</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','promotional',this)">
+      <div class="opt-img placeholder">🏷️</div>
+      <div class="opt-body"><span class="opt-label">促销活动</span><span class="opt-desc">折扣/特卖</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','seasonal',this)">
+      <div class="opt-img placeholder">🎉</div>
+      <div class="opt-body"><span class="opt-label">节庆内容</span><span class="opt-desc">Raya/CNY/节日</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','recipe',this)">
+      <div class="opt-img placeholder">🍳</div>
+      <div class="opt-body"><span class="opt-label">食谱 / 教学</span><span class="opt-desc">烹饪步骤</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">Caption 语言</div>
+  <div class="options-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="opt-card" onclick="select('language','bm',this)">
+      <div class="opt-img placeholder">🇲🇾</div>
+      <div class="opt-body"><span class="opt-label">Bahasa Malaysia</span><span class="opt-desc">马来受众</span></div>
+    </div>
+    <div class="opt-card" onclick="select('language','cn',this)">
+      <div class="opt-img placeholder">🇨🇳</div>
+      <div class="opt-body"><span class="opt-label">中文</span><span class="opt-desc">华人受众</span></div>
+    </div>
+    <div class="opt-card" onclick="select('language','en',this)">
+      <div class="opt-img placeholder">🌐</div>
+      <div class="opt-body"><span class="opt-label">English</span><span class="opt-desc">通用/B2B</span></div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(1)">← 返回</button>
+    <button class="btn btn-primary" onclick="goStep(3)">下一步 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 3: PRODUCT & CAMPAIGN ─── -->
+<div class="step-panel" id="step3">
+  <div class="step-header">
+    <h2 data-i18n="s3_title">产品 & 主题</h2>
+    <p data-i18n="s3_desc">选择要展示的产品，以及是否有特别的活动主题</p>
+  </div>
+
+  <div class="section-label" data-i18n="s3_product_label">主打产品</div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="productSearch" data-i18n-placeholder="search_placeholder" placeholder="搜索产品..." oninput="filterProducts(this.value)" autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-tabs" id="catTabs">
+    <button class="cat-tab active" data-cat="all" onclick="setCat('all',this)" data-i18n="cat_all">全部</button>
+    <button class="cat-tab" data-cat="seasoning" onclick="setCat('seasoning',this)" data-i18n="cat_seasoning">🍄 调味品</button>
+    <button class="cat-tab" data-cat="breakfast" onclick="setCat('breakfast',this)" data-i18n="cat_breakfast">🥣 早餐</button>
+    <button class="cat-tab" data-cat="baby" onclick="setCat('baby',this)" data-i18n="cat_baby">👶 妈妈宝宝</button>
+    <button class="cat-tab" data-cat="snacks" onclick="setCat('snacks',this)" data-i18n="cat_snacks">🥜 零食</button>
+    <button class="cat-tab" data-cat="grains" onclick="setCat('grains',this)" data-i18n="cat_grains">🌾 米面杂粮</button>
+    <button class="cat-tab" data-cat="bake" onclick="setCat('bake',this)" data-i18n="cat_bake">🧁 烘焙烹饪</button>
+    <button class="cat-tab" data-cat="drinks" onclick="setCat('drinks',this)" data-i18n="cat_drinks">🥤 饮品</button>
+    <button class="cat-tab" data-cat="superfood" onclick="setCat('superfood',this)" data-i18n="cat_superfood">🌟 超级食物</button>
+    <button class="cat-tab" data-cat="bundle" onclick="setCat('bundle',this)" data-i18n="cat_bundle">🎁 礼盒</button>
+  </div>
+
+  <!-- PRODUCT GRID (rendered by JS) -->
+  <div class="options-grid wide" id="productGrid"></div>
+
+  <!-- CUSTOM PRODUCT PANEL (kept from previous) -->
+  <div id="customProductPanel" style="display:none;background:var(--white);border-radius:var(--radius);padding:20px;margin-bottom:8px;border:2px solid var(--green)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="font-size:15px;color:var(--green-dark)" data-i18n="custom_product_title">✏️ 自定义产品</h3>
+      <button onclick="hideCustomProduct()" style="background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px" data-i18n="cp_name_label">产品名称 *</label>
+        <input type="text" id="cp_name" data-i18n-placeholder="cp_name_ph" placeholder="例如：有机红枣粉 50G" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px" data-i18n="cp_benefit_label">主要功效 / 卖点</label>
+        <input type="text" id="cp_benefit" data-i18n-placeholder="cp_benefit_ph" placeholder="例如：滋补·补血·有机认证" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label style="font-size:12px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px" data-i18n="cp_photo_label">📷 上传产品照片（可选）</label>
+      <label id="uploadZone" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--cream-dark);border-radius:var(--radius);padding:24px;cursor:pointer;transition:.2s;background:var(--cream)" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">
+        <span style="font-size:28px">📦</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text)" data-i18n="upload_cta">点击上传产品图片</span>
+        <span style="font-size:11px;color:var(--text-soft)" data-i18n="upload_hint">JPG / PNG · 建议正方形 · 最大 5MB</span>
+        <input type="file" id="cp_photo" accept="image/*" onchange="handleProductPhoto(this)" style="display:none">
+      </label>
+      <div id="cp_photoPreview" style="display:none;margin-top:10px;align-items:center;gap:12px">
+        <img id="cp_photoThumb" style="width:72px;height:72px;object-fit:cover;border-radius:var(--radius-sm);border:2px solid var(--green)">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)" id="cp_photoName"></div>
+          <div style="font-size:11px;color:var(--text-soft)" data-i18n="photo_uploaded">图片已上传，AI 会把它纳入 prompt 参考</div>
+          <button onclick="removeProductPhoto()" style="font-size:11px;color:var(--warn);background:none;border:none;cursor:pointer;margin-top:4px" data-i18n="photo_remove">✕ 移除</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px;background:var(--green-light);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--green-dark)">
+      <strong data-i18n="product_preview_label">产品描述：</strong> <span id="cpPreviewText" data-i18n="product_preview_placeholder">请填写产品名称...</span>
+    </div>
+    <button class="btn btn-primary" onclick="confirmCustomProduct()" style="margin-top:12px;width:100%" data-i18n="confirm_product">✅ 确认使用此产品</button>
+  </div>
+
+  <div class="section-label" data-i18n="s3_campaign_label">活动主题（可不选）</div>
+  <div class="options-grid">
+    <div class="opt-card" onclick="toggleCampaign('raya',this)">
+      <div class="opt-img placeholder">🌙</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_raya">Raya 2026</span><span class="opt-desc" data-i18n="camp_raya_desc">金色·家庭·温馨</span></div>
+    </div>
+    <div class="opt-card" onclick="toggleCampaign('cny',this)">
+      <div class="opt-img placeholder">🏮</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_cny">农历新年</span><span class="opt-desc" data-i18n="camp_cny_desc">红金·团圆饭</span></div>
+    </div>
+    <div class="opt-card" onclick="toggleCampaign('mothers_day',this)">
+      <div class="opt-img placeholder">💐</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_mothers">母亲节</span><span class="opt-desc" data-i18n="camp_mothers_desc">粉嫩·温情·花朵</span></div>
+    </div>
+    <div class="opt-card" onclick="toggleCampaign('ramadan',this)">
+      <div class="opt-img placeholder">⭐</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_ramadan">斋月 Ramadan</span><span class="opt-desc" data-i18n="camp_ramadan_desc">Iftar·温暖灯光</span></div>
+    </div>
+    <div class="opt-card" onclick="toggleCampaign('sale',this)">
+      <div class="opt-img placeholder">🏷️</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_sale">促销活动</span><span class="opt-desc" data-i18n="camp_sale_desc">大促·折扣优惠</span></div>
+    </div>
+    <div class="opt-card" onclick="toggleCampaign('new_launch',this)">
+      <div class="opt-img placeholder">🆕</div>
+      <div class="opt-body"><span class="opt-label" data-i18n="camp_launch">新品发布</span><span class="opt-desc" data-i18n="camp_launch_desc">首发·惊喜揭幕</span></div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(2)" data-i18n="btn_back">← 返回</button>
+    <button class="btn btn-primary" onclick="goStep(4)" data-i18n="btn_next">下一步 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 4: SCENE ─── -->
+<div class="step-panel" id="step4">
+  <div class="step-header">
+    <h2>场景设置</h2>
+    <p>选择灯光、背景和构图，打造完美视觉效果</p>
+  </div>
+
+  <div class="warn-banner" id="sceneWarn">
+    ⚠️ <span id="sceneWarnText">注意：深色背景配深色包装，产品会不够显眼，建议换浅色背景。</span>
+  </div>
+
+  <div class="section-label">💡 灯光</div>
+  <div class="options-grid">
+    <div class="opt-card" onclick="select('lighting','window',this)">
+      <div class="opt-img placeholder">☀️</div>
+      <div class="opt-body"><span class="opt-label">窗边自然光</span><span class="opt-desc">柔和·家居感·最百搭</span></div>
+    </div>
+    <div class="opt-card" onclick="select('lighting','golden',this)">
+      <div class="opt-img placeholder">🌅</div>
+      <div class="opt-body"><span class="opt-label">黄金时段光</span><span class="opt-desc">温暖·户外·下午感</span></div>
+    </div>
+    <div class="opt-card" onclick="select('lighting','overcast',this)">
+      <div class="opt-img placeholder">☁️</div>
+      <div class="opt-body"><span class="opt-label">阴天自然光</span><span class="opt-desc">均匀·无阴影·产品清晰</span></div>
+    </div>
+    <div class="opt-card" onclick="select('lighting','candle',this)">
+      <div class="opt-img placeholder">🕯️</div>
+      <div class="opt-body"><span class="opt-label">烛光 / 灯串</span><span class="opt-desc">温馨·节庆·Ramadan</span></div>
+    </div>
+    <div class="opt-card" onclick="select('lighting','softbox',this)">
+      <div class="opt-img placeholder">🔆</div>
+      <div class="opt-body"><span class="opt-label">柔光箱</span><span class="opt-desc">专业·干净·电商主图</span></div>
+    </div>
+    <div class="opt-card" onclick="select('lighting','morning',this)">
+      <div class="opt-img placeholder">🌤️</div>
+      <div class="opt-body"><span class="opt-label">清晨朦胧光</span><span class="opt-desc">早晨感·梦幻·早餐场景</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">🏞️ 背景</div>
+  <div class="options-grid">
+    <div class="opt-card" onclick="select('background','light_wood',this)">
+      <div class="opt-img placeholder">🪵</div>
+      <div class="opt-body"><span class="opt-label">浅木板</span><span class="opt-desc">最百搭 · 暖调自然</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','marble',this)">
+      <div class="opt-img placeholder">⬜</div>
+      <div class="opt-body"><span class="opt-label">白色大理石</span><span class="opt-desc">高级感 · 干净现代</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','linen',this)">
+      <div class="opt-img placeholder">🧵</div>
+      <div class="opt-body"><span class="opt-label">麻布 / 亚麻</span><span class="opt-desc">有机感 · 乡村风</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','tiles',this)">
+      <div class="opt-img placeholder">🔲</div>
+      <div class="opt-body"><span class="opt-label">白色厨房砖</span><span class="opt-desc">清爽 · 家庭厨房</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','garden',this)">
+      <div class="opt-img placeholder">🌿</div>
+      <div class="opt-body"><span class="opt-label">户外花园</span><span class="opt-desc">新鲜 · 自然有机</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','pastel',this)">
+      <div class="opt-img placeholder">🎨</div>
+      <div class="opt-body"><span class="opt-label">粉嫩纯色背景</span><span class="opt-desc">产品跳出 · 活泼</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','dark_wood',this)">
+      <div class="opt-img placeholder">🌑</div>
+      <div class="opt-body"><span class="opt-label">深色木板</span><span class="opt-desc">高端沉稳 · 夜间感</span></div>
+    </div>
+    <div class="opt-card" onclick="select('background','white_seamless',this)">
+      <div class="opt-img placeholder">🟦</div>
+      <div class="opt-body"><span class="opt-label">纯白无缝</span><span class="opt-desc">电商目录 · 最干净</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">🖼️ 构图方式</div>
+  <div class="options-grid">
+    <div class="opt-card" onclick="select('composition','flatlay',this)">
+      <div class="opt-img placeholder">⬆️</div>
+      <div class="opt-body"><span class="opt-label">俯拍平铺</span><span class="opt-desc">正上方看 · 食材排列</span></div>
+    </div>
+    <div class="opt-card" onclick="select('composition','eyelevel',this)">
+      <div class="opt-img placeholder">👁️</div>
+      <div class="opt-body"><span class="opt-label">平视生活感</span><span class="opt-desc">自然高度 · 代言人场景</span></div>
+    </div>
+    <div class="opt-card" onclick="select('composition','45deg',this)">
+      <div class="opt-img placeholder">📐</div>
+      <div class="opt-body"><span class="opt-label">45度角</span><span class="opt-desc">经典食物摄影角度</span></div>
+    </div>
+    <div class="opt-card" onclick="select('composition','macro',this)">
+      <div class="opt-img placeholder">🔍</div>
+      <div class="opt-body"><span class="opt-label">微距特写</span><span class="opt-desc">粉末纹理·极致细节</span></div>
+    </div>
+    <div class="opt-card" onclick="select('composition','thirds',this)">
+      <div class="opt-img placeholder">📋</div>
+      <div class="opt-body"><span class="opt-label">三分法留白</span><span class="opt-desc">一侧留空 · 可加文字</span></div>
+    </div>
+    <div class="opt-card" onclick="select('composition','wide',this)">
+      <div class="opt-img placeholder">🌐</div>
+      <div class="opt-body"><span class="opt-label">宽景环境</span><span class="opt-desc">人+完整场景可见</span></div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(3)">← 返回</button>
+    <button class="btn btn-primary" onclick="goStep(5)">下一步 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 5: ACTION ─── -->
+<div class="step-panel" id="step5">
+  <div class="step-header">
+    <h2>动作 & 产品出现方式</h2>
+    <p>代言人在做什么？产品如何出现在画面中？</p>
+  </div>
+
+  <div class="section-label">🧍 代言人动作</div>
+  <div class="options-grid wide">
+    <div class="opt-card" onclick="select('action','hold_both',this)">
+      <div class="opt-img placeholder">🤲</div>
+      <div class="opt-body"><span class="opt-label">双手正面持产品</span><span class="opt-desc">经典代言姿势 · 产品最突出</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','hold_casual',this)">
+      <div class="opt-img placeholder">✋</div>
+      <div class="opt-body"><span class="opt-label">单手随意拿</span><span class="opt-desc">自然生活感 · 不造作</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','show_label',this)">
+      <div class="opt-img placeholder">🏷️</div>
+      <div class="opt-body"><span class="opt-label">展示产品标签</span><span class="opt-desc">手指向标签 · 教育类</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','cooking',this)">
+      <div class="opt-img placeholder">🍳</div>
+      <div class="opt-body"><span class="opt-label">下厨使用中</span><span class="opt-desc">撒/倒/搅拌产品 · 真实感</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','tasting',this)">
+      <div class="opt-img placeholder">😋</div>
+      <div class="opt-body"><span class="opt-label">品尝表情</span><span class="opt-desc">闭眼满足感 · 食物好吃反应</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','gifting',this)">
+      <div class="opt-img placeholder">🎁</div>
+      <div class="opt-body"><span class="opt-label">赠礼姿势</span><span class="opt-desc">产品向镜头递出 · 节庆</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','feeding_baby',this)">
+      <div class="opt-img placeholder">🥄</div>
+      <div class="opt-body"><span class="opt-label">喂宝宝</span><span class="opt-desc">亲子互动 · Baby产品</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','talking_camera',this)">
+      <div class="opt-img placeholder">🗣️</div>
+      <div class="opt-body"><span class="opt-label">对镜头说话</span><span class="opt-desc">Talking head · 视频用</span></div>
+    </div>
+    <div class="opt-card" onclick="select('action','portrait_only',this)">
+      <div class="opt-img placeholder">🙋</div>
+      <div class="opt-body"><span class="opt-label">纯人物肖像</span><span class="opt-desc">代言人只是背景人物</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">📦 产品出现方式</div>
+  <div class="options-grid wide">
+    <div class="opt-card" onclick="select('product_presence','hold_front',this)">
+      <div class="opt-img placeholder">📸</div>
+      <div class="opt-body"><span class="opt-label">持产品面向镜头</span><span class="opt-desc">产品包装正面清晰可见</span></div>
+    </div>
+    <div class="opt-card" onclick="select('product_presence','use_active',this)">
+      <div class="opt-img placeholder">🫗</div>
+      <div class="opt-body"><span class="opt-label">使用中（倒/撒）</span><span class="opt-desc">产品液体或粉末倾倒动作</span></div>
+    </div>
+    <div class="opt-card" onclick="select('product_presence','product_beside',this)">
+      <div class="opt-img placeholder">↔️</div>
+      <div class="opt-body"><span class="opt-label">产品放旁边</span><span class="opt-desc">代言人旁，两者都可见</span></div>
+    </div>
+    <div class="opt-card" onclick="select('product_presence','product_foreground',this)">
+      <div class="opt-img placeholder">🔭</div>
+      <div class="opt-body"><span class="opt-label">产品在前景</span><span class="opt-desc">产品清晰，代言人虚化背后</span></div>
+    </div>
+    <div class="opt-card" onclick="select('product_presence','product_only',this)">
+      <div class="opt-img placeholder">🎯</div>
+      <div class="opt-body"><span class="opt-label">只有产品</span><span class="opt-desc">无代言人，纯产品静物</span></div>
+    </div>
+    <div class="opt-card" onclick="select('product_presence','unboxing',this)">
+      <div class="opt-img placeholder">📬</div>
+      <div class="opt-body"><span class="opt-label">开箱 / 拆包装</span><span class="opt-desc">收到快递惊喜感</span></div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(4)">← 返回</button>
+    <button class="btn btn-primary" onclick="goStep(6)">查看摘要 →</button>
+  </div>
+</div>
+
+<!-- ─── STEP 6: GENERATE ─── -->
+<div class="step-panel" id="step6">
+  <div class="step-header">
+    <h2>✨ 准备生成</h2>
+    <p>确认你的选项，然后点生成</p>
+  </div>
+
+  <div class="summary-grid" id="summaryGrid"></div>
+
+  <div class="token-estimate">
+    <span data-i18n="token_label">⚡ 预计 API 消耗</span>
+    <strong data-i18n="token_val">~800 tokens · 约 USD $0.003</strong>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-generate" onclick="generatePrompt()" data-i18n="btn_generate">✨ 生成 Prompt</button>
+    <button class="btn btn-secondary" onclick="goStep(0)" data-i18n="btn_restart">🔄 重新开始</button>
+  </div>
+
+  <div class="loading" id="loadingIndicator">
+    <div class="loader"></div>
+    <p style="font-size:14px;color:var(--green-dark)">AI 正在润色你的 Prompt...</p>
+    <p style="font-size:12px;color:var(--text-soft);margin-top:6px">通常需要 5–10 秒</p>
+  </div>
+
+  <div class="output-panel" id="outputPanel">
+    <!-- Image Prompt -->
+    <div class="output-section">
+      <div class="output-header">
+        <h3>🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)</h3>
+        <div class="output-actions">
+          <button class="btn-copy" onclick="copyOutput('imgPrompt',this)">复制</button>
+        </div>
+      </div>
+      <div class="output-body" id="imgPrompt"></div>
+      <div class="tool-links">
+        <span style="font-size:12px;color:var(--text-soft);align-self:center;margin-right:4px">用这个 prompt 去：</span>
+        <a class="tool-link" href="https://www.canva.com/ai-image-generator/" target="_blank"><span>🎨</span> Canva AI</a>
+        <a class="tool-link" href="https://app.leonardo.ai/" target="_blank"><span>🖌️</span> Leonardo AI</a>
+        <a class="tool-link" href="https://www.freepik.com/ai/image-generator" target="_blank"><span>⚡</span> Freepik AI</a>
+        <a class="tool-link" href="https://midjourney.com" target="_blank"><span>🌀</span> Midjourney</a>
+      </div>
+    </div>
+
+    <!-- Video Prompt -->
+    <div class="output-section">
+      <div class="output-header">
+        <h3>🎬 视频 Prompt (Kling / Seedance / Runway)</h3>
+        <div class="output-actions">
+          <button class="btn-copy" onclick="copyOutput('videoPrompt',this)">复制</button>
+        </div>
+      </div>
+      <div class="output-body" id="videoPrompt"></div>
+      <div class="tool-links">
+        <span style="font-size:12px;color:var(--text-soft);align-self:center;margin-right:4px">去生成视频：</span>
+        <a class="tool-link" href="https://klingai.com" target="_blank"><span>🎬</span> Kling AI <span style="font-size:10px;color:var(--green);margin-left:2px">每天66免费</span></a>
+        <a class="tool-link" href="https://seedance.tv" target="_blank"><span>🎥</span> Seedance <span style="font-size:10px;color:var(--green);margin-left:2px">每天免费</span></a>
+        <a class="tool-link" href="https://runwayml.com" target="_blank"><span>✈️</span> Runway</a>
+      </div>
+    </div>
+
+    <!-- Caption -->
+    <div class="output-section">
+      <div class="output-header">
+        <h3>📝 社媒 Caption</h3>
+        <div class="output-actions">
+          <button class="btn-copy" onclick="copyOutput('captionOut',this)">复制</button>
+        </div>
+      </div>
+      <div class="output-body" id="captionOut"></div>
+    </div>
+
+    <!-- Save to history -->
+    <button class="btn btn-secondary" onclick="saveToHistory()" style="margin-top:8px">📋 保存到历史记录</button>
+  </div>
+</div>
+
+</div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ─── HISTORY DRAWER ─── -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="historyDrawer">
+  <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+  <h2>📋 生成历史</h2>
+  <div id="historyList">
+    <div class="history-empty">还没有生成记录。<br>生成后点"保存"即可在这里看到。</div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// ─── BILINGUAL SYSTEM ───
+// ══════════════════════════════════════════
+let currentLang = 'cn';
+
+const i18n = {
+  cn: {
+    // Header
+    history_btn: '📋 历史记录',
+    // Sidebar
+    nav0:'快速开始', nav1:'选代言人', nav2:'平台 & 格式',
+    nav3:'产品 & 主题', nav4:'场景设置', nav5:'动作 & 产品', nav6:'✨ 生成',
+    sidebar_tip_title:'💡 小提示',
+    // Step 0
+    s0_title:'你好！今天要创作什么？ 👋', s0_desc:'选择一个模板快速开始，或自定义所有选项',
+    tmpl_new:'新品发布', tmpl_new_sub:'Instagram Feed 产品主图',
+    tmpl_raya:'Raya 2026', tmpl_raya_sub:'节庆温馨内容',
+    tmpl_baby:'妈妈 & 宝宝', tmpl_baby_sub:'亲子温情场景',
+    tmpl_health:'健康生活', tmpl_health_sub:'养生达人日常',
+    tmpl_product:'产品特写', tmpl_product_sub:'Shopee / Lazada 主图',
+    tmpl_reel:'15秒 Reel', tmpl_reel_sub:'TikTok / Instagram',
+    divider_or:'或者从第一步自定义',
+    btn_custom:'开始自定义 →',
+    // Step 1
+    s1_title:'选择代言人', s1_desc:'每位代言人有固定的外貌和性格，AI 会根据你的选择生成一致的角色',
+    amb_rec_title:'✨ AI 推荐',
+    amb_rec_body:'选了蘑菇调味粉或 Raya 内容？推荐选 Aisyah。健康零食类推荐 Mei Lin。',
+    amb_aisyah_desc:'28岁 · 马来妈妈 · 厨房料理',
+    amb_meilin_desc:'32岁 · 华人OL · 养生健康',
+    amb_linda_desc:'42岁 · 成熟妈妈 · 家庭料理',
+    amb_daniel_desc:'35岁 · 健康爸爸 · 运动生活',
+    amb_none:'不要代言人', amb_none_desc:'纯产品 / 静物拍摄',
+    amb_custom:'自定义代言人', amb_custom_desc:'自己设计外貌特征',
+    // Custom ambassador builder
+    cb_title:'✏️ 构造自定义代言人',
+    cb_ethnicity:'种族', cb_gender:'性别', cb_age:'年龄', cb_hijab:'Hijab',
+    cb_hair:'发型', cb_skin:'肤色', cb_makeup:'妆容', cb_outfit:'服装风格',
+    cb_expression:'表情基调', cb_build:'身形', cb_name_label:'角色名字（可选）',
+    cb_name_ph:'例如：Siti, Mei, Priya...',
+    cb_preview_label:'预览描述：', cb_preview_ph:'请选择上方选项...',
+    cb_confirm:'✅ 确认使用此代言人',
+    // Step 2
+    s2_title:'平台 & 格式', s2_desc:'选择目标平台，比例会自动匹配',
+    plat_label:'平台', content_label:'内容类型', lang_label:'Caption 语言',
+    ct_hero:'产品主角', ct_hero_desc:'产品是主角',
+    ct_life:'生活方式', ct_life_desc:'代言人+场景',
+    ct_edu:'教育内容', ct_edu_desc:'成分/功效介绍',
+    ct_promo:'促销活动', ct_promo_desc:'折扣/特卖',
+    ct_season:'节庆内容', ct_season_desc:'Raya/CNY/节日',
+    ct_recipe:'食谱 / 教学', ct_recipe_desc:'烹饪步骤',
+    lang_bm:'Bahasa Malaysia', lang_bm_desc:'马来受众',
+    lang_cn:'中文', lang_cn_desc:'华人受众',
+    lang_en:'English', lang_en_desc:'通用/B2B',
+    // Step 3
+    s3_title:'产品 & 主题', s3_desc:'选择要展示的产品，以及是否有特别的活动主题',
+    s3_product_label:'主打产品', s3_campaign_label:'活动主题（可不选）',
+    search_placeholder:'搜索产品...',
+    cat_all:'全部', cat_seasoning:'🍄 调味品', cat_breakfast:'🥣 早餐',
+    cat_baby:'👶 妈妈宝宝', cat_snacks:'🥜 零食', cat_grains:'🌾 米面杂粮',
+    cat_bake:'🧁 烘焙烹饪', cat_drinks:'🥤 饮品', cat_superfood:'🌟 超级食物', cat_bundle:'🎁 礼盒',
+    custom_product_title:'✏️ 自定义产品',
+    cp_name_label:'产品名称 *', cp_name_ph:'例如：有机红枣粉 50G',
+    cp_benefit_label:'主要功效 / 卖点', cp_benefit_ph:'例如：滋补·补血·有机认证',
+    cp_photo_label:'📷 上传产品照片（可选）',
+    upload_cta:'点击上传产品图片', upload_hint:'JPG / PNG · 建议正方形 · 最大 5MB',
+    photo_uploaded:'图片已上传，AI 会把它纳入 prompt 参考',
+    photo_remove:'✕ 移除', product_preview_label:'产品描述：',
+    product_preview_placeholder:'请填写产品名称...',
+    confirm_product:'✅ 确认使用此产品',
+    other_product:'其他产品', other_product_desc:'自定义名称 + 上传图片',
+    no_results:'没有找到相关产品',
+    camp_raya:'Raya 2026', camp_raya_desc:'金色·家庭·温馨',
+    camp_cny:'农历新年', camp_cny_desc:'红金·团圆饭',
+    camp_mothers:'母亲节', camp_mothers_desc:'粉嫩·温情·花朵',
+    camp_ramadan:'斋月 Ramadan', camp_ramadan_desc:'Iftar·温暖灯光',
+    camp_sale:'促销活动', camp_sale_desc:'大促·折扣优惠',
+    camp_launch:'新品发布', camp_launch_desc:'首发·惊喜揭幕',
+    // Step 4
+    s4_title:'场景设置', s4_desc:'选择灯光、背景和构图，打造完美视觉效果',
+    scene_warn:'⚠️ 深色木板背景 + 深色包装，产品可能不够显眼。建议换白色大理石或浅木板背景。',
+    light_label:'💡 灯光', bg_label:'🏞️ 背景', comp_label:'🖼️ 构图方式',
+    // Step 5
+    s5_title:'动作 & 产品出现方式', s5_desc:'代言人在做什么？产品如何出现在画面中？',
+    action_label:'🧍 代言人动作', presence_label:'📦 产品出现方式',
+    // Step 6
+    s6_title:'✨ 准备生成', s6_desc:'确认你的选项，然后点生成',
+    token_label:'⚡ 预计 API 消耗', token_val:'~800 tokens · 约 USD $0.003',
+    api_label:'🔑 Claude API Key', api_hint:'Key 只存在你的浏览器，不会被发送到任何服务器。',
+    btn_generate:'✨ 生成 Prompt', btn_restart:'🔄 重新开始',
+    loading_text:'AI 正在润色你的 Prompt...', loading_sub:'通常需要 5–10 秒',
+    img_prompt_title:'🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)',
+    vid_prompt_title:'🎬 视频 Prompt (Kling / Seedance / Runway)',
+    caption_title:'📝 社媒 Caption',
+    copy_btn:'复制', copied_btn:'✓ 已复制',
+    use_at:'用这个 prompt 去：', go_video:'去生成视频：',
+    save_history:'📋 保存到历史记录',
+    // History
+    history_title:'📋 生成历史',
+    history_empty:'还没有保存的记录。\n生成后点"保存"即可。',
+    // Buttons
+    btn_back:'← 返回', btn_next:'下一步 →',
+    // Summary labels
+    sum_ambassador:'代言人', sum_platform:'平台', sum_content:'内容类型',
+    sum_language:'语言', sum_product:'产品', sum_campaign:'活动主题',
+    sum_lighting:'灯光', sum_background:'背景', sum_composition:'构图',
+    sum_action:'动作', sum_presence:'产品出现方式',
+    sum_edit:'✏️ 修改', sum_unset:'未选择',
+  },
+  en: {
+    history_btn: '📋 History',
+    nav0:'Quick Start', nav1:'Ambassador', nav2:'Platform & Format',
+    nav3:'Product & Campaign', nav4:'Scene Setup', nav5:'Action & Product', nav6:'✨ Generate',
+    sidebar_tip_title:'💡 Tip',
+    s0_title:'What are we creating today? 👋', s0_desc:'Pick a template to start fast, or customize step by step',
+    tmpl_new:'New Product', tmpl_new_sub:'Instagram Feed hero shot',
+    tmpl_raya:'Raya 2026', tmpl_raya_sub:'Festive warm content',
+    tmpl_baby:'Mum & Baby', tmpl_baby_sub:'Heartwarming family scene',
+    tmpl_health:'Healthy Lifestyle', tmpl_health_sub:'Wellness daily routine',
+    tmpl_product:'Product Close-up', tmpl_product_sub:'Shopee / Lazada main image',
+    tmpl_reel:'15s Reel', tmpl_reel_sub:'TikTok / Instagram',
+    divider_or:'Or customize from step 1',
+    btn_custom:'Start Customizing →',
+    s1_title:'Choose Ambassador', s1_desc:'Each ambassador has a fixed appearance. AI generates consistent characters.',
+    amb_rec_title:'✨ AI Recommendation',
+    amb_rec_body:'Mushroom seasoning or Raya content? Choose Aisyah. Health snacks? Choose Mei Lin.',
+    amb_aisyah_desc:'28yo · Malay Mum · Kitchen & cooking',
+    amb_meilin_desc:'32yo · Chinese OL · Wellness & health',
+    amb_linda_desc:'42yo · Mature Mum · Family cooking',
+    amb_daniel_desc:'35yo · Health Dad · Active lifestyle',
+    amb_none:'No Ambassador', amb_none_desc:'Product / still life only',
+    amb_custom:'Custom Ambassador', amb_custom_desc:'Design your own character',
+    cb_title:'✏️ Build Custom Ambassador',
+    cb_ethnicity:'Ethnicity', cb_gender:'Gender', cb_age:'Age', cb_hijab:'Hijab',
+    cb_hair:'Hair', cb_skin:'Skin tone', cb_makeup:'Makeup', cb_outfit:'Outfit style',
+    cb_expression:'Expression', cb_build:'Build', cb_name_label:'Character name (optional)',
+    cb_name_ph:'e.g. Siti, Mei, Priya...',
+    cb_preview_label:'Preview:', cb_preview_ph:'Select options above...',
+    cb_confirm:'✅ Confirm Ambassador',
+    s2_title:'Platform & Format', s2_desc:'Choose your target platform — ratio auto-matches',
+    plat_label:'Platform', content_label:'Content Type', lang_label:'Caption Language',
+    ct_hero:'Product Hero', ct_hero_desc:'Product is the star',
+    ct_life:'Lifestyle', ct_life_desc:'Ambassador + scene',
+    ct_edu:'Educational', ct_edu_desc:'Ingredients / benefits',
+    ct_promo:'Promotional', ct_promo_desc:'Discount / sale',
+    ct_season:'Seasonal', ct_season_desc:'Raya/CNY/Holiday',
+    ct_recipe:'Recipe / Tutorial', ct_recipe_desc:'Cooking steps',
+    lang_bm:'Bahasa Malaysia', lang_bm_desc:'Malay audience',
+    lang_cn:'中文', lang_cn_desc:'Chinese audience',
+    lang_en:'English', lang_en_desc:'General / B2B',
+    s3_title:'Product & Campaign', s3_desc:'Choose the product to feature, and any seasonal campaign',
+    s3_product_label:'Main Product', s3_campaign_label:'Campaign Theme (optional)',
+    search_placeholder:'Search products...',
+    cat_all:'All', cat_seasoning:'🍄 Seasoning', cat_breakfast:'🥣 Breakfast',
+    cat_baby:'👶 Baby & Mum', cat_snacks:'🥜 Snacks', cat_grains:'🌾 Rice & Grains',
+    cat_bake:'🧁 Bake & Cook', cat_drinks:'🥤 Drinks', cat_superfood:'🌟 Superfood', cat_bundle:'🎁 Bundle',
+    custom_product_title:'✏️ Custom Product',
+    cp_name_label:'Product Name *', cp_name_ph:'e.g. Organic Red Date Powder 50G',
+    cp_benefit_label:'Key Benefit / USP', cp_benefit_ph:'e.g. Nourishing · Organic · Halal',
+    cp_photo_label:'📷 Upload Product Photo (optional)',
+    upload_cta:'Click to upload product image', upload_hint:'JPG / PNG · Square preferred · Max 5MB',
+    photo_uploaded:'Photo uploaded. AI will reference it in the prompt.',
+    photo_remove:'✕ Remove', product_preview_label:'Product description:',
+    product_preview_placeholder:'Fill in the product name...',
+    confirm_product:'✅ Confirm Product',
+    other_product:'Other Product', other_product_desc:'Custom name + upload photo',
+    no_results:'No products found',
+    camp_raya:'Raya 2026', camp_raya_desc:'Gold · Family · Warmth',
+    camp_cny:'Chinese New Year', camp_cny_desc:'Red & gold · Reunion dinner',
+    camp_mothers:"Mother's Day", camp_mothers_desc:'Pastels · Flowers · Warmth',
+    camp_ramadan:'Ramadan', camp_ramadan_desc:'Iftar · Warm candle light',
+    camp_sale:'Promo Sale', camp_sale_desc:'Big sale · Discounts',
+    camp_launch:'New Launch', camp_launch_desc:'First reveal · Excitement',
+    s4_title:'Scene Setup', s4_desc:'Choose lighting, background and composition',
+    scene_warn:'⚠️ Dark wood + dark packaging — product may not stand out. Try white marble or light wood.',
+    light_label:'💡 Lighting', bg_label:'🏞️ Background', comp_label:'🖼️ Composition',
+    s5_title:'Action & Product Presence', s5_desc:'What is the ambassador doing? How does the product appear?',
+    action_label:'🧍 Ambassador Action', presence_label:'📦 Product Presence',
+    s6_title:'✨ Ready to Generate', s6_desc:'Confirm your selections, then generate',
+    token_label:'⚡ Estimated API usage', token_val:'~800 tokens · ~USD $0.003',
+    api_label:'🔑 Claude API Key', api_hint:'Key stays in your browser only — never sent to any server.',
+    btn_generate:'✨ Generate Prompt', btn_restart:'🔄 Start Over',
+    loading_text:'AI is polishing your prompt...', loading_sub:'Usually takes 5–10 seconds',
+    img_prompt_title:'🖼️ Image Prompt (Midjourney / Canva / Leonardo)',
+    vid_prompt_title:'🎬 Video Prompt (Kling / Seedance / Runway)',
+    caption_title:'📝 Social Media Caption',
+    copy_btn:'Copy', copied_btn:'✓ Copied',
+    use_at:'Use this prompt in:', go_video:'Generate video in:',
+    save_history:'📋 Save to History',
+    history_title:'📋 Generation History',
+    history_empty:'No saved history yet.\nGenerate and save to see it here.',
+    btn_back:'← Back', btn_next:'Next →',
+    sum_ambassador:'Ambassador', sum_platform:'Platform', sum_content:'Content Type',
+    sum_language:'Language', sum_product:'Product', sum_campaign:'Campaign',
+    sum_lighting:'Lighting', sum_background:'Background', sum_composition:'Composition',
+    sum_action:'Action', sum_presence:'Product Presence',
+    sum_edit:'✏️ Edit', sum_unset:'Not selected',
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('langEN').classList.toggle('active', lang==='en');
+  document.getElementById('langCN').classList.toggle('active', lang==='cn');
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(i18n[lang][key] !== undefined) el.textContent = i18n[lang][key];
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
+  });
+  // Re-render products in new language
+  renderProducts(currentCat, document.getElementById('productSearch')?.value || '');
+}
+
+function t(key) { return i18n[currentLang][key] || key; }
+
+// ══════════════════════════════════════════
+// ─── PRODUCT CATALOG ───
+// ══════════════════════════════════════════
+const PRODUCTS = [
+  // SEASONING
+  {id:'mushroom', cat:'seasoning', emoji:'🍄', img:'/assets/products/mushroom-seasoning.jpg',
+   cn:{name:'蘑菇调味粉', desc:'无MSG · 清真认证 · 主力产品'},
+   en:{name:'Mushroom Seasoning Powder', desc:'No MSG · Halal · #1 Bestseller'},
+   prompt:'Mushroom Seasoning Powder (organic, no MSG, halal certified, Love Earth signature product)'},
+  {id:'turmeric', cat:'seasoning', emoji:'🟡', img:'/assets/products/turmeric.jpg',
+   cn:{name:'姜黄粉 60G', desc:'抗炎 · 有机香料'},
+   en:{name:'Turmeric Powder 60G', desc:'Anti-inflammatory · Organic spice'},
+   prompt:'Organic Turmeric Powder 60G (anti-inflammatory, warming spice)'},
+  {id:'ginger', cat:'seasoning', emoji:'🌱', img:'/assets/products/ginger.jpg',
+   cn:{name:'生姜粉 150G', desc:'助消化 · 有机'},
+   en:{name:'Ginger Powder 150G', desc:'Digestive health · Organic'},
+   prompt:'Organic Ginger Powder 150G (digestive health, warming)'},
+  {id:'pepper', cat:'seasoning', emoji:'🌶️', img:null,
+   cn:{name:'有机黑胡椒粉', desc:'提味 · 纯有机'},
+   en:{name:'Organic Black Pepper', desc:'Flavour enhancer · Pure organic'},
+   prompt:'Organic Black Pepper powder (pure organic seasoning)'},
+  {id:'cinnamon', cat:'seasoning', emoji:'🍂', img:null,
+   cn:{name:'有机肉桂粉', desc:'暖身 · 烘焙香料'},
+   en:{name:'Organic Cinnamon Powder', desc:'Warming · Baking spice'},
+   prompt:'Organic Cinnamon Powder (warming spice for baking and cooking)'},
+  // BREAKFAST
+  {id:'granolove', cat:'breakfast', emoji:'🥣', img:'/assets/products/granolove.jpg',
+   cn:{name:'Granolove 格兰诺拉', desc:'香蕉坚果 · 健康早餐'},
+   en:{name:'Granolove Nutty Banananana', desc:'Banana & nuts · Healthy breakfast'},
+   prompt:'Granolove Nutty Banananana granola (healthy breakfast, banana and nuts)'},
+  {id:'oat_drink', cat:'breakfast', emoji:'🥛', img:'/assets/products/oat-drink.jpg',
+   cn:{name:'有机燕麦即冲饮', desc:'即冲早餐 · 纯有机'},
+   en:{name:'Nutri Oat-mazing Cereal Drink', desc:'Quick breakfast · Organic oats'},
+   prompt:'Nutri Oat-mazing Instant Cereal Drink (quick breakfast, organic oats)'},
+  {id:'oats', cat:'breakfast', emoji:'🌾', img:null,
+   cn:{name:'有机燕麦片', desc:'高纤维 · 健康早餐'},
+   en:{name:'Organic Rolled Oats', desc:'High fibre · Healthy breakfast'},
+   prompt:'Organic Rolled Oats (high fibre, hearty breakfast)'},
+  // BABY & MUM
+  {id:'baby_rice', cat:'baby', emoji:'👶', img:'/assets/products/baby-rice.jpg',
+   cn:{name:'天然婴儿米 荞麦', desc:'有机荞麦 · 宝宝适用'},
+   en:{name:'Natural Baby Rice (Buckwheat)', desc:'Organic · Safe for babies'},
+   prompt:'Natural Baby Rice — Buckwheat (organic, safe for babies, gentle nutrition)'},
+  {id:'baby_rice_brown', cat:'baby', emoji:'🌾', img:null,
+   cn:{name:'天然婴儿米 糙米', desc:'有机糙米 · 温和营养'},
+   en:{name:'Natural Baby Rice (Brown Rice)', desc:'Organic brown rice · Gentle nutrition'},
+   prompt:'Natural Baby Rice — Brown Rice (organic, gentle for babies)'},
+  {id:'nursing_tea', cat:'baby', emoji:'🍵', img:null,
+   cn:{name:'妈妈哺乳茶', desc:'催乳 · 天然草本'},
+   en:{name:'Nursing Herbal Tea', desc:'Lactation support · Natural herbs'},
+   prompt:'Organic Nursing Herbal Tea (lactation support, natural herbs for new mothers)'},
+  // SNACKS
+  {id:'nuts', cat:'snacks', emoji:'🥜', img:'/assets/products/nuts.jpg',
+   cn:{name:'轻烤有机坚果', desc:'蛋白质零食 · 清洁能量'},
+   en:{name:'Lightly Roasted Organic Nuts', desc:'Protein snack · Clean energy'},
+   prompt:'Lightly Roasted Organic Nuts (protein-rich, clean energy snack)'},
+  {id:'nuts_cashew', cat:'snacks', emoji:'🤍', img:null,
+   cn:{name:'有机腰果', desc:'奶油质感 · 营养零食'},
+   en:{name:'Organic Cashews', desc:'Creamy · Nutritious snack'},
+   prompt:'Organic Cashews (lightly roasted, creamy texture, healthy snack)'},
+  {id:'nuts_almond', cat:'snacks', emoji:'🤎', img:null,
+   cn:{name:'有机杏仁', desc:'维E · 心脏健康'},
+   en:{name:'Organic Almonds', desc:'Vitamin E · Heart healthy'},
+   prompt:'Organic Almonds (vitamin E rich, heart-healthy snack)'},
+  {id:'granola_bar', cat:'snacks', emoji:'🍫', img:null,
+   cn:{name:'有机燕麦棒', desc:'随身零食 · 无添加'},
+   en:{name:'Organic Granola Bar', desc:'On-the-go snack · No additives'},
+   prompt:'Organic Granola Bar (on-the-go healthy snack, no artificial additives)'},
+  // RICE & GRAINS
+  {id:'rice', cat:'grains', emoji:'🌾', img:null,
+   cn:{name:'有机白米', desc:'家庭主食 · 洁净碳水'},
+   en:{name:'Organic White Rice', desc:'Family staple · Clean carbs'},
+   prompt:'Organic White Rice (family staple, clean carbohydrates)'},
+  {id:'brown_rice', cat:'grains', emoji:'🍚', img:null,
+   cn:{name:'有机糙米', desc:'高纤维 · 全谷物'},
+   en:{name:'Organic Brown Rice', desc:'High fibre · Whole grain'},
+   prompt:'Organic Brown Rice (whole grain, high fibre, nutritious)'},
+  {id:'noodles', cat:'grains', emoji:'🍜', img:null,
+   cn:{name:'有机面条', desc:'全谷物 · 健康面食'},
+   en:{name:'Organic Noodles', desc:'Whole grain · Healthy noodles'},
+   prompt:'Organic Noodles (whole grain, healthy alternative to regular noodles)'},
+  {id:'quinoa', cat:'grains', emoji:'⚪', img:null,
+   cn:{name:'有机藜麦', desc:'超级谷物 · 完整蛋白质'},
+   en:{name:'Organic Quinoa', desc:'Superfood grain · Complete protein'},
+   prompt:'Organic Quinoa (complete protein, superfood grain)'},
+  // BAKE & COOK
+  {id:'coconut_oil', cat:'bake', emoji:'🫙', img:null,
+   cn:{name:'有机椰子油', desc:'烘焙烹饪 · 冷压榨'},
+   en:{name:'Organic Coconut Oil', desc:'Baking & cooking · Cold-pressed'},
+   prompt:'Organic Coconut Oil (cold-pressed, for baking and cooking)'},
+  {id:'coconut_sugar', cat:'bake', emoji:'🟤', img:null,
+   cn:{name:'有机椰糖', desc:'天然甜味剂 · 低GI'},
+   en:{name:'Organic Coconut Sugar', desc:'Natural sweetener · Low GI'},
+   prompt:'Organic Coconut Sugar (natural low-GI sweetener, baking alternative)'},
+  {id:'almond_flour', cat:'bake', emoji:'🌾', img:null,
+   cn:{name:'有机杏仁粉', desc:'无麸质 · 烘焙专用'},
+   en:{name:'Organic Almond Flour', desc:'Gluten-free · Baking flour'},
+   prompt:'Organic Almond Flour (gluten-free baking flour)'},
+  // DRINKS
+  {id:'coconut_water', cat:'drinks', emoji:'🥥', img:null,
+   cn:{name:'有机椰子水', desc:'天然电解质 · 纯有机'},
+   en:{name:'Organic Coconut Water', desc:'Natural electrolytes · Pure organic'},
+   prompt:'Organic Coconut Water (natural electrolytes, refreshing organic drink)'},
+  {id:'green_tea', cat:'drinks', emoji:'🍵', img:null,
+   cn:{name:'有机绿茶', desc:'抗氧化 · 天然清香'},
+   en:{name:'Organic Green Tea', desc:'Antioxidant · Natural aroma'},
+   prompt:'Organic Green Tea (antioxidant rich, natural fragrance)'},
+  {id:'apple_cider', cat:'drinks', emoji:'🍎', img:null,
+   cn:{name:'有机苹果醋', desc:'助消化 · 排毒'},
+   en:{name:'Organic Apple Cider Vinegar', desc:'Digestive aid · Detox'},
+   prompt:'Organic Apple Cider Vinegar (digestive health, natural detox)'},
+  // SUPERFOOD
+  {id:'chia_seeds', cat:'superfood', emoji:'🌱', img:null,
+   cn:{name:'有机奇亚籽', desc:'Omega-3 · 超级食物'},
+   en:{name:'Organic Chia Seeds', desc:'Omega-3 · Superfood'},
+   prompt:'Organic Chia Seeds (omega-3 rich superfood, excellent for smoothies and puddings)'},
+  {id:'spirulina', cat:'superfood', emoji:'💚', img:null,
+   cn:{name:'有机螺旋藻粉', desc:'蛋白质 · 超级绿食'},
+   en:{name:'Organic Spirulina Powder', desc:'Protein-rich · Super greens'},
+   prompt:'Organic Spirulina Powder (protein-rich superfood, super green nutrition)'},
+  {id:'flaxseed', cat:'superfood', emoji:'🟤', img:null,
+   cn:{name:'有机亚麻籽', desc:'Omega-3 · 纤维丰富'},
+   en:{name:'Organic Flaxseed', desc:'Omega-3 · High fibre'},
+   prompt:'Organic Flaxseed (omega-3 and fibre rich superfood)'},
+  // BUNDLE
+  {id:'bundle', cat:'bundle', emoji:'🎁', img:null,
+   cn:{name:'Bundle 礼盒套装', desc:'多产品组合 · 超值'},
+   en:{name:'Bundle Value Set', desc:'Multi-product · Great value'},
+   prompt:'Love Earth Bundle Value Set (family savings, curated organic products)'},
+  {id:'raya_bundle', cat:'bundle', emoji:'🌙', img:null,
+   cn:{name:'Raya 礼盒套装', desc:'节庆礼品 · 精心包装'},
+   en:{name:'Raya Gift Bundle', desc:'Festive gifting · Premium packaging'},
+   prompt:'Love Earth Raya Gift Bundle (festive packaging, premium organic products for gifting)'},
+  {id:'starter_bundle', cat:'bundle', emoji:'⭐', img:null,
+   cn:{name:'有机入门套装', desc:'新手首选 · 精选产品'},
+   en:{name:'Organic Starter Kit', desc:'Perfect for beginners · Curated set'},
+   prompt:'Love Earth Organic Starter Kit (beginner-friendly curated selection of organic products)'},
+];
+
+let currentCat = 'all';
+let currentProductSearch = '';
+
+function renderProducts(cat, search) {
+  const grid = document.getElementById('productGrid');
+  if(!grid) return;
+  currentCat = cat || 'all';
+  currentProductSearch = search || '';
+
+  let filtered = PRODUCTS.filter(p => {
+    const matchCat = currentCat === 'all' || p.cat === currentCat;
+    const q = currentProductSearch.toLowerCase();
+    const pData = p[currentLang] || p.cn;
+    const matchSearch = !q || pData.name.toLowerCase().includes(q) || pData.desc.toLowerCase().includes(q) || p.prompt.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  // Toggle search clear btn
+  const clearBtn = document.getElementById('searchClear');
+  if(clearBtn) clearBtn.style.display = currentProductSearch ? 'block' : 'none';
+
+  if(!filtered.length) {
+    grid.innerHTML = `<div class="no-results">🔍 ${t('no_results')}</div>`;
+    return;
+  }
+
+  const isSelected = (id) => state.product === id;
+
+  grid.innerHTML = filtered.map(p => {
+    const pData = p[currentLang] || p.cn;
+    const sel = isSelected(p.id) ? 'selected' : '';
+    const imgEl = p.img
+      ? `<img src="${p.img}" alt="${pData.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\"font-size:32px\\">${p.emoji}</span>'">`
+      : `<span style="font-size:32px">${p.emoji}</span>`;
+    return `<div class="opt-card ${sel}" id="prodCard_${p.id}" onclick="selectProduct('${p.id}',this)">
+      <div class="opt-img placeholder" style="display:flex;align-items:center;justify-content:center">${imgEl}</div>
+      <div class="opt-body">
+        <span class="opt-label">${pData.name}</span>
+        <span class="opt-desc">${pData.desc}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Add "Other Product" card at end
+  const customSel = state.product === 'custom_product' ? 'selected' : '';
+  grid.innerHTML += `<div class="opt-card ${customSel}" id="customProdCard" onclick="select('product','custom_product',this);showCustomProduct()">
+    <div class="opt-img placeholder">✏️</div>
+    <div class="opt-body">
+      <span class="opt-label" data-i18n="other_product">${t('other_product')}</span>
+      <span class="opt-desc" data-i18n="other_product_desc">${t('other_product_desc')}</span>
+    </div>
+  </div>`;
+}
+
+function selectProduct(id, el) {
+  state.product = id;
+  // Update DATA.product for prompt assembly
+  const p = PRODUCTS.find(x => x.id === id);
+  if(p) DATA.product[id] = p.prompt;
+  document.querySelectorAll('#productGrid .opt-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkWarnings();
+  markDone(3);
+  hideCustomProduct();
+}
+
+function setCat(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(tab => tab.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts(cat, currentProductSearch);
+}
+
+function filterProducts(val) {
+  currentProductSearch = val;
+  renderProducts(currentCat, val);
+}
+
+function clearSearch() {
+  document.getElementById('productSearch').value = '';
+  filterProducts('');
+}
+
+// ─── STATE ───
+const state = {
+  ambassador: null, platform: null, content_type: null, language: null,
+  product: null, campaign: null, lighting: null, background: null,
+  composition: null, action: null, product_presence: null,
+  customAmbassadorDesc: null, customAmbassadorName: null,
+  customProductName: null, customProductBenefit: null, customProductPhotoB64: null
+};
+let currentStep = 0;
+const steps = 7;
+
+// Step-to-field mapping for clickable summary cards
+const summaryStepMap = {
+  ambassador: 1, platform: 2, content_type: 2, language: 2,
+  product: 3, campaign: 3, lighting: 4, background: 4,
+  composition: 4, action: 5, product_presence: 5
+};
+
+// ─── SELECTION DATA ───
+const DATA = {
+  ambassador: {
+    aisyah: {name:'Aisyah', desc:'28岁 Malay Malaysian woman wearing a neatly wrapped hijab in sage green, warm medium-tan skin, soft brown eyes, natural minimal makeup, warm friendly smile, modest blouse with cardigan'},
+    meilin: {name:'Mei Lin', desc:'32岁 Chinese Malaysian woman with medium-length black hair in a loose ponytail, fair to light-medium skin, almond eyes, minimal natural makeup, confident warm expression, white linen shirt'},
+    linda: {name:'Linda', desc:'42岁 Chinese Malaysian woman with shoulder-length black hair with a slight wave, light-medium skin, graceful laugh lines, confident warm expression, smart casual floral blouse'},
+    daniel: {name:'Daniel', desc:'35岁 Malay Malaysian man with short neat black hair, medium-tan skin, clean-shaven with light stubble, friendly energetic expression, casual polo shirt'},
+    none: {name:'No Ambassador', desc:'product-only shot, no person in frame'}
+  },
+  platform: {
+    instagram_feed:{name:'Instagram Feed', ratio:'--ar 4:5', ratioLabel:'4:5'},
+    instagram_story:{name:'Instagram Story', ratio:'--ar 9:16', ratioLabel:'9:16'},
+    tiktok:{name:'TikTok/Reels', ratio:'--ar 9:16', ratioLabel:'9:16'},
+    facebook:{name:'Facebook Post', ratio:'--ar 16:9', ratioLabel:'16:9'},
+    shopee:{name:'Shopee/Lazada', ratio:'--ar 1:1', ratioLabel:'1:1'},
+    pinterest:{name:'Pinterest', ratio:'--ar 2:3', ratioLabel:'2:3'}
+  },
+  product: {
+    mushroom:'Mushroom Seasoning Powder (organic, no MSG, halal certified)',
+    baby_rice:'Natural Baby Rice — Buckwheat (organic, safe for babies)',
+    granolove:'Granolove Nutty Banananana granola (healthy breakfast snack)',
+    turmeric:'Organic Turmeric Powder 60G (anti-inflammatory)',
+    ginger:'Organic Ginger Powder 150G (digestive health)',
+    nuts:'Lightly Roasted Organic Nuts (protein, clean snack)',
+    oat_drink:'Nutri Oat-mazing Instant Cereal Drink (quick breakfast)',
+    bundle:'Love Earth Bundle Value Set (family savings, multiple products)'
+  },
+  lighting: {
+    window:'soft natural window light from left, warm diffused daylight',
+    golden:'warm golden hour sunlight, long soft shadows, late afternoon glow',
+    overcast:'bright even overcast daylight, clean no-shadow lighting',
+    candle:'warm candlelight glow with soft fairy lights bokeh, cozy festive',
+    softbox:'clean professional softbox lighting, even controlled light',
+    morning:'soft misty warm morning light through sheer curtains, dreamy feel'
+  },
+  background: {
+    light_wood:'light oak wooden surface, warm natural grain',
+    marble:'white marble surface with subtle grey veins, premium kitchen',
+    linen:'beige linen cloth texture, organic rustic fabric surface',
+    tiles:'white ceramic kitchen tiles, clean home cooking environment',
+    garden:'fresh green garden outdoor background, natural bokeh',
+    pastel:'smooth soft pastel sage green paper backdrop',
+    dark_wood:'dark walnut wooden surface, moody dramatic feel',
+    white_seamless:'pure white seamless background, clean e-commerce'
+  },
+  composition: {
+    flatlay:'overhead flat lay photography, top-down view, neatly arranged',
+    eyelevel:'eye-level lifestyle photography, natural candid height',
+    '45deg':'45 degree angle, classic food photography composition',
+    macro:'extreme close-up macro, fine texture detail, shallow depth of field',
+    thirds:'rule of thirds, subject off-center with copy space on one side',
+    wide:'wide environmental shot, full setting visible'
+  },
+  action: {
+    hold_both:'holding the product packaging with both hands facing camera, warm smile',
+    hold_casual:'casually holding the product in one hand at chest level, relaxed',
+    show_label:'holding product with label facing forward, pointing at it with other hand',
+    cooking:'actively cooking — sprinkling seasoning into pot, steam rising, focused expression',
+    tasting:'tasting food from a spoon, eyes closed, deeply satisfied expression',
+    gifting:'holding product out toward camera as if presenting a gift, warm generous smile',
+    feeding_baby:'gently feeding a baby in a high chair, smiling warmly',
+    talking_camera:'looking directly at camera and speaking, confident portrait framing',
+    portrait_only:'standing naturally in scene, relaxed authentic lifestyle pose'
+  },
+  product_presence: {
+    hold_front:'product packaging clearly visible facing camera, held by ambassador',
+    use_active:'product being actively used — pouring or sprinkling in motion',
+    product_beside:'product placed on counter/table beside ambassador, both clearly visible',
+    product_foreground:'product in sharp focus foreground, ambassador blurred smiling behind',
+    product_only:'product as sole subject, no ambassador, clean product photography',
+    unboxing:'opening delivery box, pulling out product with delight and surprise'
+  },
+  campaign: {
+    raya:'Raya 2026 festive theme — warm gold tones, baju kurung, family gathering, ketupat elements',
+    cny:'Chinese New Year theme — warm red and gold accents, reunion dinner setting',
+    mothers_day:"Mother's Day — soft pastels, fresh flowers, mother-child warm moment",
+    ramadan:'Ramadan/Iftar theme — pre-dawn or iftar meal setting, warm candlelight, spiritual warmth',
+    sale:'Promotional sale — bold clean layout, product bundle display, value messaging',
+    new_launch:'New product launch — first reveal, curious excitement, hero product focus'
+  }
+};
+
+// ─── STEP NAVIGATION ───
+function goStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.getElementById('nav'+n).classList.add('active');
+  currentStep = n;
+  updateSidebarTip();
+  if(n===6) buildSummary();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function markDone(n) {
+  const el = document.getElementById('nav'+n);
+  if(el) el.classList.add('done');
+}
+
+// ─── OPTION SELECTION ───
+function select(key, val, el) {
+  state[key] = val;
+  const parent = el.closest('.options-grid') || el.parentElement;
+  parent.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkWarnings();
+  markDone(currentStep);
+}
+
+function selectPlat(val, el) {
+  state.platform = val;
+  document.querySelectorAll('.plat-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  markDone(currentStep);
+}
+
+function toggleCampaign(val, el) {
+  if(state.campaign === val) {
+    state.campaign = null;
+    el.classList.remove('selected');
+  } else {
+    state.campaign = val;
+    document.querySelectorAll('.opt-card[onclick*="toggleCampaign"]').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+}
+
+// ─── WARNING SYSTEM ───
+function checkWarnings() {
+  const warn = document.getElementById('sceneWarn');
+  const warnText = document.getElementById('sceneWarnText');
+  const darkBgs = ['dark_wood'];
+  const darkProducts = ['mushroom'];
+  if(state.background && state.product) {
+    if(darkBgs.includes(state.background) && darkProducts.includes(state.product)) {
+      warnText.textContent = '⚠️ 深色木板背景 + 蘑菇调味粉（深色包装），产品可能不够显眼。建议换白色大理石或浅木板背景。';
+      warn.classList.add('show');
+      return;
+    }
+  }
+  warn.classList.remove('show');
+}
+
+// ─── TEMPLATES ───
+const templates = {
+  new_product: {ambassador:'meilin', platform:'instagram_feed', content_type:'product_hero', language:'en', product:'mushroom', lighting:'window', background:'marble', composition:'thirds', action:'hold_both', product_presence:'hold_front'},
+  raya: {ambassador:'aisyah', platform:'instagram_feed', content_type:'seasonal', language:'bm', product:'bundle', campaign:'raya', lighting:'candle', background:'linen', composition:'eyelevel', action:'gifting', product_presence:'hold_front'},
+  mum_baby: {ambassador:'aisyah', platform:'instagram_feed', content_type:'lifestyle', language:'bm', product:'baby_rice', lighting:'window', background:'light_wood', composition:'eyelevel', action:'feeding_baby', product_presence:'product_beside'},
+  healthy_lifestyle: {ambassador:'meilin', platform:'tiktok', content_type:'lifestyle', language:'cn', product:'granolove', lighting:'morning', background:'light_wood', composition:'eyelevel', action:'tasting', product_presence:'product_beside'},
+  product_closeup: {ambassador:'none', platform:'shopee', content_type:'product_hero', language:'en', product:'mushroom', lighting:'softbox', background:'white_seamless', composition:'flatlay', action:'portrait_only', product_presence:'product_only'},
+  reel_15s: {ambassador:'aisyah', platform:'tiktok', content_type:'recipe', language:'bm', product:'mushroom', lighting:'window', background:'tiles', composition:'eyelevel', action:'cooking', product_presence:'use_active'}
+};
+
+function applyTemplate(tpl) {
+  const t = templates[tpl];
+  Object.assign(state, t);
+  // Update UI selections
+  Object.entries(t).forEach(([key, val]) => {
+    const cards = document.querySelectorAll(`[onclick*="'${key}','${val}'"], [data-value="${val}"]`);
+    cards.forEach(c => {
+      const grid = c.closest('.options-grid');
+      if(grid) grid.querySelectorAll('.opt-card').forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+    });
+    if(key==='platform') {
+      document.querySelectorAll('.plat-card').forEach(c => c.classList.remove('selected'));
+      const pc = document.querySelector(`[onclick*="'${val}'"]`);
+      if(pc) pc.classList.add('selected');
+    }
+    if(key==='campaign') {
+      document.querySelectorAll('[onclick*="toggleCampaign"]').forEach(c => c.classList.remove('selected'));
+      const cc = document.querySelector(`[onclick*="toggleCampaign('${val}'"]`);
+      if(cc) cc.classList.add('selected');
+    }
+  });
+  goStep(6);
+}
+
+// ─── SUMMARY ───
+const stepLabels = {
+  ambassador:'代言人', platform:'平台', content_type:'内容类型', language:'语言',
+  product:'产品', campaign:'活动主题', lighting:'灯光', background:'背景',
+  composition:'构图', action:'动作', product_presence:'产品出现方式'
+};
+const stepLabelValues = {
+  ambassador:{aisyah:'Aisyah 🧕',meilin:'Mei Lin 👩',linda:'Linda 👩‍🦱',daniel:'Daniel 👨',none:'无代言人'},
+  platform:{instagram_feed:'Instagram Feed 📸',instagram_story:'IG Story 📱',tiktok:'TikTok 🎵',facebook:'Facebook 👥',shopee:'Shopee 🛒',pinterest:'Pinterest 📌'},
+  content_type:{product_hero:'产品主角',lifestyle:'生活方式',educational:'教育',promotional:'促销',seasonal:'节庆',recipe:'食谱'},
+  language:{bm:'Bahasa Malaysia 🇲🇾',cn:'中文 🇨🇳',en:'English 🌐'},
+  product:{mushroom:'蘑菇调味粉 🍄',baby_rice:'Baby Rice 👶',granolove:'Granolove 🥣',turmeric:'姜黄粉 🟡',ginger:'生姜粉 🌱',nuts:'坚果 🥜',oat_drink:'燕麦饮 🥛',bundle:'Bundle 礼盒 🎁'},
+  campaign:{raya:'Raya 2026 🌙',cny:'农历新年 🏮',mothers_day:"母亲节 💐",ramadan:'斋月 ⭐',sale:'促销 🏷️',new_launch:'新品发布 🆕',null:'无'},
+  lighting:{window:'窗边自然光 ☀️',golden:'黄金时段 🌅',overcast:'阴天光 ☁️',candle:'烛光 🕯️',softbox:'柔光箱 🔆',morning:'清晨光 🌤️'},
+  background:{light_wood:'浅木板 🪵',marble:'大理石 ⬜',linen:'麻布 🧵',tiles:'厨房砖 🔲',garden:'花园 🌿',pastel:'粉色背景 🎨',dark_wood:'深木板 🌑',white_seamless:'白无缝 🟦'},
+  composition:{flatlay:'俯拍平铺 ⬆️',eyelevel:'平视 👁️','45deg':'45度 📐',macro:'微距 🔍',thirds:'三分法 📋',wide:'宽景 🌐'},
+  action:{hold_both:'双手持产品 🤲',hold_casual:'单手拿 ✋',show_label:'展示标签 🏷️',cooking:'下厨 🍳',tasting:'品尝 😋',gifting:'赠礼 🎁',feeding_baby:'喂宝宝 🥄',talking_camera:'对镜说话 🗣️',portrait_only:'生活肖像 🙋'},
+  product_presence:{hold_front:'持产品面镜 📸',use_active:'使用中 🫗',product_beside:'产品旁边 ↔️',product_foreground:'产品前景 🔭',product_only:'只有产品 🎯',unboxing:'开箱 📬'}
+};
+
+function buildSummary() {
+  const grid = document.getElementById('summaryGrid');
+  const entries = ['ambassador','platform','content_type','language','product','campaign','lighting','background','composition','action','product_presence'];
+  grid.innerHTML = entries.map(k => {
+    const raw = state[k];
+    let display;
+    if(k==='ambassador' && raw==='custom') {
+      display = (state.customAmbassadorName || '自定义代言人') + ' ✏️';
+    } else if(k==='product' && raw==='custom_product') {
+      display = (state.customProductName || '自定义产品') + ' ✏️';
+    } else {
+      display = raw ? (stepLabelValues[k]?.[raw] || raw) : '<span style="color:var(--text-soft)">未选择</span>';
+    }
+    const targetStep = summaryStepMap[k] || 1;
+    return `<div class="summary-item" onclick="goStep(${targetStep})" title="点击修改"><label>${stepLabels[k]}</label><span>${display}</span></div>`;
+  }).join('');
+}
+
+// ─── PROMPT ASSEMBLER (Method B) ───
+function assembleBasePrompt() {
+  let ambDesc = null;
+  if(state.ambassador && state.ambassador !== 'none') {
+    if(state.ambassador === 'custom' && state.customAmbassadorDesc) {
+      ambDesc = state.customAmbassadorDesc;
+    } else if(DATA.ambassador[state.ambassador]) {
+      ambDesc = DATA.ambassador[state.ambassador].desc;
+    }
+  }
+
+  let prod;
+  if(state.product === 'custom_product' && state.customProductName) {
+    prod = state.customProductName + (state.customProductBenefit ? ` (${state.customProductBenefit})` : ' (Love Earth organic product)');
+  } else {
+    prod = DATA.product[state.product] || state.product || 'Love Earth organic product';
+  }
+
+  const light = DATA.lighting[state.lighting] || 'soft natural light';
+  const bg = DATA.background[state.background] || 'natural background';
+  const comp = DATA.composition[state.composition] || 'lifestyle photography';
+  const act = DATA.action[state.action] || '';
+  const presence = DATA.product_presence[state.product_presence] || '';
+  const plat = DATA.platform[state.platform] || {ratio:'--ar 4:5'};
+  const camp = state.campaign ? DATA.campaign[state.campaign] : null;
+
+  let imgParts = [];
+  if(ambDesc) imgParts.push(ambDesc);
+  if(act) imgParts.push(act);
+  if(presence) imgParts.push(presence);
+  imgParts.push(prod);
+  imgParts.push(bg);
+  imgParts.push(light);
+  imgParts.push(comp);
+  if(camp) imgParts.push(camp);
+  imgParts.push('organic lifestyle photography, Love Earth brand aesthetic, warm earthy tones, natural authentic feel');
+  imgParts.push(`${plat.ratio} --style raw --v 6.1 --q 2`);
+
+  let vidParts = [];
+  if(ambDesc) vidParts.push(ambDesc);
+  vidParts.push(`${act || 'holding product naturally'}, ${prod}`);
+  vidParts.push(bg);
+  vidParts.push(light);
+  if(camp) vidParts.push(camp);
+  vidParts.push(`cinematic lifestyle video, warm earthy color grade, organic authentic feel, ${plat.ratio === '--ar 9:16' ? '9:16 vertical' : plat.ratio.replace('--ar ','')}, 10 seconds, natural ambient sounds`);
+
+  return {
+    imageBase: imgParts.join(', '),
+    videoBase: vidParts.join(', '),
+    hasProductPhoto: !!state.customProductPhotoB64,
+    productPhotoB64: state.customProductPhotoB64,
+    meta: {
+      ambassador: state.ambassador, product: prod,
+      platform: state.platform, language: state.language,
+      campaign: state.campaign, ratio: plat.ratio, contentType: state.content_type
+    }
+  };
+}
+
+// ─── GENERATE ───
+// ⚙️ 部署后把这里换成你的 Cloudflare Worker URL
+const WORKER_URL = 'https://love-earth-ai.jason01108.workers.dev';
+
+async function generatePrompt() {
+  if(!state.product) {
+    alert(currentLang === 'cn' ? '请至少选择一个产品！' : 'Please select a product first!');
+    return;
+  }
+
+  const base = assembleBasePrompt();
+  const lang = {bm:'Bahasa Malaysia', cn:'Mandarin Chinese', en:'English'}[state.language] || 'English';
+
+  const systemPrompt = `You are a creative director for Love Earth Organic Malaysia, a warm organic food brand.
+Your job: take the pre-assembled prompts and polish them into production-ready outputs.
+Brand voice: warm, honest, nature-connected, never preachy.
+Always respond in valid JSON only with keys: image_prompt, video_prompt, caption.
+Caption language: ${lang}. Caption format: headline (max 10 words) + 2-3 sentences body + CTA "Shop at myloveearth.com".`;
+
+  const userText = `Polish these into final outputs for ${base.meta.platform} (${base.meta.contentType}):
+IMAGE BASE: ${base.imageBase}
+VIDEO BASE: ${base.videoBase}
+Product: ${base.meta.product}
+Ambassador: ${base.meta.ambassador || 'none'}
+Campaign: ${base.meta.campaign || 'none'}
+${base.hasProductPhoto ? 'A product reference photo is attached — match the product appearance accurately.' : ''}
+Respond ONLY with JSON, no markdown, no explanation.`;
+
+  let userContent = base.hasProductPhoto
+    ? [{type:'image', source:{type:'base64', media_type:'image/jpeg', data:base.productPhotoB64}}, {type:'text', text:userText}]
+    : userText;
+
+  document.getElementById('loadingIndicator').classList.add('show');
+  document.getElementById('outputPanel').classList.remove('show');
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({system: systemPrompt, messages: [{role:'user', content: userContent}]})
+    });
+
+    if(!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.error || `Server error ${res.status}`);
+    }
+
+    const data = await res.json();
+    const raw = data.content[0].text.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(raw);
+
+    document.getElementById('imgPrompt').textContent = result.image_prompt || base.imageBase;
+    document.getElementById('videoPrompt').textContent = result.video_prompt || base.videoBase;
+    document.getElementById('captionOut').textContent = result.caption || '';
+    document.getElementById('loadingIndicator').classList.remove('show');
+    document.getElementById('outputPanel').classList.add('show');
+    window._lastResult = {result, base, timestamp: new Date().toISOString()};
+
+  } catch(err) {
+    document.getElementById('loadingIndicator').classList.remove('show');
+    document.getElementById('imgPrompt').textContent = base.imageBase;
+    document.getElementById('videoPrompt').textContent = base.videoBase;
+    document.getElementById('captionOut').textContent = `[Error: ${err.message}]\n\nYou can still copy and use the prompts above directly.`;
+    document.getElementById('outputPanel').classList.add('show');
+  }
+}
+
+// ─── CUSTOM AMBASSADOR ───
+const customState = {ethnicity:null,gender:null,age:null,hijab:null,hair:null,skin:null,makeup:null,outfit:null,expression:null,build:null};
+
+function showCustomBuilder() {
+  document.getElementById('customBuilder').style.display='block';
+  document.getElementById('customBuilder').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function hideCustomBuilder() {
+  document.getElementById('customBuilder').style.display='none';
+  if(state.ambassador==='custom' && !state.customAmbassadorDesc) {
+    state.ambassador=null;
+    document.getElementById('customAmbCard').classList.remove('selected');
+  }
+}
+function setCB(key, val, el) {
+  customState[key]=val;
+  const group = document.getElementById('cb_'+key);
+  if(group) group.querySelectorAll('.cb-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  updateCustomPreview();
+}
+function updateCustomPreview() {
+  const parts=[];
+  if(customState.age) parts.push(customState.age);
+  if(customState.ethnicity) parts.push(customState.ethnicity);
+  if(customState.gender) parts.push(customState.gender);
+  if(customState.skin) parts.push('with '+customState.skin);
+  if(customState.hijab && customState.hijab!=='no hijab') parts.push(customState.hijab);
+  if(customState.hair && customState.hijab==='no hijab') parts.push(customState.hair);
+  if(customState.makeup) parts.push(customState.makeup);
+  if(customState.outfit) parts.push('wearing '+customState.outfit);
+  if(customState.expression) parts.push(customState.expression);
+  if(customState.build) parts.push(customState.build);
+  document.getElementById('customPreviewText').textContent = parts.length ? parts.join(', ') : '请选择上方选项...';
+}
+function confirmCustomAmbassador() {
+  const parts=[];
+  if(customState.age) parts.push(customState.age);
+  if(customState.ethnicity) parts.push(customState.ethnicity);
+  if(customState.gender) parts.push(customState.gender);
+  if(customState.skin) parts.push('with '+customState.skin);
+  if(customState.hijab && customState.hijab!=='no hijab') parts.push(customState.hijab);
+  if(customState.hair && customState.hijab==='no hijab') parts.push(customState.hair);
+  if(customState.makeup) parts.push(customState.makeup);
+  if(customState.outfit) parts.push('wearing '+customState.outfit);
+  if(customState.expression) parts.push(customState.expression);
+  if(customState.build) parts.push(customState.build);
+  if(!parts.length){alert('请至少选择一个特征！');return;}
+  const name = document.getElementById('cb_name').value.trim() || '自定义代言人';
+  state.customAmbassadorDesc = parts.join(', ');
+  state.customAmbassadorName = name;
+  state.ambassador = 'custom';
+  document.getElementById('customBuilder').style.display='none';
+  document.getElementById('customAmbCard').querySelector('.opt-label').textContent = name;
+  document.getElementById('customAmbCard').querySelector('.opt-desc').textContent = parts.slice(0,3).join(' · ');
+  markDone(1);
+  alert('✅ 自定义代言人已保存！');
+}
+
+// ─── CUSTOM PRODUCT ───
+function showCustomProduct() {
+  document.getElementById('customProductPanel').style.display='block';
+  document.getElementById('customProductPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function hideCustomProduct() {
+  document.getElementById('customProductPanel').style.display='none';
+  if(state.product==='custom_product' && !state.customProductName) {
+    state.product=null;
+    document.getElementById('customProdCard').classList.remove('selected');
+  }
+}
+function updateCustomProduct() {
+  const name = document.getElementById('cp_name').value.trim();
+  const benefit = document.getElementById('cp_benefit').value.trim();
+  document.getElementById('cpPreviewText').textContent = name ? (name + (benefit?' — '+benefit:'')) : '请填写产品名称...';
+}
+function handleProductPhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){alert('图片不能超过 5MB');return;}
+  const reader = new FileReader();
+  reader.onload = e => {
+    const b64 = e.target.result.split(',')[1];
+    state.customProductPhotoB64 = b64;
+    document.getElementById('cp_photoThumb').src = e.target.result;
+    document.getElementById('cp_photoName').textContent = file.name;
+    const prev = document.getElementById('cp_photoPreview');
+    prev.style.display='flex';
+    // Change upload zone
+    document.getElementById('uploadZone').style.borderColor='var(--green)';
+    document.getElementById('uploadZone').style.background='var(--green-light)';
+  };
+  reader.readAsDataURL(file);
+}
+function removeProductPhoto() {
+  state.customProductPhotoB64=null;
+  document.getElementById('cp_photo').value='';
+  document.getElementById('cp_photoPreview').style.display='none';
+  document.getElementById('uploadZone').style.borderColor='var(--cream-dark)';
+  document.getElementById('uploadZone').style.background='var(--cream)';
+}
+function confirmCustomProduct() {
+  const name = document.getElementById('cp_name').value.trim();
+  if(!name){alert('请填写产品名称！');return;}
+  const benefit = document.getElementById('cp_benefit').value.trim();
+  state.customProductName = name;
+  state.customProductBenefit = benefit;
+  state.product = 'custom_product';
+  document.getElementById('customProductPanel').style.display='none';
+  document.getElementById('customProdCard').querySelector('.opt-label').textContent = name;
+  document.getElementById('customProdCard').querySelector('.opt-desc').textContent = benefit || '自定义产品';
+  if(state.customProductPhotoB64) {
+    const img = document.createElement('img');
+    img.src = 'data:image/jpeg;base64,'+state.customProductPhotoB64;
+    img.style.cssText='width:100%;height:100%;object-fit:cover';
+    const imgDiv = document.getElementById('customProdCard').querySelector('.opt-img');
+    imgDiv.innerHTML='';
+    imgDiv.appendChild(img);
+    imgDiv.classList.remove('placeholder');
+  }
+  markDone(3);
+  alert('✅ 自定义产品已保存！');
+}
+
+// ─── COPY ───
+function copyOutput(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent = '✓ 已复制';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='复制';btn.classList.remove('copied')},2000);
+  });
+}
+
+// ─── HISTORY ───
+function saveToHistory() {
+  if(!window._lastResult) return;
+  const history = JSON.parse(localStorage.getItem('le_history') || '[]');
+  const item = {
+    id: Date.now(),
+    timestamp: window._lastResult.timestamp,
+    ambassador: window._lastResult.base.meta.ambassador,
+    product: window._lastResult.base.meta.product,
+    platform: window._lastResult.base.meta.platform,
+    imagePrompt: document.getElementById('imgPrompt').textContent,
+    videoPrompt: document.getElementById('videoPrompt').textContent,
+    caption: document.getElementById('captionOut').textContent
+  };
+  history.unshift(item);
+  if(history.length > 30) history.pop();
+  localStorage.setItem('le_history', JSON.stringify(history));
+  renderHistory();
+  alert('✅ 已保存到历史记录！');
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('le_history') || '[]');
+  const list = document.getElementById('historyList');
+  if(!history.length) {
+    list.innerHTML = '<div class="history-empty">还没有保存的记录。<br>生成后点"保存"即可。</div>';
+    return;
+  }
+  const labelV = stepLabelValues;
+  list.innerHTML = history.map(h => `
+    <div class="history-item" onclick="loadHistory(${h.id})">
+      <div class="hi-meta">${new Date(h.timestamp).toLocaleString('zh-MY')} · ${labelV.platform?.[h.platform]||h.platform}</div>
+      <div class="hi-title">${labelV.ambassador?.[h.ambassador]||h.ambassador||'无代言人'} + ${h.product?.split(' ')[0]}</div>
+      <div class="hi-preview">${h.imagePrompt}</div>
+    </div>
+  `).join('');
+}
+
+function loadHistory(id) {
+  const history = JSON.parse(localStorage.getItem('le_history') || '[]');
+  const item = history.find(h => h.id === id);
+  if(!item) return;
+  document.getElementById('imgPrompt').textContent = item.imagePrompt;
+  document.getElementById('videoPrompt').textContent = item.videoPrompt;
+  document.getElementById('captionOut').textContent = item.caption;
+  document.getElementById('outputPanel').classList.add('show');
+  toggleDrawer();
+  goStep(6);
+}
+
+// ─── DRAWER ───
+function toggleDrawer() {
+  document.getElementById('historyDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('open');
+  renderHistory();
+}
+
+// ─── SIDEBAR TIPS ───
+const tips = [
+  {step:0, text:'💡 使用模板可以一键预填所有选项，适合新手快速上手。'},
+  {step:1, text:'💡 Aisyah 适合马来受众内容，Mei Lin 适合华人健康类，Linda 适合养生教育类。'},
+  {step:2, text:'💡 TikTok/Reels 用 9:16 竖屏。Shopee主图用 1:1。Instagram Feed 用 4:5。'},
+  {step:3, text:'💡 蘑菇调味粉是主力产品，配合 Aisyah 或 Linda 效果最佳。'},
+  {step:4, text:'💡 浅木板+窗边光是最万能的组合，99%的场景都适用。'},
+  {step:5, text:'💡 "双手持产品"是最清晰的代言pose，让产品包装最突出。'},
+  {step:6, text:'💡 生成完成后记得保存到历史，下次可以快速复用好的组合。'}
+];
+function updateSidebarTip() {
+  const tip = tips.find(t => t.step === currentStep);
+  if(tip) document.getElementById('sidebarTip').innerHTML = `<strong>💡 小提示</strong>${tip.text}`;
+}
+
+// Init
+renderHistory();
+renderProducts('all', '');
+setLang('cn');
+</script>
+</body>
+</html>
