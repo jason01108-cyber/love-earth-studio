@@ -1127,6 +1127,12 @@ select.form-input{cursor:pointer}
 
   <div class="summary-grid" id="summaryGrid"></div>
 
+  <div id="apiKeySection" style="background:var(--white);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px">
+    <label style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);display:block;margin-bottom:6px">🔑 Claude API Key <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--text-soft)">(选填 — 若未配置 Worker 则需要)</span></label>
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none;color:var(--text)" onfocus="this.style.borderColor='var(--green-dark)'" onblur="this.style.borderColor='var(--cream-dark)'">
+    <div style="font-size:11px;color:var(--text-soft);margin-top:5px">🔒 Key 只存在你的浏览器，不会发送到任何外部服务器</div>
+  </div>
+
   <div class="token-estimate">
     <span>⚡ 预计 API 消耗</span>
     <strong>~800 tokens · 约 USD $0.003</strong>
@@ -1155,7 +1161,7 @@ select.form-input{cursor:pointer}
   <!-- FIX 1: API not configured banner -->
   <div id="apiWarningBanner" style="display:none;background:#FFF3F0;border:1.5px solid #F4A58A;border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:16px;font-size:13px;color:#A03010;line-height:1.6">
     <strong id="apiBannerTitle">⚠️ API 未配置</strong><br>
-    <span id="apiBannerBody">Cloudflare Worker 还未配置完成。请联系 Jason 设置 Worker URL 后即可使用。</span>
+    <span id="apiBannerBody">你的 Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系 Jason 配置 Worker。</span>
   </div>
 
   <div style="display:flex;gap:12px;flex-wrap:wrap">
@@ -1759,7 +1765,7 @@ const i18n = {
     // Step 6
     s6_title:'✨ 准备生成', s6_desc:'确认你的选项，然后点生成',
     token_label:'⚡ 预计 API 消耗', token_val:'~800 tokens · 约 USD $0.003',
-    
+    api_label:'🔑 Claude API Key', api_hint:'Key 只存在你的浏览器，不会被发送到任何服务器。',
     btn_generate:'✨ 生成 Prompt', btn_restart:'🔄 重新开始',
     loading_text:'AI 正在润色你的 Prompt...', loading_sub:'通常需要 5–10 秒',
     img_prompt_title:'🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)',
@@ -1851,7 +1857,7 @@ const i18n = {
     action_label:'🧍 Ambassador Action', presence_label:'📦 Product Presence',
     s6_title:'✨ Ready to Generate', s6_desc:'Confirm your selections, then generate',
     token_label:'⚡ Estimated API usage', token_val:'~800 tokens · ~USD $0.003',
-    
+    api_label:'🔑 Claude API Key', api_hint:'Key stays in your browser only — never sent to any server.',
     btn_generate:'✨ Generate Prompt', btn_restart:'🔄 Start Over',
     loading_text:'AI is polishing your prompt...', loading_sub:'Usually takes 5–10 seconds',
     img_prompt_title:'🖼️ Image Prompt (Midjourney / Canva / Leonardo)',
@@ -2114,7 +2120,7 @@ function setLang(lang) {
       ['#negPromptLabel','🚫 Negative Prompt — 不要出现什么'],
       // API warning banner
       ['#apiBannerTitle','⚠️ API 未配置'],
-      ['#apiBannerBody','Cloudflare Worker 还未配置完成。请联系 Jason 设置 Worker URL 后即可使用。'],
+      ['#apiBannerBody','你的 Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系管理员配置 Worker。'],
       // Header buttons unified
       ['#historyBtn','📋 历史记录'],
       ['#photoLibBtn','📷 产品图库'],
@@ -2141,7 +2147,7 @@ function setLang(lang) {
       ['#negPromptLabel','🚫 Negative Prompt — 不要出现什么'],
       // API Warning Banner
       ['#apiBannerTitle','⚠️ API 未配置'],
-      ['#apiBannerBody','Cloudflare Worker 还未配置完成。请联系 Jason 设置 Worker URL 后即可使用。'],
+      ['#apiBannerBody','Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系 Jason 配置 Worker。'],
       // Header buttons
       ['#historyBtn','📋 历史记录'],
       ['#photoLibBtn','📷 产品图库'],
@@ -2376,8 +2382,8 @@ function setLang(lang) {
       ['#loadingSubText','Usually takes 5–10 seconds'],
       ['#negPromptLabel','🚫 Negative Prompt — What to exclude'],
       // API warning banner
-      ['#apiBannerTitle','⚠️ Not Ready'],
-      ['#apiBannerBody','The Cloudflare Worker is not configured yet. Please ask Jason to set it up before generating.'],
+      ['#apiBannerTitle','⚠️ API Not Configured'],
+      ['#apiBannerBody','Your Cloudflare Worker URL is not yet set. Enter an API Key below to call directly, or contact your admin to configure the Worker.'],
       // Header buttons
       ['#historyBtn','📋 History'],
       ['#photoLibBtn','📷 Product Library'],
@@ -2413,8 +2419,8 @@ function setLang(lang) {
       ['#loadingSubText','Usually takes 5–10 seconds'],
       ['#negPromptLabel','🚫 Negative Prompt — What to exclude'],
       // API Warning Banner
-      ['#apiBannerTitle','⚠️ Not Ready'],
-      ['#apiBannerBody','The Cloudflare Worker is not configured yet. Please ask Jason to set it up before generating.'],
+      ['#apiBannerTitle','⚠️ API not configured'],
+      ['#apiBannerBody','Your Cloudflare Worker URL is not set up yet. Enter your API Key below to call directly, or ask Jason to configure the Worker.'],
       // Header buttons
       ['#historyBtn','📋 History'],
       ['#photoLibBtn','📷 Product Library'],
@@ -3076,7 +3082,7 @@ function getNegativePrompt() {
   return document.getElementById('negativePrompt')?.value?.trim() || '';
 }
 // ⚙️ 部署后把这里换成你的 Cloudflare Worker URL
-const WORKER_URL = 'https://love-earth-ai.YOUR_SUBDOMAIN.workers.dev';
+const WORKER_URL = 'https://love-earth-ai.jason01108.workers.dev';
 
 async function generatePrompt() {
   if(!state.product) {
@@ -3084,11 +3090,15 @@ async function generatePrompt() {
     return;
   }
 
-  // FIX 1: Check if Worker URL is configured
+  // FIX 1: Check if Worker URL or API key is configured
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
   const workerReady = WORKER_URL && !WORKER_URL.includes('YOUR_SUBDOMAIN');
-  if(!workerReady) {
+  if(!apiKey && !workerReady) {
     const banner = document.getElementById('apiWarningBanner');
     if(banner) banner.style.display = 'block';
+    // Show API key input area
+    const apiSection = document.getElementById('apiKeySection');
+    if(apiSection) { apiSection.style.display = 'block'; apiSection.scrollIntoView({behavior:'smooth',block:'nearest'}); }
     return;
   }
   const banner = document.getElementById('apiWarningBanner');
@@ -3873,6 +3883,7 @@ function handleI2PUpload(input) {
 }
 
 async function analyzeImage() {
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
   document.getElementById('i2pAnalyzing').classList.add('show');
   document.getElementById('i2pResult').classList.remove('show');
 
@@ -3903,11 +3914,22 @@ Analyze the uploaded photo and extract its visual style DNA. Respond ONLY in val
   ];
 
   try {
-    const res = await fetch(WORKER_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:systemPrompt, messages:[{role:'user', content:userContent}]})
-    });
+    let res;
+    if(apiKey) {
+      // Direct API call if key available
+      res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:systemPrompt,messages:[{role:'user',content:userContent}]})
+      });
+    } else {
+      // Via Worker
+      res = await fetch(WORKER_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})
+      });
+    }
 
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -3916,9 +3938,7 @@ Analyze the uploaded photo and extract its visual style DNA. Respond ONLY in val
     renderI2PResult(_i2pResult);
   } catch(err) {
     document.getElementById('i2pAnalyzing').classList.remove('show');
-    alert(currentLang === 'en'
-      ? `Analysis failed: ${err.message}\n\nMake sure the Cloudflare Worker is configured.`
-      : `分析失败: ${err.message}\n\n请确认 Cloudflare Worker 已配置。`);
+    alert(`分析失败: ${err.message}\n\n请确认 API Key 已填写（在第7步生成页面）`);
   }
 }
 
@@ -4258,12 +4278,14 @@ async function runQuickGenerate() {
   if(!qmState.product) { alert(currentLang==='cn'?'请选择一个产品！':'Please select a product!'); return; }
   if(!qmState.purpose) { alert(currentLang==='cn'?'请选择内容用途！':'Please select content purpose!'); return; }
 
-  // Check Worker configured
+  // Check API configured
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
   const workerReady = WORKER_URL && !WORKER_URL.includes('YOUR_SUBDOMAIN');
-  if(!workerReady) {
-    alert(currentLang==='cn'
-      ? 'Cloudflare Worker 还未配置，请联系 Jason 设置后再试。'
-      : 'Cloudflare Worker not configured. Please ask Jason to set it up first.');
+  if(!apiKey && !workerReady) {
+    const msg = currentLang==='cn'
+      ? '需要配置 API Key 才能生成。\n请切换到 Expert Mode → 第7步，填写 API Key 后再试。'
+      : 'API Key required to generate.\nSwitch to Expert Mode → Step 7 and enter your API Key.';
+    alert(msg);
     return;
   }
 
@@ -4292,7 +4314,11 @@ async function runQuickGenerate() {
     let userContent = base.hasProductPhoto ? [{type:'image',source:{type:'base64',media_type:'image/jpeg',data:base.productPhotoB64}},{type:'text',text:userText}] : userText;
 
     let res;
-    res = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+    if(apiKey) {
+      res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+    } else {
+      res = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+    }
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const raw = data.content[0].text.replace(/```json|```/g,'').trim();
