@@ -294,6 +294,53 @@ h1,h2,h3{font-family:'Fredoka',sans-serif;font-weight:600}
 .gen-btn:hover{background:#007a3d;transform:translateY(-1px)}
 .gen-btn:active{transform:translateY(0)}
 .gen-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* ─── CAPTION FORMAT SELECTOR ─── */
+.caption-format-wrap{background:var(--white);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px}
+.caption-format-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);display:block;margin-bottom:10px}
+.caption-format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cf-card{background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:10px 8px;cursor:pointer;text-align:center;transition:.2s}
+.cf-card:hover{border-color:var(--green);background:var(--green-light)}
+.cf-card.sel{border-color:var(--green-dark);background:var(--green-light)}
+.cf-card .cf-icon{font-size:18px;display:block;margin-bottom:3px}
+.cf-card .cf-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.cf-card .cf-desc{font-size:10px;color:var(--text-soft);line-height:1.3;margin-top:2px}
+.multilang-toggle{display:flex;align-items:center;gap:10px;padding:10px 0 0 0;border-top:1px solid var(--cream-dark);margin-top:4px}
+.multilang-toggle label{font-size:12px;font-weight:600;color:var(--text-soft);flex:1}
+.toggle-switch{position:relative;width:38px;height:21px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--cream-dark);transition:.3s;border-radius:21px}
+.toggle-slider:before{position:absolute;content:"";height:15px;width:15px;left:3px;bottom:3px;background:white;transition:.3s;border-radius:50%}
+.toggle-switch input:checked + .toggle-slider{background:var(--green-dark)}
+.toggle-switch input:checked + .toggle-slider:before{transform:translateX(17px)}
+
+/* ─── MULTI-LANGUAGE OUTPUT ─── */
+.multilang-output{display:none}
+.multilang-output.show{display:block}
+.lang-tab-row{display:flex;border-bottom:2px solid var(--cream-dark);margin-bottom:0}
+.lang-out-tab{padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-soft);background:none;border-top:none;border-left:none;border-right:none;transition:.15s;font-family:'Poppins',sans-serif}
+.lang-out-tab.active{color:var(--green-dark);border-bottom-color:var(--green-dark)}
+.lang-out-body{padding:16px 20px;font-size:13px;line-height:1.9;color:var(--text);white-space:pre-wrap;font-family:'Poppins',sans-serif;min-height:80px}
+
+/* ─── B2B MODE BADGE ─── */
+.b2b-badge{display:inline-block;background:#1a3320;color:#a2d45e;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;letter-spacing:.5px}
+
+/* ─── BRAND TEMPLATES ─── */
+.template-quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.tq-card{background:var(--white);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:10px}
+.tq-card:hover{border-color:var(--green);background:var(--green-light)}
+.tq-card.active{border-color:var(--green-dark);background:var(--green-light)}
+.tq-icon{font-size:22px;flex-shrink:0}
+.tq-info .tq-name{font-size:13px;font-weight:600;color:var(--text);display:block}
+.tq-info .tq-desc{font-size:11px;color:var(--text-soft);line-height:1.4}
+
+/* ─── HOLIDAY CALENDAR CHIPS ─── */
+.holiday-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.holiday-chip{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--white);font-size:12px;font-weight:500;cursor:pointer;transition:.2s;color:var(--text);display:flex;align-items:center;gap:5px}
+.holiday-chip:hover{border-color:var(--green);background:var(--green-light)}
+.holiday-chip.active{border-color:var(--green-dark);background:var(--green-light);color:var(--green-dark);font-weight:600}
+.holiday-chip .hc-date{font-size:10px;color:var(--text-soft)}
+.holiday-chip.active .hc-date{color:var(--green-dark)}
 .gen-loading{display:none;align-items:center;gap:10px;padding:16px;justify-content:center;color:var(--text-mid);font-size:13px;font-family:'Poppins',sans-serif}
 .gen-loading.show{display:flex}
 .gen-loader{width:20px;height:20px;border:3px solid var(--cream-dark);border-top-color:var(--green-dark);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
@@ -541,6 +588,37 @@ select.form-input{cursor:pointer}
       <!-- rendered by JS -->
     </div>
     <input type="file" class="gallery-upload-input" id="galleryUploadInput" accept="image/*" onchange="handleGalleryUpload(this)">
+  </div>
+
+  <!-- BRAND TEMPLATES -->
+  <div style="margin-bottom:20px">
+    <div class="section-label" style="margin-bottom:10px">⚡ 品牌模板（一键套用常用设定）</div>
+    <div class="template-quick-grid">
+      <div class="tq-card" onclick="applyTemplate('social_lifestyle')">
+        <div class="tq-icon">🌿</div>
+        <div class="tq-info"><span class="tq-name">社媒生活方式</span><span class="tq-desc">IG/FB · 代言人 · 自然光 · 厨房场景</span></div>
+      </div>
+      <div class="tq-card" onclick="applyTemplate('shopee_hero')">
+        <div class="tq-icon">🛒</div>
+        <div class="tq-info"><span class="tq-name">Shopee 产品主图</span><span class="tq-desc">白底 · 1:1 · 无代言人 · 专业电商</span></div>
+      </div>
+      <div class="tq-card" onclick="applyTemplate('tiktok_ugc')">
+        <div class="tq-icon">📲</div>
+        <div class="tq-info"><span class="tq-name">TikTok UGC 风格</span><span class="tq-desc">9:16 · 真实感 · 厨房 · 品尝动作</span></div>
+      </div>
+      <div class="tq-card" onclick="applyTemplate('xhs_lifestyle')">
+        <div class="tq-icon">🌸</div>
+        <div class="tq-info"><span class="tq-name">小红书种草</span><span class="tq-desc">清新系 · 平拍 · 木质台面 · 详情感</span></div>
+      </div>
+      <div class="tq-card" onclick="applyTemplate('raya_festive')">
+        <div class="tq-icon">🌙</div>
+        <div class="tq-info"><span class="tq-name">Raya 节庆</span><span class="tq-desc">金色暖光 · 礼盒场景 · 节日氛围</span></div>
+      </div>
+      <div class="tq-card" onclick="applyTemplate('b2b_catalogue')">
+        <div class="tq-icon">🤝</div>
+        <div class="tq-info"><span class="tq-name">B2B 产品目录</span><span class="tq-desc">白底 · 16:9 · 无代言人 · 专业简洁</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="divider" style="margin-top:20px">或者从第一步自定义</div>
@@ -798,6 +876,14 @@ select.form-input{cursor:pointer}
       <div class="opt-img placeholder">🍳</div>
       <div class="opt-body"><span class="opt-label">食谱 / 教学</span><span class="opt-desc">烹饪步骤</span></div>
     </div>
+    <div class="opt-card" onclick="select('content_type','b2b',this)">
+      <div class="opt-img placeholder">🤝</div>
+      <div class="opt-body"><span class="opt-label">B2B / 贸易<span class="b2b-badge">B2B</span></span><span class="opt-desc">白底产品·目录·简报</span></div>
+    </div>
+    <div class="opt-card" onclick="select('content_type','ugc',this)">
+      <div class="opt-img placeholder">📲</div>
+      <div class="opt-body"><span class="opt-label">UGC 风格</span><span class="opt-desc">真实用户分享感</span></div>
+    </div>
   </div>
 
   <div class="section-label">Caption 语言</div>
@@ -895,6 +981,23 @@ select.form-input{cursor:pointer}
   </div>
 
   <div class="section-label" data-i18n="s3_campaign_label">活动主题（可不选）</div>
+
+  <!-- HOLIDAY CALENDAR CHIPS -->
+  <div class="holiday-chips" id="holidayChips">
+    <div class="holiday-chip" onclick="pickHoliday('raya','Raya 2026',this)">🌙 Raya Aidilfitri <span class="hc-date">Mar 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('cny','Chinese New Year',this)">🧧 CNY 2026 <span class="hc-date">Jan 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('deepavali','Deepavali',this)">🪔 Deepavali <span class="hc-date">Oct 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('mothers_day',&quot;Mother's Day&quot;,this)">💐 Mother's Day <span class="hc-date">May 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('merdeka','Merdeka',this)">🇲🇾 Merdeka <span class="hc-date">Aug 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('christmas','Christmas',this)">🎄 Christmas <span class="hc-date">Dec 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('back_to_school','Back to School',this)">📚 Back to School <span class="hc-date">Jan 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('ramadan','Ramadan',this)">🌟 Ramadan <span class="hc-date">Feb 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('hari_raya_haji','Raya Haji',this)">🕌 Raya Haji <span class="hc-date">Jun 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('year_end_sale','Year End Sale',this)">🛍️ Year End Sale <span class="hc-date">Nov–Dec 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('valentines',&quot;Valentine's Day&quot;,this)">💝 Valentine's <span class="hc-date">Feb 2026</span></div>
+    <div class="holiday-chip" onclick="pickHoliday('hari_raya_aidiladha','Aidiladha',this)">🐑 Aidiladha <span class="hc-date">Jun 2026</span></div>
+  </div>
+
   <div class="options-grid">
     <div class="opt-card" onclick="toggleCampaign('raya',this)">
       <div class="opt-img placeholder">🌙</div>
@@ -1164,6 +1267,50 @@ select.form-input{cursor:pointer}
     <span id="apiBannerBody">你的 Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系 Jason 配置 Worker。</span>
   </div>
 
+  <!-- CAPTION FORMAT SELECTOR -->
+  <div class="caption-format-wrap">
+    <span class="caption-format-label">📝 Caption 格式（选最适合的平台风格）</span>
+    <div class="caption-format-grid">
+      <div class="cf-card sel" id="cf_viral" onclick="selectCaptionFormat('viral',this)">
+        <span class="cf-icon">🔥</span>
+        <span class="cf-name">Viral Hook</span>
+        <span class="cf-desc">开头钩子 + 故事 + CTA · 最高互动率</span>
+      </div>
+      <div class="cf-card" id="cf_story" onclick="selectCaptionFormat('story',this)">
+        <span class="cf-icon">📖</span>
+        <span class="cf-name">Storytelling</span>
+        <span class="cf-desc">情感叙事 · 代入感强 · IG/FB</span>
+      </div>
+      <div class="cf-card" id="cf_question" onclick="selectCaptionFormat('question',this)">
+        <span class="cf-icon">❓</span>
+        <span class="cf-name">Question Hook</span>
+        <span class="cf-desc">问题开头 · 引发思考 · 评论多</span>
+      </div>
+      <div class="cf-card" id="cf_tips" onclick="selectCaptionFormat('tips',this)">
+        <span class="cf-icon">💡</span>
+        <span class="cf-name">Tips / EDU</span>
+        <span class="cf-desc">数字列表 · 教育类 · 分享率高</span>
+      </div>
+      <div class="cf-card" id="cf_xhs" onclick="selectCaptionFormat('xhs',this)">
+        <span class="cf-icon">🌸</span>
+        <span class="cf-name">小红书种草</span>
+        <span class="cf-desc">标题党 · emoji密集 · 话题标签</span>
+      </div>
+      <div class="cf-card" id="cf_b2b" onclick="selectCaptionFormat('b2b',this)">
+        <span class="cf-icon">🤝</span>
+        <span class="cf-name">B2B / Trade</span>
+        <span class="cf-desc">专业语气 · 数据支撑 · 合作CTA</span>
+      </div>
+    </div>
+    <div class="multilang-toggle">
+      <label>🌐 同时生成三语 Caption（BM + 中文 + EN）</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="multiLangToggle" onchange="toggleMultiLang(this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+
   <div style="display:flex;gap:12px;flex-wrap:wrap">
     <button class="btn btn-generate" id="btnGenerate" onclick="generatePrompt()">✨ 生成 Prompt</button>
     <button class="btn btn-secondary" id="btnRestart" onclick="goStep(0)">🔄 重新开始</button>
@@ -1272,12 +1419,29 @@ select.form-input{cursor:pointer}
     <!-- Caption -->
     <div class="output-section">
       <div class="output-header">
-        <h3>📝 社媒 Caption</h3>
+        <h3 id="captionOutTitle">📝 社媒 Caption</h3>
         <div class="output-actions">
-          <button class="btn-copy" onclick="copyOutput('captionOut',this)">复制</button>
+          <button class="btn-copy" onclick="copyOutput('captionOut',this)" id="captionCopyBtn">复制</button>
         </div>
       </div>
+      <!-- Single language output -->
       <div class="output-body" id="captionOut"></div>
+      <!-- Multi-language tabs output -->
+      <div class="multilang-output" id="multiLangOutput">
+        <div class="lang-tab-row">
+          <button class="lang-out-tab active" onclick="switchLangOutTab('bm',this)">🇲🇾 BM</button>
+          <button class="lang-out-tab" onclick="switchLangOutTab('cn',this)">🇨🇳 中文</button>
+          <button class="lang-out-tab" onclick="switchLangOutTab('en',this)">🌐 EN</button>
+        </div>
+        <div class="lang-out-body" id="captionBM"></div>
+        <div class="lang-out-body" id="captionCN" style="display:none"></div>
+        <div class="lang-out-body" id="captionEN" style="display:none"></div>
+        <div style="padding:8px 16px;border-top:1px solid var(--cream-dark);display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn-copy" onclick="copyLangCaption('bm',this)">复制 BM</button>
+          <button class="btn-copy" onclick="copyLangCaption('cn',this)">复制 中文</button>
+          <button class="btn-copy" onclick="copyLangCaption('en',this)">复制 EN</button>
+        </div>
+      </div>
     </div>
 
     <!-- Save to history -->
@@ -3107,11 +3271,61 @@ async function generatePrompt() {
   const base = assembleBasePrompt();
   const lang = {bm:'Bahasa Malaysia', cn:'Mandarin Chinese', en:'English'}[state.language] || 'English';
 
-  const systemPrompt = `You are a creative director for Love Earth Organic Malaysia, a warm organic food brand.
+  const captionFormat = window._captionFormat || 'viral';
+  const isMultiLang = window._multiLangCaption || false;
+  const captionFormatInstructions = {
+    viral: `VIRAL HOOK FORMAT (highest engagement):
+Line 1: Bold hook statement — pain point or surprising fact (e.g. "你还在用化学调味料？🚫")
+Line 2-3: Relatable story or problem (2-3 short lines, emoji-heavy)
+Line 4-5: Product as solution — specific benefit, not generic
+Line 6: Social proof or transformation result
+Line 7: Strong CTA with urgency (e.g. "👇 Comment 'WANT' for info | Shop: myloveearth.com")
+End with 5-8 relevant hashtags`,
+    story: `STORYTELLING FORMAT (emotional connection):
+Line 1: Scene-setting opening ("Imagine coming home to...")
+Body: 3-4 sentence emotional narrative, relatable moment
+Bridge: How the product fits naturally into this moment
+CTA: Soft but clear ("Tag someone who needs this 💚 | myloveearth.com")
+End with 4-6 hashtags`,
+    question: `QUESTION HOOK FORMAT (drives comments):
+Line 1: Thought-provoking question related to the problem (e.g. "Did you know most 'healthy' snacks are still processed? 🤔")
+Line 2-3: Surprising stat or fact that challenges assumption
+Line 4-5: Product positioned as the real answer
+CTA: Ask followers to answer in comments ("Which do you prefer? Drop it below 👇")
+End with hashtags`,
+    tips: `TIPS/EDUCATIONAL FORMAT (high share rate):
+Line 1: Number hook ("5 reasons your family needs organic seasoning 🌿")
+List: 3-5 short punchy points with emojis (each on new line)
+Product tie-in: Natural mention of how Love Earth solves this
+CTA: "Save this post 🔖 | Shop at myloveearth.com"
+End with educational hashtags`,
+    xhs: `小红书种草 FORMAT:
+第1行: 吸睛标题 — 带数字或感叹词 (e.g. "发现这个宝藏调味料❗简直太好用了")
+第2行: 痛点 or 场景引入 (1-2行)
+正文: emoji密集 · 分点说明 · 用"‼️✅💯🔥⭐"等
+种草语气: 亲身体验 · 真诚推荐
+结尾: "姐妹们赶紧冲！链接在主页 | myloveearth.com"
+标签: 10-15个话题 (#有机食品 #马来西亚好物 etc)`,
+    b2b: `B2B/TRADE FORMAT (professional):
+Line 1: Industry pain point or market opportunity
+Line 2-3: Love Earth value proposition — certifications, MOQ, range
+Line 4: Key differentiators (organic cert, halal, no MSG, etc.)
+Line 5: Specific CTA for trade ("Contact us for wholesale pricing & samples")
+Keep professional, data-driven, no emojis except ✅
+CTA: "WhatsApp / Email for trade enquiry | jason@myloveearth.com"`
+  };
+  const chosenFormat = captionFormatInstructions[captionFormat] || captionFormatInstructions.viral;
+
+  const captionInstruction = isMultiLang
+    ? `Generate 3 separate captions using the format below. Return as JSON with keys: caption_bm (Bahasa Malaysia), caption_cn (Mandarin Chinese), caption_en (English). Each must be fully adapted for its language audience — not just translated, but culturally appropriate.\n\nCAPTION FORMAT TO FOLLOW:\n${chosenFormat}`
+    : `Caption language: ${lang}.\n\nCAPTION FORMAT TO FOLLOW:\n${chosenFormat}\n\nReturn caption as a single string in the "caption" key.`;
+
+  const systemPrompt = `You are an expert social media content strategist and creative director for Love Earth Organic Malaysia — a warm, earthy, nature-connected organic food brand (myloveearth.com).
 Your job: take the pre-assembled prompts and polish them into production-ready outputs.
-Brand voice: warm, honest, nature-connected, never preachy.
-Always respond in valid JSON only with keys: image_prompt, video_prompt, caption.
-Caption language: ${lang}. Caption format: headline (max 10 words) + 2-3 sentences body + CTA "Shop at myloveearth.com".`;
+Brand voice: warm, honest, nature-connected, never preachy, always credible.
+Brand CTA always leads to: myloveearth.com or WhatsApp/DM for B2B.
+${isMultiLang ? 'Always respond in valid JSON with keys: image_prompt, video_prompt, caption_bm, caption_cn, caption_en.' : 'Always respond in valid JSON with keys: image_prompt, video_prompt, caption.'}
+${captionInstruction}`;
 
   const userText = `Polish these into final outputs for ${base.meta.platform} (${base.meta.contentType}):
 IMAGE BASE: ${base.imageBase}
@@ -3148,7 +3362,24 @@ Respond ONLY with JSON, no markdown, no explanation.`;
 
     document.getElementById('imgPrompt').textContent = result.image_prompt || base.imageBase;
     document.getElementById('videoPrompt').textContent = result.video_prompt || base.videoBase;
-    document.getElementById('captionOut').textContent = result.caption || '';
+
+    const isML = window._multiLangCaption || false;
+    if(isML && (result.caption_bm || result.caption_cn || result.caption_en)) {
+      document.getElementById('captionOut').textContent = '';
+      document.getElementById('captionOut').style.display = 'none';
+      document.getElementById('multiLangOutput').classList.add('show');
+      document.getElementById('captionBM').textContent = result.caption_bm || '';
+      document.getElementById('captionCN').textContent = result.caption_cn || '';
+      document.getElementById('captionEN').textContent = result.caption_en || '';
+      document.getElementById('captionOutTitle').textContent = '📝 三语 Caption (BM · 中文 · EN)';
+      document.getElementById('captionCopyBtn').style.display = 'none';
+    } else {
+      document.getElementById('captionOut').style.display = 'block';
+      document.getElementById('captionOut').textContent = result.caption || '';
+      document.getElementById('multiLangOutput').classList.remove('show');
+      document.getElementById('captionOutTitle').textContent = '📝 社媒 Caption';
+      document.getElementById('captionCopyBtn').style.display = 'inline-block';
+    }
     document.getElementById('loadingIndicator').classList.remove('show');
     document.getElementById('outputPanel').classList.add('show');
     window._lastResult = {result, base, timestamp: new Date().toISOString()};
@@ -3938,7 +4169,7 @@ Analyze the uploaded photo and extract its visual style DNA. Respond ONLY in val
     renderI2PResult(_i2pResult);
   } catch(err) {
     document.getElementById('i2pAnalyzing').classList.remove('show');
-    alert(`分析失败: ${err.message}\n\n请确认 API Key 已填写（在第7步生成页面）`);
+    alert(`分析失败: ${err.message}\n\n请确认 Cloudflare Worker 已配置`);
   }
 }
 
@@ -4352,6 +4583,104 @@ async function runQuickGenerate() {
   } catch(err) {
     if(resultGrid) resultGrid.innerHTML = `<div style="text-align:center;padding:20px;color:var(--warn)">❌ ${currentLang==='cn'?'生成失败':'Failed'}: ${err.message}</div>`;
   }
+}
+
+// ── Caption Format Selector ──
+window._captionFormat = 'viral';
+window._multiLangCaption = false;
+
+function selectCaptionFormat(fmt, el) {
+  window._captionFormat = fmt;
+  document.querySelectorAll('.cf-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function toggleMultiLang(checkbox) {
+  window._multiLangCaption = checkbox.checked;
+}
+
+function switchLangOutTab(lang, btn) {
+  document.querySelectorAll('.lang-out-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('captionBM').style.display = lang === 'bm' ? 'block' : 'none';
+  document.getElementById('captionCN').style.display = lang === 'cn' ? 'block' : 'none';
+  document.getElementById('captionEN').style.display = lang === 'en' ? 'block' : 'none';
+}
+
+function copyLangCaption(lang, btn) {
+  const ids = {bm:'captionBM', cn:'captionCN', en:'captionEN'};
+  const el = document.getElementById(ids[lang]);
+  if(!el) return;
+  navigator.clipboard?.writeText(el.textContent || el.innerText);
+  const orig = btn.textContent;
+  btn.textContent = '✓ 复制成功';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+}
+
+// ── Holiday Calendar ──
+function pickHoliday(key, name, el) {
+  const active = el.classList.contains('active');
+  document.querySelectorAll('.holiday-chip').forEach(c => c.classList.remove('active'));
+  if(!active) {
+    el.classList.add('active');
+    state.campaign = key;
+    // Auto-apply related settings
+    const holidaySettings = {
+      raya: {lighting:'candle', campaign_name:'Raya Aidilfitri 2026'},
+      cny: {lighting:'golden', campaign_name:'Chinese New Year 2026'},
+      deepavali: {lighting:'candle', campaign_name:'Deepavali 2026'},
+      mothers_day: {lighting:'window', campaign_name:"Mother's Day 2026"},
+      merdeka: {lighting:'golden', campaign_name:'Merdeka Day 2026'},
+      christmas: {lighting:'candle', campaign_name:'Christmas 2026'},
+      back_to_school: {lighting:'morning', campaign_name:'Back to School 2026'},
+      ramadan: {lighting:'golden', campaign_name:'Ramadan 2026'},
+      hari_raya_haji: {lighting:'golden', campaign_name:'Raya Haji 2026'},
+      year_end_sale: {lighting:'softbox', campaign_name:'Year End Sale 2026'},
+      valentines: {lighting:'window', campaign_name:"Valentine's Day 2026"},
+      hari_raya_aidiladha: {lighting:'golden', campaign_name:'Aidiladha 2026'},
+    };
+    const s = holidaySettings[key] || {};
+    if(s.lighting) state.lighting = s.lighting;
+    state.campaign_name = s.campaign_name || name;
+    updateLivePreviewFromState();
+    markDone(3);
+  } else {
+    state.campaign = null;
+    state.campaign_name = null;
+  }
+}
+
+// ── Brand Templates ──
+function applyTemplate(tpl) {
+  const templates = {
+    social_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'eyelevel', action:'hold_front', product_presence:'product_beside', language:'cn'},
+    shopee_hero: {ambassador:'none', platform:'shopee', content_type:'product_hero', lighting:'softbox', background:'white_seamless', composition:'flatlay', action:'portrait_only', product_presence:'product_only', language:'en'},
+    tiktok_ugc: {ambassador:'aisyah', platform:'tiktok', content_type:'ugc', lighting:'morning', background:'light_wood', composition:'eyelevel', action:'tasting', product_presence:'use_active', language:'bm'},
+    xhs_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'flatlay', action:'hold_casual', product_presence:'product_beside', language:'cn'},
+    raya_festive: {ambassador:'aisyah', platform:'instagram_feed', content_type:'seasonal', lighting:'candle', background:'linen', composition:'eyelevel', action:'gifting', product_presence:'hold_front', language:'bm', campaign:'raya'},
+    b2b_catalogue: {ambassador:'none', platform:'facebook', content_type:'b2b', lighting:'softbox', background:'white_seamless', composition:'eyelevel', action:'portrait_only', product_presence:'product_only', language:'en'},
+  };
+  const t = templates[tpl];
+  if(!t) return;
+  Object.keys(t).forEach(k => state[k] = t[k]);
+  // Update UI
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const field = el.getAttribute('data-field');
+    const val = el.getAttribute('data-val');
+    if(field && t[field]) {
+      if(val === t[field]) el.classList.add('selected');
+      else el.classList.remove('selected');
+    }
+  });
+  // Highlight the template card
+  document.querySelectorAll('.tq-card').forEach(c => c.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  // Mark steps done and advance
+  [1,2,3,4,5].forEach(i => markDone(i));
+  updateLivePreviewFromState();
+  goStep(6);
+  alert(`✅ 模板已套用！请选择产品后点击"生成 Prompt"`);
 }
 
 function copyText(id, btn) {
