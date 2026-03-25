@@ -5,52 +5,133 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Love Earth Visual Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green: #4A7C59;
-  --green-dark: #2C4A35;
-  --green-light: #EAF3DE;
-  --cream: #F5F0E8;
-  --cream-dark: #EDE6D6;
-  --terracotta: #C9714A;
-  --gold: #D4AF37;
-  --sky: #A8C5DA;
-  --text: #1C2B22;
-  --text-mid: #4A5B50;
-  --text-soft: #8A9B90;
-  --white: #FEFEFE;
-  --warn: #E8593C;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 16px rgba(44,74,53,0.10);
-  --shadow-lg: 0 8px 40px rgba(44,74,53,0.15);
+  /* ── Love Earth Official Brand Colors ── */
+  --green: #a2d45e;          /* Light Green  — Pantone 367 C */
+  --green-dark: #009d4f;     /* Dark Green   — Pantone 7482 C */
+  --green-light: #edf8d6;    /* Light tint of brand green */
+  --cream: #f8f8f4;          /* Near-white page background */
+  --cream-dark: #e8eedc;     /* Subtle green-tinted border */
+  --terracotta: #e07a3c;     /* Warm accent (kept functional) */
+  --gold: #EDDDA9;           /* Official LE Gold — festive only */
+  --gold-dark: #c8b87a;      /* Darker gold for text on gold bg */
+  --text: #1a3320;           /* Deep forest for body text */
+  --text-mid: #2e5c3e;       /* Mid-tone green text */
+  --text-soft: #6b8c72;      /* Soft muted green */
+  --white: #ffffff;
+  --warn: #e05a2b;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 2px 16px rgba(0,157,79,0.10);
+  --shadow-lg: 0 8px 40px rgba(0,157,79,0.15);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden}
-h1,h2,h3{font-family:'Playfair Display',serif}
+body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,.logo h1,.step-header h2,.output-section h3,.live-preview .lp-header span{font-family:'Fredoka',sans-serif}
+h1,h2,h3{font-family:'Fredoka',sans-serif;font-weight:600}
 
 /* ─── HEADER ─── */
 .header{background:var(--green-dark);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:10px;color:var(--cream)}
-.logo-icon{width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
-.logo h1{font-size:18px;letter-spacing:0.3px}
-.logo span{font-size:11px;color:var(--sky);font-family:'DM Sans',sans-serif;font-weight:300;display:block;line-height:1}
+.logo-icon{width:34px;height:34px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.logo h1{font-size:20px;letter-spacing:-0.3px;font-weight:700;font-family:'Fredoka',sans-serif}
+.logo span{font-size:11px;color:rgba(255,255,255,0.75);font-family:'Poppins',sans-serif;font-weight:300;display:block;line-height:1}
 .header-right{display:flex;gap:10px;align-items:center}
-.btn-history{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--cream);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-history{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--white);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px;font-family:'Poppins',sans-serif;transition:.2s;font-weight:500}
 .btn-history:hover{background:rgba(255,255,255,0.2)}
 .cost-badge{background:var(--green);color:var(--cream);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500}
 
 /* ─── LAYOUT ─── */
 .app{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
+.expert-active .app{grid-template-columns:220px 1fr 320px}
+
+/* ─── QUICK/EXPERT MODE TOGGLE ─── */
+.mode-toggle{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;padding:2px;gap:2px}
+.mode-btn{padding:5px 14px;border-radius:18px;border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;transition:.2s;color:rgba(255,255,255,0.65);background:transparent}
+.mode-btn.active{background:var(--green);color:var(--green-dark);font-weight:600}
+.mode-btn:hover:not(.active){color:white}
+
+/* ─── QUICK MODE PANEL ─── */
+#quickModePanel{display:none;padding:28px 32px;max-width:1100px;width:100%;background:var(--cream)}
+#quickModePanel.active{display:block}
+.qm-wrap{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+.qm-left{}
+.qm-right{position:sticky;top:80px}
+.quick-upload-zone{border:2px dashed var(--cream-dark);border-radius:var(--radius);background:var(--white);padding:32px 20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:16px}
+.quick-upload-zone:hover{border-color:var(--green);background:var(--green-light)}
+.quick-upload-zone.has-img{border:2px solid var(--green);padding:12px;background:var(--green-light)}
+.quick-upload-zone img{width:100%;max-height:180px;object-fit:contain;border-radius:var(--radius-sm)}
+.purpose-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.purpose-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius-sm);padding:12px 10px;cursor:pointer;transition:.2s;text-align:center}
+.purpose-card:hover{border-color:var(--green)}
+.purpose-card.sel{border-color:var(--green);background:var(--green-light)}
+.purpose-card .pi{font-size:22px;margin-bottom:4px}
+.purpose-card .pn{font-size:12px;font-weight:600;color:var(--text);display:block}
+.purpose-card .ps{font-size:10px;color:var(--text-soft)}
+.qm-amb-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.qm-amb-chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--white);font-size:12px;font-weight:500;cursor:pointer;transition:.2s;color:var(--text-mid)}
+.qm-amb-chip:hover{border-color:var(--green)}
+.qm-amb-chip.sel{border-color:var(--green);background:var(--green-light);color:var(--green-dark);font-weight:600}
+
+/* ─── LIVE PREVIEW PANEL ─── */
+.live-preview{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--cream-dark);overflow:hidden}
+.lp-header{background:var(--green-dark);color:var(--cream);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.lp-header span{font-size:13px;font-weight:600}
+.lp-badge{padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.15)}
+.lp-badge.ready{background:var(--gold);color:var(--green-dark)}
+.lp-tabs{display:flex;border-bottom:1px solid var(--cream-dark)}
+.lp-tab{flex:1;padding:8px;font-size:11px;font-weight:600;text-align:center;cursor:pointer;border-bottom:2px solid transparent;color:var(--text-soft);background:none;border-top:none;border-left:none;border-right:none;transition:.15s;font-family:'Poppins',sans-serif}
+.lp-tab.active{color:var(--green-dark);border-bottom-color:var(--green)}
+.lp-body{padding:12px;min-height:120px;font-size:12px;line-height:1.7;color:var(--text);font-family:'Poppins',sans-serif}
+.lp-placeholder{color:var(--text-soft);font-style:italic;font-size:12px;text-align:center;padding:20px 10px}
+.lp-chunk{display:inline;padding:2px 5px;border-radius:4px;margin:1px;line-height:1.9}
+.lpc-product{background:#EAF3DE;color:#2C4A35}
+.lpc-platform{background:#E6F1FB;color:#0C447C}
+.lpc-amb{background:#FAEEDA;color:#633806}
+.lpc-scene{background:#F1EFE8;color:#5F5E5A}
+.lp-actions{padding:10px 12px;border-top:1px solid var(--cream-dark);display:flex;gap:6px}
+.lp-copy-btn{flex:1;padding:8px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s}
+.lp-copy-btn:hover{background:var(--green-dark)}
+.lp-save-btn{padding:8px 12px;background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--text-mid);transition:.2s}
+.lp-save-btn:hover{border-color:var(--green);color:var(--green)}
+.lp-completeness{padding:8px 12px;font-size:11px;color:var(--text-soft);border-top:1px solid var(--cream-dark);display:flex;align-items:center;gap:6px}
+.lp-bar-bg{flex:1;height:4px;background:var(--cream-dark);border-radius:2px}
+.lp-bar-fill{height:4px;background:var(--green);border-radius:2px;transition:.3s}
+
+/* ─── BEFORE/AFTER GALLERY ─── */
+.gallery-section{margin-top:20px}
+.gallery-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.gallery-section-header h3{font-size:14px;font-weight:600;color:var(--green-dark)}
+.gallery-add-btn{padding:6px 14px;background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:20px;font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--text-mid);transition:.2s}
+.gallery-add-btn:hover{border-color:var(--green);color:var(--green)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gallery-card{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--cream-dark);overflow:hidden;cursor:pointer;transition:.2s}
+.gallery-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow)}
+.gallery-img{height:90px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;overflow:hidden}
+.gallery-img img{width:100%;height:100%;object-fit:cover}
+.gallery-after-badge{position:absolute;top:5px;right:5px;background:var(--green-dark);color:var(--cream);font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.gallery-card-body{padding:9px 10px}
+.gallery-card-title{font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gallery-card-meta{font-size:10px;color:var(--text-soft);line-height:1.4}
+.gallery-reuse-btn{margin-top:5px;display:inline-block;font-size:10px;font-weight:700;color:var(--green-dark);background:var(--green-light);padding:3px 8px;border-radius:8px;cursor:pointer;transition:.2s}
+.gallery-reuse-btn:hover{background:var(--green);color:white}
+.gallery-empty-card{background:var(--cream);border:2px dashed var(--cream-dark);border-radius:var(--radius);text-align:center;padding:16px 10px;cursor:pointer;transition:.2s}
+.gallery-empty-card:hover{border-color:var(--green)}
+.gallery-upload-input{display:none}
+
+/* ─── EXPERT MODE HINT ─── */
+.expert-hint{text-align:center;padding:10px 16px;font-size:12px;color:var(--text-soft);border-top:1px solid var(--cream-dark);cursor:pointer;transition:.2s}
+.expert-hint:hover{background:var(--cream-dark);color:var(--text)}
 
 /* ─── SIDEBAR ─── */
 .sidebar{background:var(--white);border-right:1px solid var(--cream-dark);padding:24px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
 .step-item{padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.2s;border-left:3px solid transparent;font-size:14px;color:var(--text-mid)}
 .step-item:hover{background:var(--cream);color:var(--text)}
-.step-item.active{border-left-color:var(--green);background:var(--green-light);color:var(--green-dark);font-weight:600}
-.step-item.done{color:var(--green)}
-.step-item.done .step-num{background:var(--green);color:white}
+.step-item.active{border-left-color:var(--green-dark);background:var(--green-light);color:var(--green-dark);font-weight:600}
+.step-item.done{color:var(--green-dark)}
+.step-item.done .step-num{background:var(--green-dark);color:white}
 .step-num{width:24px;height:24px;border-radius:50%;background:var(--cream-dark);color:var(--text-soft);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .step-item.active .step-num{background:var(--green-dark);color:white}
 .sidebar-tip{margin:20px 16px 0;padding:14px;background:var(--green-light);border-radius:var(--radius-sm);font-size:12px;color:var(--green-dark);line-height:1.5}
@@ -62,15 +143,15 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .step-panel.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .step-header{margin-bottom:24px}
-.step-header h2{font-size:22px;color:var(--green-dark);margin-bottom:4px}
-.step-header p{font-size:14px;color:var(--text-soft)}
+.step-header h2{font-size:24px;color:var(--green-dark);margin-bottom:4px;font-family:'Fredoka',sans-serif;font-weight:600;letter-spacing:0.2px}
+.step-header p{font-size:13px;color:var(--text-soft)}
 
 /* ─── TEMPLATES ─── */
 .template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
 .template-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius);padding:16px;cursor:pointer;transition:.2s;text-align:center}
 .template-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow)}
 .template-icon{font-size:28px;margin-bottom:8px}
-.template-card h3{font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px}
+.template-card h3{font-size:14px;font-family:'Poppins',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px}
 .template-card p{font-size:12px;color:var(--text-soft)}
 .divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-soft);font-size:13px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
@@ -79,9 +160,9 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .options-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:24px}
 .options-grid.wide{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 .opt-card{background:var(--white);border:2px solid var(--cream-dark);border-radius:var(--radius);cursor:pointer;transition:.2s;overflow:hidden;position:relative}
-.opt-card:hover{border-color:var(--green);box-shadow:var(--shadow)}
-.opt-card.selected{border-color:var(--green);background:var(--green-light)}
-.opt-card.selected::after{content:'✓';position:absolute;top:8px;right:8px;width:20px;height:20px;background:var(--green);color:white;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center}
+.opt-card:hover{border-color:var(--green-dark);box-shadow:var(--shadow)}
+.opt-card.selected{border-color:var(--green-dark);background:var(--green-light)}
+.opt-card.selected::after{content:'✓';position:absolute;top:8px;right:8px;width:20px;height:20px;background:var(--green-dark);color:white;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center}
 .opt-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:32px}
 .opt-img.placeholder{font-size:32px;display:flex;align-items:center;justify-content:center;background:var(--cream)}
 .opt-body{padding:10px 12px}
@@ -104,7 +185,7 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 
 /* ─── NAV BUTTONS ─── */
 .step-nav{display:flex;gap:12px;margin-top:28px;padding-top:20px;border-top:1px solid var(--cream-dark)}
-.btn{padding:11px 24px;border-radius:25px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:.2s;border:none}
+.btn{padding:11px 24px;border-radius:25px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:.2s;border:none}
 .btn-primary{background:var(--green);color:white}
 .btn-primary:hover{background:var(--green-dark)}
 .btn-secondary{background:var(--white);color:var(--text);border:1.5px solid var(--cream-dark)}
@@ -125,12 +206,12 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .output-panel.show{display:block}
 .output-section{background:var(--white);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
 .output-header{padding:14px 20px;background:var(--green-dark);color:var(--cream);display:flex;justify-content:space-between;align-items:center}
-.output-header h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600}
+.output-header h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600}
 .output-actions{display:flex;gap:8px}
-.btn-copy{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--cream);padding:5px 12px;border-radius:15px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-copy{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--cream);padding:5px 12px;border-radius:15px;cursor:pointer;font-size:12px;font-family:'Poppins',sans-serif;transition:.2s}
 .btn-copy:hover{background:rgba(255,255,255,0.25)}
 .btn-copy.copied{background:var(--gold);border-color:var(--gold);color:var(--green-dark)}
-.output-body{padding:16px 20px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:'DM Sans',sans-serif}
+.output-body{padding:16px 20px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:'Poppins',sans-serif}
 .tool-links{padding:12px 20px;background:var(--cream);display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--cream-dark)}
 .tool-link{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:.2s;border:1.5px solid var(--cream-dark);background:white;color:var(--text)}
 .tool-link:hover{border-color:var(--green);color:var(--green)}
@@ -167,18 +248,18 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 
 /* ─── LANG TOGGLE ─── */
 .lang-toggle{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;padding:2px}
-.lang-btn{background:none;border:none;color:rgba(255,255,255,0.6);padding:5px 12px;border-radius:18px;cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:.2s}
+.lang-btn{background:none;border:none;color:rgba(255,255,255,0.6);padding:5px 12px;border-radius:18px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;transition:.2s}
 .lang-btn.active{background:var(--gold);color:var(--green-dark)}
 
 /* ─── CATEGORY TABS ─── */
 .cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.cat-tab{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--white);color:var(--text-mid);font-size:13px;font-weight:500;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.cat-tab{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--white);color:var(--text-mid);font-size:13px;font-weight:500;cursor:pointer;transition:.2s;font-family:'Poppins',sans-serif;white-space:nowrap}
 .cat-tab:hover{border-color:var(--green);color:var(--green)}
 .cat-tab.active{background:var(--green);border-color:var(--green);color:white}
 
 /* ─── SEARCH BAR ─── */
 .search-wrap{position:relative;margin-bottom:18px}
-.search-wrap input{width:100%;padding:11px 16px 11px 40px;border:1.5px solid var(--cream-dark);border-radius:25px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--white);outline:none;transition:.2s;color:var(--text)}
+.search-wrap input{width:100%;padding:11px 16px 11px 40px;border:1.5px solid var(--cream-dark);border-radius:25px;font-size:14px;font-family:'Poppins',sans-serif;background:var(--white);outline:none;transition:.2s;color:var(--text)}
 .search-wrap input:focus{border-color:var(--green)}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
 .search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-soft);display:none}
@@ -187,7 +268,7 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 ::-webkit-scrollbar-thumb{background:var(--cream-dark);border-radius:2px}
 
 /* ─── CUSTOM BUILDER BUTTONS ─── */
-.cb-btn{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--cream);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
+.cb-btn{padding:7px 14px;border-radius:20px;border:1.5px solid var(--cream-dark);background:var(--cream);color:var(--text);font-size:12px;font-family:'Poppins',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
 .cb-btn:hover{border-color:var(--green);color:var(--green)}
 .cb-btn.active{background:var(--green);border-color:var(--green);color:white;font-weight:600}
 
@@ -198,14 +279,153 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .summary-item label{font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-soft);display:block;margin-bottom:4px;cursor:pointer}
 .summary-item span{font-size:14px;font-weight:600;color:var(--text)}
 
-/* ─── MOBILE ─── */
+/* ─── DIRECT IMAGE GENERATION ─── */
+.gen-image-section{background:linear-gradient(135deg,var(--green-light),#f0fce8);border:2px solid var(--green);border-radius:var(--radius);padding:16px;margin:12px 0}
+.gen-image-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.gen-image-title{font-size:14px;font-weight:600;color:var(--green-dark);font-family:'Fredoka',sans-serif}
+.gen-image-badge{font-size:10px;font-weight:700;background:var(--green-dark);color:white;padding:3px 9px;border-radius:10px}
+.gen-style-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.gen-label{font-size:12px;font-weight:500;color:var(--text-mid);min-width:36px;font-family:'Poppins',sans-serif}
+.gen-style-chips{display:flex;gap:6px;flex-wrap:wrap}
+.gen-chip{padding:5px 12px;border-radius:16px;border:1.5px solid var(--cream-dark);background:white;font-size:11px;font-weight:500;cursor:pointer;color:var(--text-mid);transition:.2s;font-family:'Poppins',sans-serif}
+.gen-chip:hover{border-color:var(--green-dark);color:var(--green-dark)}
+.gen-chip.active{background:var(--green-dark);border-color:var(--green-dark);color:white;font-weight:600}
+.gen-btn{width:100%;padding:13px;background:var(--green-dark);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;font-family:'Fredoka',sans-serif;transition:.2s;margin-top:6px;letter-spacing:0.3px}
+.gen-btn:hover{background:#007a3d;transform:translateY(-1px)}
+.gen-btn:active{transform:translateY(0)}
+.gen-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.gen-loading{display:none;align-items:center;gap:10px;padding:16px;justify-content:center;color:var(--text-mid);font-size:13px;font-family:'Poppins',sans-serif}
+.gen-loading.show{display:flex}
+.gen-loader{width:20px;height:20px;border:3px solid var(--cream-dark);border-top-color:var(--green-dark);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.gen-result{display:none;margin-top:12px}
+.gen-result.show{display:block}
+.gen-result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:10px}
+.gen-result-img-wrap{position:relative;border-radius:var(--radius-sm);overflow:hidden;border:2px solid var(--cream-dark);background:var(--cream-dark);aspect-ratio:1;cursor:pointer;transition:.2s}
+.gen-result-img-wrap:hover{border-color:var(--green-dark);transform:scale(1.01)}
+.gen-result-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.gen-img-overlay{position:absolute;inset:0;background:rgba(0,157,79,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;opacity:0;transition:.2s}
+.gen-result-img-wrap:hover .gen-img-overlay{opacity:1}
+.gen-img-dl-btn{padding:7px 16px;background:white;border:none;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--green-dark);font-family:'Poppins',sans-serif}
+.gen-img-dl-btn:hover{background:var(--green-light)}
+.gen-img-set-btn{padding:7px 16px;background:rgba(255,255,255,0.2);border:1.5px solid white;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;color:white;font-family:'Poppins',sans-serif}
+.gen-result-actions{display:flex;gap:8px;flex-wrap:wrap}
+.gen-action-btn{padding:8px 16px;border:1.5px solid var(--cream-dark);border-radius:20px;background:white;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-mid);transition:.2s;font-family:'Poppins',sans-serif}
+.gen-action-btn:hover{border-color:var(--green-dark);color:var(--green-dark)}
+.gen-action-btn.green{background:var(--green-dark);color:white;border-color:var(--green-dark)}
+.gen-action-btn.green:hover{background:#007a3d}
+.neg-prompt-wrap{background:var(--white);border:1.5px solid var(--cream-dark);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px}
+.neg-prompt-wrap label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);display:block;margin-bottom:8px}
+.neg-prompt-wrap textarea{width:100%;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;font-family:'Poppins',sans-serif;color:var(--text);background:var(--cream);resize:vertical;min-height:72px;outline:none;transition:.2s;line-height:1.5}
+.neg-prompt-wrap textarea:focus{border-color:var(--warn);background:var(--white)}
+.neg-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.neg-chip{padding:4px 11px;border-radius:14px;border:1.5px solid var(--cream-dark);background:var(--white);font-size:11px;cursor:pointer;color:var(--text-mid);transition:.2s;font-family:'Poppins',sans-serif}
+.neg-chip:hover{border-color:var(--warn);color:var(--warn)}
+.neg-chip.active{background:#FFF3F0;border-color:var(--warn);color:#A03010;font-weight:600}
+
+/* ─── IMAGE TO PROMPT ─── */
+.i2p-upload-zone{border:2px dashed var(--cream-dark);border-radius:var(--radius);background:var(--cream);padding:32px 20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:16px}
+.i2p-upload-zone:hover{border-color:var(--green);background:var(--green-light)}
+.i2p-upload-zone.has-image{border-color:var(--green);border-style:solid;padding:16px}
+.i2p-preview{width:100%;max-height:220px;object-fit:contain;border-radius:var(--radius-sm);margin-bottom:8px;display:none}
+.i2p-analyzing{display:none;text-align:center;padding:24px}
+.i2p-analyzing.show{display:block}
+.i2p-result{display:none;margin-top:16px}
+.i2p-result.show{display:block}
+.i2p-section{background:var(--white);border-radius:var(--radius);border:1px solid var(--cream-dark);overflow:hidden;margin-bottom:10px}
+.i2p-section-header{background:var(--green-dark);color:var(--cream);padding:10px 14px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.i2p-section-body{padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text)}
+.i2p-tag{display:inline-block;padding:3px 10px;border-radius:12px;background:var(--green-light);color:var(--green-dark);font-size:12px;font-weight:500;margin:2px}
+.i2p-apply-btn{width:100%;padding:12px;background:var(--green);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;margin-top:8px}
+.i2p-apply-btn:hover{background:var(--green-dark)}
+.i2p-copy-btn{padding:5px 12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--cream);border-radius:12px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif}
+.brand-score{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600}
+.score-high{background:#EAF3DE;color:#2C4A35}
+.score-mid{background:#FAEEDA;color:#633806}
+.score-low{background:#FCEBEB;color:#791F1F}
 @media(max-width:700px){
   .app{grid-template-columns:1fr}
   .sidebar{display:none}
-  .main{padding:20px 16px}
+  .main{padding:16px 14px}
   .template-grid{grid-template-columns:1fr 1fr}
   .summary-grid{grid-template-columns:1fr}
+  .header{padding:10px 14px;flex-wrap:wrap;gap:8px}
+  .header-right{flex-wrap:wrap;gap:6px}
+  .logo h1{font-size:16px}
+  .logo span{display:none}
+  .cost-badge{display:none}
+  .qm-wrap{grid-template-columns:1fr}
+  .qm-right{display:none}
+  .purpose-grid{grid-template-columns:1fr 1fr 1fr}
+  .gen-result-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .options-grid{grid-template-columns:1fr 1fr}
+  .options-grid.wide{grid-template-columns:1fr 1fr}
+  #quickModePanel{padding:16px 14px}
+  .photo-drawer{width:100%;max-width:100%}
+  .mode-toggle{order:-1}
+  .qm-amb-row{gap:5px}
+  .qm-amb-chip{font-size:11px;padding:5px 9px}
 }
+@media(max-width:420px){
+  .template-grid{grid-template-columns:1fr}
+  .purpose-grid{grid-template-columns:1fr 1fr}
+  .gen-result-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr}
+  .options-grid{grid-template-columns:1fr}
+  .header-right .btn-history:last-child{display:none}
+}
+
+/* ─── PHOTO MANAGER DRAWER ─── */
+.photo-drawer{position:fixed;right:0;top:0;bottom:0;width:480px;background:var(--white);z-index:201;overflow-y:auto;transform:translateX(100%);transition:.3s ease;box-shadow:var(--shadow-lg)}
+.photo-drawer.open{transform:translateX(0)}
+.photo-drawer-header{padding:20px 24px;border-bottom:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--white);z-index:10}
+.photo-drawer-header h2{font-size:18px;color:var(--green-dark)}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 24px}
+.photo-card{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:2px solid var(--cream-dark);transition:.2s}
+.photo-card:hover{border-color:var(--green)}
+.photo-card.has-photo{border-color:var(--green)}
+.photo-card-img{width:100%;aspect-ratio:1;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:32px;background:var(--cream-dark);position:relative;cursor:pointer}
+.photo-card-img img{width:100%;height:100%;object-fit:cover}
+.photo-card-img .upload-overlay{position:absolute;inset:0;background:rgba(44,74,53,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:.2s;color:white;font-size:12px;font-weight:600;gap:4px;cursor:pointer}
+.photo-card-img:hover .upload-overlay{opacity:1}
+.photo-card-body{padding:10px 12px}
+.photo-card-name{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.photo-card-actions{display:flex;gap:6px;align-items:center}
+.photo-card-status{font-size:11px;color:var(--text-soft);flex:1}
+.photo-card-status.uploaded{color:var(--green);font-weight:600}
+.btn-upload-photo{padding:5px 10px;border-radius:12px;border:1.5px solid var(--green);background:none;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;white-space:nowrap}
+.btn-upload-photo:hover{background:var(--green);color:white}
+.btn-remove-photo{padding:5px 8px;border-radius:12px;border:1.5px solid var(--cream-dark);background:none;color:var(--text-soft);font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s}
+.btn-remove-photo:hover{border-color:var(--warn);color:var(--warn)}
+.photo-badge{position:absolute;top:6px;right:6px;background:var(--green);color:white;border-radius:10px;font-size:10px;padding:2px 6px;font-weight:600;pointer-events:none}
+.photo-tip{margin:0 24px 16px;padding:12px 16px;background:var(--green-light);border-radius:var(--radius-sm);font-size:12px;color:var(--green-dark);line-height:1.6}
+.photo-tip strong{display:block;margin-bottom:4px;font-size:13px}
+
+/* ─── PRODUCT MANAGER TABS ─── */
+.pm-tab{padding:12px 20px;background:none;border:none;border-bottom:3px solid transparent;font-size:14px;font-weight:500;cursor:pointer;color:var(--text-soft);font-family:'Poppins',sans-serif;transition:.2s}
+.pm-tab:hover{color:var(--text)}
+.pm-tab.active{color:var(--green-dark);border-bottom-color:var(--green);font-weight:600}
+
+/* ─── FORM STYLES ─── */
+.form-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);display:block;margin-bottom:6px}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none;background:var(--white);color:var(--text);transition:.2s}
+.form-input:focus{border-color:var(--green)}
+select.form-input{cursor:pointer}
+
+/* ─── CUSTOM PRODUCT LIST ─── */
+.cp-list-item{background:var(--cream);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;border:1.5px solid var(--cream-dark);transition:.2s}
+.cp-list-item:hover{border-color:var(--green-light)}
+.cp-list-thumb{width:56px;height:56px;border-radius:var(--radius-sm);object-fit:cover;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden}
+.cp-list-thumb img{width:100%;height:100%;object-fit:cover}
+.cp-list-info{flex:1;min-width:0}
+.cp-list-name{font-size:14px;font-weight:600;color:var(--text);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-list-desc{font-size:12px;color:var(--text-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-list-cat{font-size:10px;background:var(--green-light);color:var(--green-dark);padding:2px 8px;border-radius:10px;font-weight:600;display:inline-block;margin-top:4px}
+.cp-list-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-edit{padding:6px 12px;border-radius:12px;border:1.5px solid var(--cream-dark);background:white;color:var(--text-mid);font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s}
+.btn-edit:hover{border-color:var(--green);color:var(--green)}
+.btn-delete{padding:6px 10px;border-radius:12px;border:1.5px solid var(--cream-dark);background:white;color:var(--text-soft);font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s}
+.btn-delete:hover{border-color:var(--warn);color:var(--warn)}
 </style>
 </head>
 <body>
@@ -220,12 +440,17 @@ h1,h2,h3{font-family:'Playfair Display',serif}
     </div>
   </div>
   <div class="header-right">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeQuick" onclick="setMode('quick')">⚡ Quick</button>
+      <button class="mode-btn" id="modeExpert" onclick="setMode('expert')">⚙ Expert</button>
+    </div>
     <span class="cost-badge">💰 ~USD $0.003/gen</span>
     <div class="lang-toggle">
       <button id="langEN" class="lang-btn" onclick="setLang('en')">EN</button>
       <button id="langCN" class="lang-btn active" onclick="setLang('cn')">中</button>
     </div>
-    <button class="btn-history" onclick="toggleDrawer()" data-i18n="history_btn">📋 历史记录</button>
+    <button class="btn-history" onclick="toggleDrawer()" id="historyBtn">📋 历史记录</button>
+    <button class="btn-history" onclick="togglePhotoManager()" id="photoLibBtn">📷 产品图库</button>
   </div>
 </div>
 
@@ -252,6 +477,9 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   </div>
   <div class="step-item" onclick="goStep(6)" id="nav6">
     <span class="step-num">7</span> <span data-i18n="nav6">✨ 生成</span>
+  </div>
+  <div class="step-item" onclick="goStep(7)" id="nav7" style="border-top:1px solid var(--cream-dark);margin-top:8px;padding-top:16px">
+    <span class="step-num" style="background:var(--terracotta);color:white">📷</span> <span>图片反推 Prompt</span>
   </div>
 
   <div class="sidebar-tip" id="sidebarTip">
@@ -303,8 +531,19 @@ h1,h2,h3{font-family:'Playfair Display',serif}
     </div>
   </div>
 
-  <div class="divider">或者从第一步自定义</div>
+  <!-- BEFORE/AFTER GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-section-header">
+      <h3>✨ 团队最佳案例 — 点击复用配置</h3>
+      <button class="gallery-add-btn" onclick="openGalleryUpload()">+ 添加案例</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- rendered by JS -->
+    </div>
+    <input type="file" class="gallery-upload-input" id="galleryUploadInput" accept="image/*" onchange="handleGalleryUpload(this)">
+  </div>
 
+  <div class="divider" style="margin-top:20px">或者从第一步自定义</div>
   <div class="step-nav">
     <button class="btn btn-primary" onclick="goStep(1)">开始自定义 →</button>
   </div>
@@ -476,7 +715,7 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 
     <div style="margin-top:16px">
       <div class="section-label" style="margin-top:0">角色名字（可选）</div>
-      <input type="text" id="cb_name" placeholder="例如：Siti, Mei, Priya..." style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;background:var(--cream)" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+      <input type="text" id="cb_name" placeholder="例如：Siti, Mei, Priya..." style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none;background:var(--cream)" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
     </div>
 
     <div style="margin-top:12px;background:var(--green-light);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:var(--green-dark)" id="customPreview">
@@ -625,11 +864,11 @@ h1,h2,h3{font-family:'Playfair Display',serif}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px" data-i18n="cp_name_label">产品名称 *</label>
-        <input type="text" id="cp_name" data-i18n-placeholder="cp_name_ph" placeholder="例如：有机红枣粉 50G" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+        <input type="text" id="cp_name" data-i18n-placeholder="cp_name_ph" placeholder="例如：有机红枣粉 50G" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px" data-i18n="cp_benefit_label">主要功效 / 卖点</label>
-        <input type="text" id="cp_benefit" data-i18n-placeholder="cp_benefit_ph" placeholder="例如：滋补·补血·有机认证" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
+        <input type="text" id="cp_benefit" data-i18n-placeholder="cp_benefit_ph" placeholder="例如：滋补·补血·有机认证" oninput="updateCustomProduct()" style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--cream-dark)'">
       </div>
     </div>
     <div style="margin-top:14px">
@@ -882,40 +1121,130 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 <!-- ─── STEP 6: GENERATE ─── -->
 <div class="step-panel" id="step6">
   <div class="step-header">
-    <h2>✨ 准备生成</h2>
-    <p>确认你的选项，然后点生成</p>
+    <h2 id="s6Title">✨ 准备生成</h2>
+    <p id="s6Desc">确认你的选项，然后点生成</p>
   </div>
 
   <div class="summary-grid" id="summaryGrid"></div>
 
+  <div id="apiKeySection" style="background:var(--white);border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px">
+    <label style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);display:block;margin-bottom:6px">🔑 Claude API Key <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--text-soft)">(选填 — 若未配置 Worker 则需要)</span></label>
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="width:100%;padding:9px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:13px;font-family:'Poppins',sans-serif;outline:none;color:var(--text)" onfocus="this.style.borderColor='var(--green-dark)'" onblur="this.style.borderColor='var(--cream-dark)'">
+    <div style="font-size:11px;color:var(--text-soft);margin-top:5px">🔒 Key 只存在你的浏览器，不会发送到任何外部服务器</div>
+  </div>
+
   <div class="token-estimate">
-    <span data-i18n="token_label">⚡ 预计 API 消耗</span>
-    <strong data-i18n="token_val">~800 tokens · 约 USD $0.003</strong>
+    <span>⚡ 预计 API 消耗</span>
+    <strong>~800 tokens · 约 USD $0.003</strong>
   </div>
 
   <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <button class="btn btn-generate" onclick="generatePrompt()" data-i18n="btn_generate">✨ 生成 Prompt</button>
-    <button class="btn btn-secondary" onclick="goStep(0)" data-i18n="btn_restart">🔄 重新开始</button>
+    <!-- NEGATIVE PROMPT -->
+    <div class="neg-prompt-wrap" style="width:100%">
+      <label id="negPromptLabel">🚫 Negative Prompt — 不要出现什么</label>
+      <textarea id="negativePrompt" placeholder="例如：stock photo feel, harsh shadows, fake food, cluttered background, neon colors..."></textarea>
+      <div class="neg-chips">
+        <span class="neg-chip" onclick="toggleNeg(this,'stock photo feel')">stock photo feel</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'harsh shadows')">harsh shadows</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'fake or plastic-looking food')">fake food</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'cluttered background')">cluttered background</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'neon colors')">neon colors</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'overexposed')">overexposed</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'blurry product')">blurry product</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'text or watermark')">watermark</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'dark moody')">dark moody</span>
+        <span class="neg-chip" onclick="toggleNeg(this,'low quality')">low quality</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIX 1: API not configured banner -->
+  <div id="apiWarningBanner" style="display:none;background:#FFF3F0;border:1.5px solid #F4A58A;border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:16px;font-size:13px;color:#A03010;line-height:1.6">
+    <strong id="apiBannerTitle">⚠️ API 未配置</strong><br>
+    <span id="apiBannerBody">你的 Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系 Jason 配置 Worker。</span>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-generate" id="btnGenerate" onclick="generatePrompt()">✨ 生成 Prompt</button>
+    <button class="btn btn-secondary" id="btnRestart" onclick="goStep(0)">🔄 重新开始</button>
   </div>
 
   <div class="loading" id="loadingIndicator">
     <div class="loader"></div>
-    <p style="font-size:14px;color:var(--green-dark)">AI 正在润色你的 Prompt...</p>
-    <p style="font-size:12px;color:var(--text-soft);margin-top:6px">通常需要 5–10 秒</p>
+    <p id="loadingText" style="font-size:14px;color:var(--green-dark)">AI 正在润色你的 Prompt...</p>
+    <p id="loadingSubText" style="font-size:12px;color:var(--text-soft);margin-top:6px">通常需要 5–10 秒</p>
   </div>
 
   <div class="output-panel" id="outputPanel">
     <!-- Image Prompt -->
     <div class="output-section">
       <div class="output-header">
-        <h3>🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)</h3>
+        <h3 id="imgPromptTitle">🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)</h3>
         <div class="output-actions">
           <button class="btn-copy" onclick="copyOutput('imgPrompt',this)">复制</button>
         </div>
       </div>
       <div class="output-body" id="imgPrompt"></div>
-      <div class="tool-links">
-        <span style="font-size:12px;color:var(--text-soft);align-self:center;margin-right:4px">用这个 prompt 去：</span>
+
+      <!-- ── DIRECT IMAGE GENERATION ── -->
+      <div class="gen-image-section" id="genImageSection">
+        <div class="gen-image-header">
+          <span class="gen-image-title">✨ 在这里直接生成图片</span>
+          <span class="gen-image-badge">免费 · 无需账号</span>
+        </div>
+
+        <!-- Style selector -->
+        <div class="gen-style-row">
+          <span class="gen-label">风格：</span>
+          <div class="gen-style-chips">
+            <button class="gen-chip active" onclick="setGenStyle(this,'')">自动</button>
+            <button class="gen-chip" onclick="setGenStyle(this,'photorealistic, 8k, professional photography,')">写实摄影</button>
+            <button class="gen-chip" onclick="setGenStyle(this,'watercolor illustration, soft artistic,')">水彩插画</button>
+            <button class="gen-chip" onclick="setGenStyle(this,'flat design, minimal, clean vector,')">扁平设计</button>
+            <button class="gen-chip" onclick="setGenStyle(this,'cinematic, film grain, moody lighting,')">电影感</button>
+          </div>
+        </div>
+
+        <!-- Ratio selector -->
+        <div class="gen-style-row">
+          <span class="gen-label">比例：</span>
+          <div class="gen-style-chips">
+            <button class="gen-chip ratio-chip active" onclick="setGenRatio(this,1024,1024)">1:1</button>
+            <button class="gen-chip ratio-chip" onclick="setGenRatio(this,864,1080)">4:5</button>
+            <button class="gen-chip ratio-chip" onclick="setGenRatio(this,576,1024)">9:16</button>
+            <button class="gen-chip ratio-chip" onclick="setGenRatio(this,1024,576)">16:9</button>
+          </div>
+        </div>
+
+        <!-- Generate button -->
+        <button class="gen-btn" id="genImgBtn" onclick="generateImageDirect()">
+          <span id="genBtnText">🎨 立即生成图片</span>
+        </button>
+
+        <!-- Loading -->
+        <div class="gen-loading" id="genLoading">
+          <div class="gen-loader"></div>
+          <span id="genLoadingText">正在生成中，约 10–20 秒...</span>
+        </div>
+
+        <!-- Result -->
+        <div class="gen-result" id="genResult">
+          <div class="gen-result-grid" id="genResultGrid">
+            <!-- images rendered here -->
+          </div>
+          <div class="gen-result-actions">
+            <button class="gen-action-btn" onclick="generateImageDirect()">🔄 重新生成</button>
+            <button class="gen-action-btn" onclick="generateVariations()">✨ 生成 4 个变体</button>
+            <button class="gen-action-btn green" onclick="saveToGallery()">💾 保存到画廊</button>
+          </div>
+          <div style="font-size:11px;color:var(--text-soft);margin-top:8px;text-align:center">
+            由 Pollinations AI 驱动 · 完全免费 · 图片版权归你所有
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-links" style="margin-top:10px">
+        <span style="font-size:12px;color:var(--text-soft);align-self:center;margin-right:4px" id="useAtLabel">用这个 prompt 去：</span>
         <a class="tool-link" href="https://www.canva.com/ai-image-generator/" target="_blank"><span>🎨</span> Canva AI</a>
         <a class="tool-link" href="https://app.leonardo.ai/" target="_blank"><span>🖌️</span> Leonardo AI</a>
         <a class="tool-link" href="https://www.freepik.com/ai/image-generator" target="_blank"><span>⚡</span> Freepik AI</a>
@@ -956,7 +1285,264 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   </div>
 </div>
 
+<!-- ─── STEP 7: IMAGE TO PROMPT ─── -->
+<div class="step-panel" id="step7">
+  <div class="step-header">
+    <h2>📷 图片反推 Prompt</h2>
+    <p>上传你们过去拍得好的照片 → AI 分析风格配方 → 获得可复用的 Love Earth Prompt</p>
+  </div>
+
+  <div id="i2pInfoBox" style="background:var(--green-light);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--green-dark);line-height:1.6">
+    <strong id="i2pInfoTitle" style="display:block;margin-bottom:4px">💡 怎么用？</strong>
+    <span id="i2pInfoBody">上传一张你们拍得最好的产品照片，AI 会分析它的灯光、构图、背景、色调，给你一个完整的 Prompt 配方。以后拍照时就知道要复制什么风格，还可以直接把分析结果用到生成器里。</span>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="i2p-upload-zone" id="i2pZone" onclick="document.getElementById('i2pInput').click()">
+    <div id="i2pPlaceholder">
+      <div style="font-size:36px;margin-bottom:10px">📸</div>
+      <div style="font-size:14px;font-weight:600;color:var(--green-dark);margin-bottom:4px">点击上传照片</div>
+      <div style="font-size:12px;color:var(--text-soft)">JPG / PNG · 最大 10MB · 建议上传高质量产品照</div>
+    </div>
+    <img id="i2pPreview" class="i2p-preview">
+    <div id="i2pChangeHint" style="display:none;font-size:12px;color:var(--green);margin-top:6px">点击更换图片</div>
+    <input type="file" id="i2pInput" accept="image/*" style="display:none" onchange="handleI2PUpload(this)">
+  </div>
+
+  <div class="i2p-analyzing" id="i2pAnalyzing">
+    <div class="loader"></div>
+    <p style="font-size:14px;color:var(--green-dark);margin-top:12px">AI 正在分析你的照片...</p>
+    <p style="font-size:12px;color:var(--text-soft);margin-top:4px">分析灯光、构图、背景、色调 — 约 8–15 秒</p>
+  </div>
+
+  <div class="i2p-result" id="i2pResult">
+
+    <!-- Brand Match Score -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:12px 16px;background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--cream-dark)">
+      <div>
+        <div style="font-size:12px;color:var(--text-soft);margin-bottom:3px">Love Earth 品牌匹配度</div>
+        <div id="i2pScoreLabel" class="brand-score score-high">★★★★★ 非常符合品牌</div>
+      </div>
+      <div style="font-size:24px" id="i2pScoreEmoji">🌿</div>
+    </div>
+
+    <!-- Style Summary -->
+    <div class="i2p-section">
+      <div class="i2p-section-header">
+        ✨ 风格精华（一句话总结）
+        <button class="i2p-copy-btn" onclick="copyI2P('i2pEssence')">复制</button>
+      </div>
+      <div class="i2p-section-body" id="i2pEssence" style="font-style:italic;color:var(--green-dark)"></div>
+    </div>
+
+    <!-- Extracted Params -->
+    <div class="i2p-section">
+      <div class="i2p-section-header">🔍 分析出的拍摄参数</div>
+      <div class="i2p-section-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:4px">灯光</div><div id="i2pLighting" style="font-size:13px;font-weight:600;color:var(--text)"></div></div>
+          <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:4px">背景</div><div id="i2pBackground" style="font-size:13px;font-weight:600;color:var(--text)"></div></div>
+          <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:4px">构图</div><div id="i2pComposition" style="font-size:13px;font-weight:600;color:var(--text)"></div></div>
+          <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:4px">色调</div><div id="i2pMood" style="font-size:13px;font-weight:600;color:var(--text)"></div></div>
+        </div>
+        <div style="margin-top:10px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:6px">道具 & 元素</div><div id="i2pProps"></div></div>
+      </div>
+    </div>
+
+    <!-- Midjourney Prompt -->
+    <div class="i2p-section">
+      <div class="i2p-section-header">
+        🎨 Midjourney Prompt（可直接使用）
+        <button class="i2p-copy-btn" onclick="copyI2P('i2pMJPrompt')">复制</button>
+      </div>
+      <div class="i2p-section-body" id="i2pMJPrompt" style="font-family:monospace;font-size:12px;line-height:1.7;color:var(--text-mid)"></div>
+    </div>
+
+    <!-- Kling Video Prompt -->
+    <div class="i2p-section">
+      <div class="i2p-section-header">
+        🎬 Kling AI 视频 Prompt
+        <button class="i2p-copy-btn" onclick="copyI2P('i2pKlingPrompt')">复制</button>
+      </div>
+      <div class="i2p-section-body" id="i2pKlingPrompt" style="font-family:monospace;font-size:12px;line-height:1.7;color:var(--text-mid)"></div>
+    </div>
+
+    <!-- What to avoid -->
+    <div class="i2p-section">
+      <div class="i2p-section-header">🚫 这张照片建议避免的元素（Negative Prompt）</div>
+      <div class="i2p-section-body" id="i2pNegative"></div>
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
+      <button class="i2p-apply-btn" onclick="applyI2PToGenerator()">
+        ⚡ 把这个风格应用到生成器
+      </button>
+      <button class="i2p-apply-btn" style="background:var(--terracotta)" onclick="saveI2PToPhotoLib()">
+        💾 保存到风格库
+      </button>
+    </div>
+
+    <div style="margin-top:10px;text-align:center">
+      <button onclick="resetI2P()" style="background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;text-decoration:underline">分析另一张照片</button>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn btn-secondary" onclick="goStep(6)">← 返回生成</button>
+  </div>
+</div>
+
 </div><!-- end main -->
+<!-- ─── QUICK MODE PANEL ─── -->
+<div id="quickModePanel">
+  <div class="step-header">
+    <h2>⚡ Quick Mode — 3步生成</h2>
+    <p>产品优先，AI 自动配置最佳参数</p>
+  </div>
+  <div class="qm-wrap">
+    <!-- LEFT: Inputs -->
+    <div class="qm-left">
+
+      <div class="section-label">① 选择产品</div>
+      <div class="quick-upload-zone" id="qmUploadZone" onclick="document.getElementById('qmPhotoInput').click()">
+        <div id="qmUploadPlaceholder">
+          <div style="font-size:32px;margin-bottom:8px">📦</div>
+          <div style="font-size:13px;font-weight:600;color:var(--green-dark);margin-bottom:3px">上传产品照片</div>
+          <div style="font-size:11px;color:var(--text-soft)">或从下方快速选产品</div>
+        </div>
+        <img id="qmPhotoPreview" style="display:none;width:100%;max-height:160px;object-fit:contain;border-radius:8px">
+        <input type="file" id="qmPhotoInput" accept="image/*" style="display:none" onchange="handleQMPhoto(this)">
+      </div>
+
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'mushroom','蘑菇调味粉')">🍄 蘑菇粉</div>
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'baby_rice','Baby Rice')">👶 Baby Rice</div>
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'granolove','Granolove')">🥣 Granolove</div>
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'turmeric','姜黄粉')">🟡 姜黄粉</div>
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'nuts','坚果')">🥜 坚果</div>
+        <div class="qm-amb-chip" onclick="qmPickProduct(this,'oat_drink','燕麦饮')">🥛 燕麦饮</div>
+      </div>
+
+      <div class="section-label">② 我要做什么内容？</div>
+      <div class="purpose-grid">
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'shopee','Shopee/Lazada 主图','shopee')">
+          <div class="pi">🛒</div><span class="pn">Shopee 主图</span><span class="ps">1:1 · 电商</span>
+        </div>
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'instagram_feed','Instagram Feed','ig')">
+          <div class="pi">📸</div><span class="pn">Instagram Feed</span><span class="ps">4:5 · 生活场景</span>
+        </div>
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'tiktok','TikTok / Reel','tiktok')">
+          <div class="pi">🎬</div><span class="pn">TikTok / Reel</span><span class="ps">9:16 · 视频</span>
+        </div>
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'instagram_feed','Raya 节庆海报','raya')">
+          <div class="pi">🌙</div><span class="pn">Raya 节庆</span><span class="ps">节庆暖金色</span>
+        </div>
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'instagram_feed','产品功效教育内容','edu')">
+          <div class="pi">📚</div><span class="pn">功效教育</span><span class="ps">成分 · 健康</span>
+        </div>
+        <div class="purpose-card" onclick="qmSelectPurpose(this,'instagram_feed','Facebook 帖子','fb')">
+          <div class="pi">👥</div><span class="pn">Facebook Post</span><span class="ps">16:9 · 横版</span>
+        </div>
+      </div>
+
+      <div class="section-label">③ 代言人（可跳过）</div>
+      <div class="qm-amb-row">
+        <div class="qm-amb-chip sel" onclick="qmSelectAmb(this,'none')">跳过</div>
+        <div class="qm-amb-chip" onclick="qmSelectAmb(this,'aisyah')">🧕 Aisyah</div>
+        <div class="qm-amb-chip" onclick="qmSelectAmb(this,'meilin')">👩 Mei Lin</div>
+        <div class="qm-amb-chip" onclick="qmSelectAmb(this,'linda')">👩‍🦱 Linda</div>
+        <div class="qm-amb-chip" onclick="qmSelectAmb(this,'daniel')">👨 Daniel</div>
+      </div>
+
+      <button onclick="runQuickGenerate()" style="width:100%;padding:13px;background:var(--green-dark);color:var(--white);border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:'Fredoka',sans-serif;transition:.2s;margin-top:4px;letter-spacing:0.3px" onmouseover="this.style.background='#007a3d'" onmouseout="this.style.background='var(--green-dark)'">✨ <span id="qmGenBtnText">生成 Prompt</span></button>
+
+      <!-- Quick Mode Result Panel -->
+      <div id="qmResultPanel" style="display:none;margin-top:16px;border-top:1.5px solid var(--cream-dark);padding-top:16px">
+        <div id="qmResultGrid"></div>
+      </div>
+
+      <div class="expert-hint" onclick="setMode('expert');goStep(1)" id="qmExpertHint">⚙ 需要更精细控制？切换 Expert Mode →</div>
+
+      <!-- FIX 5: Image to Prompt shortcut -->
+      <div onclick="setMode('expert');goStep(7)" style="margin-top:12px;padding:12px 14px;background:var(--green-light);border:1.5px solid var(--green);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.2s" onmouseover="this.style.background='#d0f0a0'" onmouseout="this.style.background='var(--green-light)'">
+        <span style="font-size:22px">📷</span>
+        <div>
+          <div id="i2pShortcutTitle" style="font-size:13px;font-weight:600;color:var(--green-dark);font-family:'Fredoka',sans-serif">图片反推 Prompt — 上传照片分析风格</div>
+          <div id="i2pShortcutDesc" style="font-size:11px;color:var(--text-mid);margin-top:2px">上传你们最好的产品照片，AI 分析灯光构图配方</div>
+        </div>
+        <span style="margin-left:auto;color:var(--green-dark);font-size:16px">→</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Live Preview -->
+    <div class="qm-right">
+      <div class="live-preview">
+        <div class="lp-header">
+          <span>实时 Prompt 预览</span>
+          <span class="lp-badge" id="lpBadge">等待选择...</span>
+        </div>
+        <div class="lp-tabs">
+          <button class="lp-tab active" onclick="switchLPTab('img',this)">图片</button>
+          <button class="lp-tab" onclick="switchLPTab('video',this)">视频</button>
+          <button class="lp-tab" onclick="switchLPTab('caption',this)">Caption</button>
+        </div>
+        <div class="lp-body" id="lpBody">
+          <div class="lp-placeholder">选择产品 + 内容类型后，<br>Prompt 会在这里实时出现 ✨</div>
+        </div>
+        <div class="lp-completeness">
+          <span id="lpCompleteText" style="white-space:nowrap;font-size:11px">完整度</span>
+          <div class="lp-bar-bg"><div class="lp-bar-fill" id="lpBarFill" style="width:0%"></div></div>
+          <span id="lpCompleteNum" style="white-space:nowrap;font-size:11px">0/3</span>
+        </div>
+        <div class="lp-actions">
+          <button class="lp-copy-btn" onclick="copyLivePrompt()">复制 Prompt</button>
+          <button class="lp-save-btn" onclick="saveLiveToHistory()">📋 保存</button>
+        </div>
+        <div style="padding:8px 12px;border-top:1px solid var(--cream-dark)">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:6px">直接去生成图片</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <a href="https://www.canva.com/ai-image-generator/" target="_blank" style="padding:5px 10px;background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;font-size:11px;color:var(--text-mid);text-decoration:none;transition:.2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">🎨 Canva</a>
+            <a href="https://app.leonardo.ai/" target="_blank" style="padding:5px 10px;background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;font-size:11px;color:var(--text-mid);text-decoration:none;transition:.2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">🖌️ Leonardo</a>
+            <a href="https://klingai.com" target="_blank" style="padding:5px 10px;background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;font-size:11px;color:var(--text-mid);text-decoration:none;transition:.2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">🎬 Kling</a>
+            <a href="https://seedance.tv" target="_blank" style="padding:5px 10px;background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;font-size:11px;color:var(--text-mid);text-decoration:none;transition:.2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">🎥 Seedance</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── EXPERT MODE LIVE PREVIEW PANEL ─── -->
+<div id="expertLivePreview" style="display:none;padding:20px 16px;background:var(--cream);border-left:1px solid var(--cream-dark);position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto">
+  <div class="live-preview">
+    <div class="lp-header">
+      <span>实时 Prompt 预览</span>
+      <span class="lp-badge" id="lpBadgeExpert">等待选择...</span>
+    </div>
+    <div class="lp-tabs">
+      <button class="lp-tab active" onclick="switchLPTabExpert('img',this)">图片</button>
+      <button class="lp-tab" onclick="switchLPTabExpert('video',this)">视频</button>
+      <button class="lp-tab" onclick="switchLPTabExpert('caption',this)">Caption</button>
+    </div>
+    <div class="lp-body" id="lpBodyExpert">
+      <div class="lp-placeholder">选择选项后，<br>Prompt 在这里实时更新 ✨</div>
+    </div>
+    <div class="lp-completeness">
+      <span style="white-space:nowrap;font-size:11px">完整度</span>
+      <div class="lp-bar-bg"><div class="lp-bar-fill" id="lpBarFillExpert" style="width:0%"></div></div>
+      <span id="lpCompleteNumExpert" style="white-space:nowrap;font-size:11px">0/11</span>
+    </div>
+    <div class="lp-actions">
+      <button class="lp-copy-btn" onclick="copyLivePromptExpert()">复制 Prompt</button>
+      <button class="lp-save-btn" onclick="goStep(6)">→ 生成</button>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--text-soft);text-align:center;line-height:1.6">
+    选择完越多选项<br>Prompt 越精准
+  </div>
+</div>
 </div><!-- end app -->
 
 <!-- ─── HISTORY DRAWER ─── -->
@@ -967,6 +1553,128 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   <div id="historyList">
     <div class="history-empty">还没有生成记录。<br>生成后点"保存"即可在这里看到。</div>
   </div>
+</div>
+
+<!-- ─── PHOTO MANAGER DRAWER ─── -->
+<div class="drawer-overlay" id="photoOverlay" onclick="togglePhotoManager()"></div>
+<div class="photo-drawer" id="photoDrawer">
+  <div class="photo-drawer-header">
+    <h2>🛍️ 产品管理</h2>
+    <button class="drawer-close" onclick="togglePhotoManager()">✕</button>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;border-bottom:1px solid var(--cream-dark);padding:0 24px">
+    <button class="pm-tab active" id="tabPhotos" onclick="switchPMTab('photos')">📷 产品图库</button>
+    <button class="pm-tab" id="tabCustom" onclick="switchPMTab('custom')">➕ 我的产品</button>
+  </div>
+
+  <!-- TAB 1: Photo Library -->
+  <div id="pmTabPhotos">
+    <div class="photo-tip" style="margin-top:16px">
+      <strong>📷 上传真实产品照片</strong>
+      上传后 AI 会参考真实包装颜色、形状和质感，生成更准确的 Prompt。照片存在浏览器本地。
+    </div>
+    <div class="photo-grid" id="photoManagerGrid"></div>
+  </div>
+
+  <!-- TAB 2: Custom Products -->
+  <div id="pmTabCustom" style="display:none">
+    <div style="padding:16px 24px 0">
+      <button class="btn btn-primary" onclick="openProductForm()" style="width:100%;margin-bottom:16px">
+        ➕ 新增产品
+      </button>
+    </div>
+    <div id="customProductList" style="padding:0 24px 24px"></div>
+  </div>
+
+  <!-- Product Create/Edit Form (overlays inside drawer) -->
+  <div id="productForm" style="display:none;position:absolute;inset:0;background:var(--white);overflow-y:auto;z-index:10">
+    <div class="photo-drawer-header" style="position:sticky;top:0">
+      <h2 id="productFormTitle">➕ 新增产品</h2>
+      <button class="drawer-close" onclick="closeProductForm()">✕</button>
+    </div>
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+
+      <!-- Photo upload -->
+      <div>
+        <label class="form-label">产品图片</label>
+        <label id="pf_photoZone" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--cream-dark);border-radius:var(--radius);padding:20px;cursor:pointer;background:var(--cream);transition:.2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--cream-dark)'">
+          <div id="pf_photoPreviewWrap" style="display:none;width:100%;text-align:center">
+            <img id="pf_photoPreview" style="max-height:140px;border-radius:var(--radius-sm);object-fit:contain">
+            <div style="font-size:11px;color:var(--green);margin-top:6px;font-weight:600">✓ 图片已选择</div>
+          </div>
+          <div id="pf_photoPlaceholder">
+            <div style="font-size:32px;text-align:center">📦</div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);text-align:center;margin-top:4px">点击上传产品图片</div>
+            <div style="font-size:11px;color:var(--text-soft);text-align:center">JPG / PNG · 最大 5MB</div>
+          </div>
+          <input type="file" id="pf_photoInput" accept="image/*" style="display:none" onchange="handlePFPhoto(this)">
+        </label>
+      </div>
+
+      <!-- Name CN + EN -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label class="form-label">产品名称（中文）*</label>
+          <input type="text" id="pf_nameCN" class="form-input" placeholder="例：有机红枣粉 50G">
+        </div>
+        <div>
+          <label class="form-label">Product Name (English)</label>
+          <input type="text" id="pf_nameEN" class="form-input" placeholder="e.g. Organic Red Date Powder 50G">
+        </div>
+      </div>
+
+      <!-- Desc CN + EN -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label class="form-label">简短描述（中文）</label>
+          <input type="text" id="pf_descCN" class="form-input" placeholder="例：滋补·补血·有机认证">
+        </div>
+        <div>
+          <label class="form-label">Short Description (EN)</label>
+          <input type="text" id="pf_descEN" class="form-input" placeholder="e.g. Nourishing · Organic · Halal">
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div>
+        <label class="form-label">产品类别 *</label>
+        <select id="pf_cat" class="form-input">
+          <option value="seasoning">🍄 调味品 Seasoning</option>
+          <option value="breakfast">🥣 早餐 Breakfast</option>
+          <option value="baby">👶 妈妈宝宝 Baby & Mum</option>
+          <option value="snacks">🥜 零食 Snacks</option>
+          <option value="grains">🌾 米面杂粮 Rice & Grains</option>
+          <option value="bake">🧁 烘焙烹饪 Bake & Cook</option>
+          <option value="drinks">🥤 饮品 Drinks</option>
+          <option value="superfood">🌟 超级食物 Superfood</option>
+          <option value="bundle">🎁 礼盒 Bundle</option>
+        </select>
+      </div>
+
+      <!-- Key benefits for prompt -->
+      <div>
+        <label class="form-label">AI Prompt 关键词（功效/特色，AI 会用来生成 prompt）</label>
+        <input type="text" id="pf_prompt" class="form-input" placeholder="例：organic, halal certified, no MSG, antioxidant, suitable for babies">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:4px">建议用英文，用逗号分隔，越详细效果越好</div>
+      </div>
+
+      <!-- Emoji -->
+      <div>
+        <label class="form-label">图标 Emoji（无图片时显示）</label>
+        <input type="text" id="pf_emoji" class="form-input" placeholder="🌿" maxlength="4" style="font-size:24px;max-width:80px">
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn btn-generate" onclick="saveProductForm()" style="flex:1">💾 保存产品</button>
+        <button class="btn btn-secondary" onclick="closeProductForm()">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file inputs -->
+  <input type="file" id="photoUploadInput" accept="image/*" style="display:none" onchange="handlePhotoManagerUpload(this)">
 </div>
 
 <script>
@@ -1173,18 +1881,614 @@ function setLang(lang) {
   currentLang = lang;
   document.getElementById('langEN').classList.toggle('active', lang==='en');
   document.getElementById('langCN').classList.toggle('active', lang==='cn');
-  // Update all data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if(i18n[lang][key] !== undefined) el.textContent = i18n[lang][key];
+
+  // ── Complete UI text map: [selector, textContent] ──
+  const UI = {
+    cn: [
+      // Header
+      ['[data-i18n="history_btn"]','📋 历史记录'],
+      // Sidebar nav
+      ['#nav0 span[data-i18n]','快速开始'],['#nav1 span[data-i18n]','选代言人'],
+      ['#nav2 span[data-i18n]','平台 & 格式'],['#nav3 span[data-i18n]','产品 & 主题'],
+      ['#nav4 span[data-i18n]','场景设置'],['#nav5 span[data-i18n]','动作 & 产品'],
+      ['#nav6 span[data-i18n]','✨ 生成'],
+      // Step 0
+      ['#step0 .step-header h2','你好！今天要创作什么？ 👋'],
+      ['#step0 .step-header p','选择一个模板快速开始，或自定义所有选项'],
+      ['#step0 .template-grid .template-card:nth-child(1) h3','新品发布'],
+      ['#step0 .template-grid .template-card:nth-child(1) p','Instagram Feed 产品主图'],
+      ['#step0 .template-grid .template-card:nth-child(2) h3','Raya 2026'],
+      ['#step0 .template-grid .template-card:nth-child(2) p','节庆温馨内容'],
+      ['#step0 .template-grid .template-card:nth-child(3) h3','妈妈 & 宝宝'],
+      ['#step0 .template-grid .template-card:nth-child(3) p','亲子温情场景'],
+      ['#step0 .template-grid .template-card:nth-child(4) h3','健康生活'],
+      ['#step0 .template-grid .template-card:nth-child(4) p','养生达人日常'],
+      ['#step0 .template-grid .template-card:nth-child(5) h3','产品特写'],
+      ['#step0 .template-grid .template-card:nth-child(5) p','Shopee / Lazada 主图'],
+      ['#step0 .template-grid .template-card:nth-child(6) h3','15秒 Reel'],
+      ['#step0 .template-grid .template-card:nth-child(6) p','TikTok / Instagram'],
+      ['#step0 .divider','或者从第一步自定义'],
+      ['#step0 .btn-primary','开始自定义 →'],
+      // Step 1
+      ['#step1 .step-header h2','选择代言人'],
+      ['#step1 .step-header p','每位代言人有固定的外貌和性格，AI 会根据你的选择生成一致的角色'],
+      ['#rec1 strong','✨ AI 推荐'],
+      ['#step1 [data-value="aisyah"] .opt-desc','28岁 · 马来妈妈 · 厨房料理'],
+      ['#step1 [data-value="meilin"] .opt-desc','32岁 · 华人OL · 养生健康'],
+      ['#step1 [data-value="linda"] .opt-desc','42岁 · 成熟妈妈 · 家庭料理'],
+      ['#step1 [data-value="daniel"] .opt-desc','35岁 · 健康爸爸 · 运动生活'],
+      ['#step1 [data-value="none"] .opt-label','不要代言人'],
+      ['#step1 [data-value="none"] .opt-desc','纯产品 / 静物拍摄'],
+      ['#customAmbCard .opt-label','自定义代言人'],
+      ['#customAmbCard .opt-desc','自己设计外貌特征'],
+      ['#customBuilder h3','✏️ 构造自定义代言人'],
+      ['#step1 .step-nav .btn-secondary','← 返回'],
+      ['#step1 .step-nav .btn-primary','下一步 →'],
+      // Step 2
+      ['#step2 .step-header h2','平台 & 格式'],
+      ['#step2 .step-header p','选择目标平台，比例会自动匹配'],
+      ['#step2 .section-label:nth-of-type(1)','平台'],
+      ['#step2 .section-label:nth-of-type(2)','内容类型'],
+      ['#step2 .section-label:nth-of-type(3)','Caption 语言'],
+      ['#step2 [onclick*="product_hero"] .opt-label','产品主角'],
+      ['#step2 [onclick*="product_hero"] .opt-desc','产品是主角'],
+      ['#step2 [onclick*="lifestyle"] .opt-label','生活方式'],
+      ['#step2 [onclick*="lifestyle"] .opt-desc','代言人+场景'],
+      ['#step2 [onclick*="educational"] .opt-label','教育内容'],
+      ['#step2 [onclick*="educational"] .opt-desc','成分/功效介绍'],
+      ['#step2 [onclick*="promotional"] .opt-label','促销活动'],
+      ['#step2 [onclick*="promotional"] .opt-desc','折扣/特卖'],
+      ['#step2 [onclick*="seasonal"] .opt-label','节庆内容'],
+      ['#step2 [onclick*="seasonal"] .opt-desc','Raya/CNY/节日'],
+      ['#step2 [onclick*="recipe"] .opt-label','食谱 / 教学'],
+      ['#step2 [onclick*="recipe"] .opt-desc','烹饪步骤'],
+      ['#step2 [onclick*="\'bm\'"] .opt-label','Bahasa Malaysia'],
+      ['#step2 [onclick*="\'bm\'"] .opt-desc','马来受众'],
+      ['#step2 [onclick*="\'cn\'"] .opt-label','中文'],
+      ['#step2 [onclick*="\'cn\'"] .opt-desc','华人受众'],
+      ['#step2 [onclick*="\'en\'"] .opt-label','English'],
+      ['#step2 [onclick*="\'en\'"] .opt-desc','通用/B2B'],
+      ['#step2 .step-nav .btn-secondary','← 返回'],
+      ['#step2 .step-nav .btn-primary','下一步 →'],
+      // Step 3
+      ['#step3 .step-header h2','产品 & 主题'],
+      ['#step3 .step-header p','选择要展示的产品，以及是否有特别的活动主题'],
+      ['#step3 .section-label:first-of-type','主打产品'],
+      ['#productSearch',''],  // placeholder handled separately
+      ['#step3 .step-nav .btn-secondary','← 返回'],
+      ['#step3 .step-nav .btn-primary','下一步 →'],
+      // Step 4
+      ['#step4 .step-header h2','场景设置'],
+      ['#step4 .step-header p','选择灯光、背景和构图，打造完美视觉效果'],
+      ['#step4 .section-label:nth-of-type(1)','💡 灯光'],
+      ['#step4 .section-label:nth-of-type(2)','🏞️ 背景'],
+      ['#step4 .section-label:nth-of-type(3)','🖼️ 构图方式'],
+      ['#step4 [onclick*="window"] .opt-label','窗边自然光'],
+      ['#step4 [onclick*="window"] .opt-desc','柔和·家居感·最百搭'],
+      ['#step4 [onclick*="golden"] .opt-label','黄金时段光'],
+      ['#step4 [onclick*="golden"] .opt-desc','温暖·户外·下午感'],
+      ['#step4 [onclick*="overcast"] .opt-label','阴天自然光'],
+      ['#step4 [onclick*="overcast"] .opt-desc','均匀·无阴影·产品清晰'],
+      ['#step4 [onclick*="candle"] .opt-label','烛光 / 灯串'],
+      ['#step4 [onclick*="candle"] .opt-desc','温馨·节庆·Ramadan'],
+      ['#step4 [onclick*="softbox"] .opt-label','柔光箱'],
+      ['#step4 [onclick*="softbox"] .opt-desc','专业·干净·电商主图'],
+      ['#step4 [onclick*="morning"] .opt-label','清晨朦胧光'],
+      ['#step4 [onclick*="morning"] .opt-desc','早晨感·梦幻·早餐场景'],
+      ['#step4 [onclick*="light_wood"] .opt-label','浅木板'],
+      ['#step4 [onclick*="light_wood"] .opt-desc','最百搭 · 暖调自然'],
+      ['#step4 [onclick*="marble"] .opt-label','白色大理石'],
+      ['#step4 [onclick*="marble"] .opt-desc','高级感 · 干净现代'],
+      ['#step4 [onclick*="linen"] .opt-label','麻布 / 亚麻'],
+      ['#step4 [onclick*="linen"] .opt-desc','有机感 · 乡村风'],
+      ['#step4 [onclick*="tiles"] .opt-label','白色厨房砖'],
+      ['#step4 [onclick*="tiles"] .opt-desc','清爽 · 家庭厨房'],
+      ['#step4 [onclick*="garden"] .opt-label','户外花园'],
+      ['#step4 [onclick*="garden"] .opt-desc','新鲜 · 自然有机'],
+      ['#step4 [onclick*="pastel"] .opt-label','粉嫩纯色背景'],
+      ['#step4 [onclick*="pastel"] .opt-desc','产品跳出 · 活泼'],
+      ['#step4 [onclick*="dark_wood"] .opt-label','深色木板'],
+      ['#step4 [onclick*="dark_wood"] .opt-desc','高端沉稳 · 夜间感'],
+      ['#step4 [onclick*="white_seamless"] .opt-label','纯白无缝'],
+      ['#step4 [onclick*="white_seamless"] .opt-desc','电商目录 · 最干净'],
+      ['#step4 [onclick*="flatlay"] .opt-label','俯拍平铺'],
+      ['#step4 [onclick*="flatlay"] .opt-desc','正上方看 · 食材排列'],
+      ['#step4 [onclick*="eyelevel"] .opt-label','平视生活感'],
+      ['#step4 [onclick*="eyelevel"] .opt-desc','自然高度 · 代言人场景'],
+      ['#step4 [onclick*="45deg"] .opt-label','45度角'],
+      ['#step4 [onclick*="45deg"] .opt-desc','经典食物摄影角度'],
+      ['#step4 [onclick*="macro"] .opt-label','微距特写'],
+      ['#step4 [onclick*="macro"] .opt-desc','粉末纹理·极致细节'],
+      ['#step4 [onclick*="thirds"] .opt-label','三分法留白'],
+      ['#step4 [onclick*="thirds"] .opt-desc','一侧留空 · 可加文字'],
+      ['#step4 [onclick*="wide"] .opt-label','宽景环境'],
+      ['#step4 [onclick*="wide"] .opt-desc','人+完整场景可见'],
+      ['#step4 .step-nav .btn-secondary','← 返回'],
+      ['#step4 .step-nav .btn-primary','下一步 →'],
+      // Step 5
+      ['#step5 .step-header h2','动作 & 产品出现方式'],
+      ['#step5 .step-header p','代言人在做什么？产品如何出现在画面中？'],
+      ['#step5 .section-label:nth-of-type(1)','🧍 代言人动作'],
+      ['#step5 .section-label:nth-of-type(2)','📦 产品出现方式'],
+      ['#step5 [onclick*="hold_both"] .opt-label','双手正面持产品'],
+      ['#step5 [onclick*="hold_both"] .opt-desc','经典代言姿势 · 产品最突出'],
+      ['#step5 [onclick*="hold_casual"] .opt-label','单手随意拿'],
+      ['#step5 [onclick*="hold_casual"] .opt-desc','自然生活感 · 不造作'],
+      ['#step5 [onclick*="show_label"] .opt-label','展示产品标签'],
+      ['#step5 [onclick*="show_label"] .opt-desc','手指向标签 · 教育类'],
+      ['#step5 [onclick*="cooking"] .opt-label','下厨使用中'],
+      ['#step5 [onclick*="cooking"] .opt-desc','撒/倒/搅拌产品 · 真实感'],
+      ['#step5 [onclick*="tasting"] .opt-label','品尝表情'],
+      ['#step5 [onclick*="tasting"] .opt-desc','闭眼满足感 · 食物好吃反应'],
+      ['#step5 [onclick*="gifting"] .opt-label','赠礼姿势'],
+      ['#step5 [onclick*="gifting"] .opt-desc','产品向镜头递出 · 节庆'],
+      ['#step5 [onclick*="feeding_baby"] .opt-label','喂宝宝'],
+      ['#step5 [onclick*="feeding_baby"] .opt-desc','亲子互动 · Baby产品'],
+      ['#step5 [onclick*="talking_camera"] .opt-label','对镜头说话'],
+      ['#step5 [onclick*="talking_camera"] .opt-desc','Talking head · 视频用'],
+      ['#step5 [onclick*="portrait_only"] .opt-label','纯人物肖像'],
+      ['#step5 [onclick*="portrait_only"] .opt-desc','代言人只是背景人物'],
+      ['#step5 [onclick*="hold_front"] .opt-label','持产品面向镜头'],
+      ['#step5 [onclick*="hold_front"] .opt-desc','产品包装正面清晰可见'],
+      ['#step5 [onclick*="use_active"] .opt-label','使用中（倒/撒）'],
+      ['#step5 [onclick*="use_active"] .opt-desc','产品液体或粉末倾倒动作'],
+      ['#step5 [onclick*="product_beside"] .opt-label','产品放旁边'],
+      ['#step5 [onclick*="product_beside"] .opt-desc','代言人旁，两者都可见'],
+      ['#step5 [onclick*="product_foreground"] .opt-label','产品在前景'],
+      ['#step5 [onclick*="product_foreground"] .opt-desc','产品清晰，代言人虚化背后'],
+      ['#step5 [onclick*="product_only"] .opt-label','只有产品'],
+      ['#step5 [onclick*="product_only"] .opt-desc','无代言人，纯产品静物'],
+      ['#step5 [onclick*="unboxing"] .opt-label','开箱 / 拆包装'],
+      ['#step5 [onclick*="unboxing"] .opt-desc','收到快递惊喜感'],
+      ['#step5 .step-nav .btn-secondary','← 返回'],
+      ['#step5 .step-nav .btn-primary','查看摘要 →'],
+      // Step 6
+      ['#step6 .step-header h2','✨ 准备生成'],
+      ['#step6 .step-header p','确认你的选项，然后点生成'],
+      ['#loadingIndicator p:first-of-type','AI 正在润色你的 Prompt...'],
+      ['#loadingIndicator p:last-of-type','通常需要 5–10 秒'],
+      // Output
+      ['#outputPanel .output-section:nth-child(1) h3','🖼️ 图片 Prompt (Midjourney / Canva / Leonardo)'],
+      ['#outputPanel .output-section:nth-child(2) h3','🎬 视频 Prompt (Kling / Seedance / Runway)'],
+      ['#outputPanel .output-section:nth-child(3) h3','📝 社媒 Caption'],
+      ['#outputPanel .tool-links span:first-child','用这个 prompt 去：'],
+      ['#outputPanel .output-section:nth-child(2) .tool-links span:first-child','去生成视频：'],
+      ['[onclick="saveToHistory()"]','📋 保存到历史记录'],
+      // History drawer
+      ['#historyDrawer h2','📋 生成历史'],
+      // Photo manager drawer
+      ['#photoDrawer .photo-drawer-header h2','🛍️ 产品管理'],
+      ['#tabPhotos','📷 产品图库'],
+      ['#tabCustom','➕ 我的产品'],
+      // Quick Mode Panel
+      ['#quickModePanel .step-header h2','⚡ Quick Mode — 3步生成'],
+      ['#quickModePanel .step-header p','产品优先，AI 自动配置最佳参数'],
+      ['#quickModePanel .section-label:nth-of-type(1)','① 选择产品'],
+      ['#qmUploadPlaceholder div:nth-child(2)','上传产品照片'],
+      ['#qmUploadPlaceholder div:nth-child(3)','或从下方快速选产品'],
+      ['#quickModePanel .section-label:nth-of-type(2)','② 我要做什么内容？'],
+      ['#quickModePanel .section-label:nth-of-type(3)','③ 代言人（可跳过）'],
+      ['#quickModePanel .expert-hint','⚙ 需要更精细控制？切换 Expert Mode →'],
+      // Quick Mode purpose cards
+      ['#quickModePanel .purpose-card:nth-child(1) .pn','Shopee 主图'],
+      ['#quickModePanel .purpose-card:nth-child(1) .ps','1:1 · 电商'],
+      ['#quickModePanel .purpose-card:nth-child(2) .pn','Instagram Feed'],
+      ['#quickModePanel .purpose-card:nth-child(2) .ps','4:5 · 生活场景'],
+      ['#quickModePanel .purpose-card:nth-child(3) .pn','TikTok / Reel'],
+      ['#quickModePanel .purpose-card:nth-child(3) .ps','9:16 · 视频'],
+      ['#quickModePanel .purpose-card:nth-child(4) .pn','Raya 节庆'],
+      ['#quickModePanel .purpose-card:nth-child(4) .ps','节庆暖金色'],
+      ['#quickModePanel .purpose-card:nth-child(5) .pn','功效教育'],
+      ['#quickModePanel .purpose-card:nth-child(5) .ps','成分 · 健康'],
+      ['#quickModePanel .purpose-card:nth-child(6) .pn','Facebook Post'],
+      ['#quickModePanel .purpose-card:nth-child(6) .ps','16:9 · 横版'],
+      // Quick Mode ambassador chips
+      ['#quickModePanel .qm-amb-row .qm-amb-chip:nth-child(1)','跳过'],
+      // Live Preview — Quick Mode panel (specific)
+      ['#quickModePanel .lp-header span','实时 Prompt 预览'],
+      ['#quickModePanel .lp-copy-btn','复制 Prompt'],
+      ['#quickModePanel .lp-save-btn','📋 保存'],
+      ['#lpBody .lp-placeholder','选择产品 + 内容类型后，Prompt 会在这里实时出现 ✨'],
+      // Gallery section
+      ['#step0 .gallery-section-header h3','✨ 团队最佳案例 — 点击复用配置'],
+      ['#step0 .gallery-add-btn','+ 添加案例'],
+      // Negative Prompt section
+      ['#step6 .neg-prompt-wrap label','🚫 Negative Prompt — 不要出现什么'],
+      // Image to Prompt (step 7)
+      ['#step7 .step-header h2','📷 图片反推 Prompt'],
+      ['#step7 .step-header p','上传你们过去拍得好的照片 → AI 分析风格配方 → 获得可复用的 Love Earth Prompt'],
+      ['#step7 .green-info-box strong','💡 怎么用？'],
+      ['#i2pInfoTitle','💡 怎么用？'],
+      ['#i2pInfoBody','上传一张你们拍得最好的产品照片，AI 会分析它的灯光、构图、背景、色调，给你一个完整的 Prompt 配方。以后拍照时就知道要复制什么风格，还可以直接把分析结果用到生成器里。'],
+      ['#i2pPlaceholder div:nth-child(2)','点击上传照片'],
+      ['#i2pPlaceholder div:nth-child(3)','JPG / PNG · 最大 10MB · 建议上传高质量产品照'],
+      ['#i2pAnalyzing p:first-of-type','AI 正在分析你的照片...'],
+      ['#i2pAnalyzing p:last-of-type','分析灯光、构图、背景、色调 — 约 8–15 秒'],
+      ['#step7 .step-nav .btn-secondary','← 返回生成'],
+      // Expert Live Preview — right panel (specific)
+      ['#expertLivePreview .lp-header span','实时 Prompt 预览'],
+      ['#expertLivePreview .lp-copy-btn','复制 Prompt'],
+      ['#expertLivePreview .lp-save-btn','→ 生成'],
+      ['#expertLivePreview div[style*="font-size:11px"]','选择越多选项，Prompt 越精准'],
+      // Step 6 titles + buttons (now have IDs)
+      ['#s6Title','✨ 准备生成'],
+      ['#s6Desc','确认你的选项，然后点生成'],
+      ['#btnGenerate','✨ 生成 Prompt'],
+      ['#btnRestart','🔄 重新开始'],
+      ['#loadingText','AI 正在润色你的 Prompt...'],
+      ['#loadingSubText','通常需要 5–10 秒'],
+      ['#negPromptLabel','🚫 Negative Prompt — 不要出现什么'],
+      // API warning banner
+      ['#apiBannerTitle','⚠️ API 未配置'],
+      ['#apiBannerBody','你的 Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系管理员配置 Worker。'],
+      // Header buttons unified
+      ['#historyBtn','📋 历史记录'],
+      ['#photoLibBtn','📷 产品图库'],
+      // Quick Mode new elements
+      ['#qmGenBtnText','生成 Prompt'],
+      ['#qmExpertHint','⚙ 需要更精细控制？切换 Expert Mode →'],
+      ['#i2pShortcutTitle','📷 图片反推 Prompt — 上传照片分析风格'],
+      ['#i2pShortcutDesc','上传你们最好的产品照片，AI 分析灯光构图配方'],
+      // Nav 7 sidebar item
+      ['#nav7 span:last-child','图片反推 Prompt 📷'],
+      // Image generation section (step 6)
+      ['.gen-image-title','✨ 在这里直接生成图片'],
+      ['.gen-image-badge','免费 · 无需账号'],
+      ['#genBtnText','🎨 立即生成图片'],
+      ['.gen-label:nth-of-type(1)','风格：'],
+      ['.gen-label:nth-of-type(2)','比例：'],
+      // Step 6 IDs
+      ['#s6Title','✨ 准备生成'],
+      ['#s6Desc','确认你的选项，然后点生成'],
+      ['#btnGenerate','✨ 生成 Prompt'],
+      ['#btnRestart','🔄 重新开始'],
+      ['#loadingText','AI 正在润色你的 Prompt...'],
+      ['#loadingSubText','通常需要 5–10 秒'],
+      ['#negPromptLabel','🚫 Negative Prompt — 不要出现什么'],
+      // API Warning Banner
+      ['#apiBannerTitle','⚠️ API 未配置'],
+      ['#apiBannerBody','Cloudflare Worker URL 还未设置。请填写下方 API Key 直接调用，或联系 Jason 配置 Worker。'],
+      // Header buttons
+      ['#historyBtn','📋 历史记录'],
+      ['#photoLibBtn','📷 产品图库'],
+      // Quick Mode
+      ['#qmGenBtnText','生成 Prompt'],
+    ],
+    en: [
+      ['[data-i18n="history_btn"]','📋 History'],
+      ['#nav0 span[data-i18n]','Quick Start'],['#nav1 span[data-i18n]','Ambassador'],
+      ['#nav2 span[data-i18n]','Platform & Format'],['#nav3 span[data-i18n]','Product & Campaign'],
+      ['#nav4 span[data-i18n]','Scene Setup'],['#nav5 span[data-i18n]','Action & Product'],
+      ['#nav6 span[data-i18n]','✨ Generate'],
+      ['#step0 .step-header h2','What are we creating today? 👋'],
+      ['#step0 .step-header p','Pick a template to start fast, or customize step by step'],
+      ['#step0 .template-grid .template-card:nth-child(1) h3','New Product'],
+      ['#step0 .template-grid .template-card:nth-child(1) p','Instagram Feed hero shot'],
+      ['#step0 .template-grid .template-card:nth-child(2) h3','Raya 2026'],
+      ['#step0 .template-grid .template-card:nth-child(2) p','Festive warm content'],
+      ['#step0 .template-grid .template-card:nth-child(3) h3','Mum & Baby'],
+      ['#step0 .template-grid .template-card:nth-child(3) p','Heartwarming family scene'],
+      ['#step0 .template-grid .template-card:nth-child(4) h3','Healthy Lifestyle'],
+      ['#step0 .template-grid .template-card:nth-child(4) p','Wellness daily routine'],
+      ['#step0 .template-grid .template-card:nth-child(5) h3','Product Close-up'],
+      ['#step0 .template-grid .template-card:nth-child(5) p','Shopee / Lazada main image'],
+      ['#step0 .template-grid .template-card:nth-child(6) h3','15s Reel'],
+      ['#step0 .template-grid .template-card:nth-child(6) p','TikTok / Instagram'],
+      ['#step0 .divider','Or customize from step 1'],
+      ['#step0 .btn-primary','Start Customizing →'],
+      ['#step1 .step-header h2','Choose Ambassador'],
+      ['#step1 .step-header p','Each ambassador has a fixed look. AI generates consistent characters based on your choice.'],
+      ['#rec1 strong','✨ AI Recommendation'],
+      ['#step1 [data-value="aisyah"] .opt-desc','28yo · Malay Mum · Kitchen & cooking'],
+      ['#step1 [data-value="meilin"] .opt-desc','32yo · Chinese OL · Wellness & health'],
+      ['#step1 [data-value="linda"] .opt-desc','42yo · Mature Mum · Family cooking'],
+      ['#step1 [data-value="daniel"] .opt-desc','35yo · Health Dad · Active lifestyle'],
+      ['#step1 [data-value="none"] .opt-label','No Ambassador'],
+      ['#step1 [data-value="none"] .opt-desc','Product / still life only'],
+      ['#customAmbCard .opt-label','Custom Ambassador'],
+      ['#customAmbCard .opt-desc','Design your own character'],
+      ['#customBuilder h3','✏️ Build Custom Ambassador'],
+      ['#step1 .step-nav .btn-secondary','← Back'],
+      ['#step1 .step-nav .btn-primary','Next →'],
+      ['#step2 .step-header h2','Platform & Format'],
+      ['#step2 .step-header p','Choose your target platform — ratio auto-matches'],
+      ['#step2 .section-label:nth-of-type(1)','Platform'],
+      ['#step2 .section-label:nth-of-type(2)','Content Type'],
+      ['#step2 .section-label:nth-of-type(3)','Caption Language'],
+      ['#step2 [onclick*="product_hero"] .opt-label','Product Hero'],
+      ['#step2 [onclick*="product_hero"] .opt-desc','Product is the star'],
+      ['#step2 [onclick*="lifestyle"] .opt-label','Lifestyle'],
+      ['#step2 [onclick*="lifestyle"] .opt-desc','Ambassador + scene'],
+      ['#step2 [onclick*="educational"] .opt-label','Educational'],
+      ['#step2 [onclick*="educational"] .opt-desc','Ingredients / benefits'],
+      ['#step2 [onclick*="promotional"] .opt-label','Promotional'],
+      ['#step2 [onclick*="promotional"] .opt-desc','Discount / sale'],
+      ['#step2 [onclick*="seasonal"] .opt-label','Seasonal'],
+      ['#step2 [onclick*="seasonal"] .opt-desc','Raya/CNY/Holiday'],
+      ['#step2 [onclick*="recipe"] .opt-label','Recipe / Tutorial'],
+      ['#step2 [onclick*="recipe"] .opt-desc','Cooking steps'],
+      ['#step2 [onclick*="\'bm\'"] .opt-label','Bahasa Malaysia'],
+      ['#step2 [onclick*="\'bm\'"] .opt-desc','Malay audience'],
+      ['#step2 [onclick*="\'cn\'"] .opt-label','中文'],
+      ['#step2 [onclick*="\'cn\'"] .opt-desc','Chinese audience'],
+      ['#step2 [onclick*="\'en\'"] .opt-label','English'],
+      ['#step2 [onclick*="\'en\'"] .opt-desc','General / B2B'],
+      ['#step2 .step-nav .btn-secondary','← Back'],
+      ['#step2 .step-nav .btn-primary','Next →'],
+      ['#step3 .step-header h2','Product & Campaign'],
+      ['#step3 .step-header p','Choose the product to feature, and any seasonal campaign'],
+      ['#step3 .section-label:first-of-type','Main Product'],
+      ['#step3 .step-nav .btn-secondary','← Back'],
+      ['#step3 .step-nav .btn-primary','Next →'],
+      ['#step4 .step-header h2','Scene Setup'],
+      ['#step4 .step-header p','Choose lighting, background and composition'],
+      ['#step4 .section-label:nth-of-type(1)','💡 Lighting'],
+      ['#step4 .section-label:nth-of-type(2)','🏞️ Background'],
+      ['#step4 .section-label:nth-of-type(3)','🖼️ Composition'],
+      ['#step4 [onclick*="window"] .opt-label','Window Light'],
+      ['#step4 [onclick*="window"] .opt-desc','Soft · Home feel · Most versatile'],
+      ['#step4 [onclick*="golden"] .opt-label','Golden Hour'],
+      ['#step4 [onclick*="golden"] .opt-desc','Warm · Outdoor · Afternoon glow'],
+      ['#step4 [onclick*="overcast"] .opt-label','Overcast Daylight'],
+      ['#step4 [onclick*="overcast"] .opt-desc','Even · No shadows · Clean product shot'],
+      ['#step4 [onclick*="candle"] .opt-label','Candle / Fairy Lights'],
+      ['#step4 [onclick*="candle"] .opt-desc','Cozy · Festive · Ramadan'],
+      ['#step4 [onclick*="softbox"] .opt-label','Softbox Studio'],
+      ['#step4 [onclick*="softbox"] .opt-desc','Professional · Clean · E-commerce'],
+      ['#step4 [onclick*="morning"] .opt-label','Morning Haze'],
+      ['#step4 [onclick*="morning"] .opt-desc','Dreamy · Warm · Breakfast scene'],
+      ['#step4 [onclick*="light_wood"] .opt-label','Light Wood'],
+      ['#step4 [onclick*="light_wood"] .opt-desc','Most versatile · Warm natural'],
+      ['#step4 [onclick*="marble"] .opt-label','White Marble'],
+      ['#step4 [onclick*="marble"] .opt-desc','Premium · Clean modern'],
+      ['#step4 [onclick*="linen"] .opt-label','Linen / Burlap'],
+      ['#step4 [onclick*="linen"] .opt-desc','Organic feel · Rustic'],
+      ['#step4 [onclick*="tiles"] .opt-label','White Kitchen Tiles'],
+      ['#step4 [onclick*="tiles"] .opt-desc','Fresh · Home kitchen'],
+      ['#step4 [onclick*="garden"] .opt-label','Outdoor Garden'],
+      ['#step4 [onclick*="garden"] .opt-desc','Fresh · Natural organic'],
+      ['#step4 [onclick*="pastel"] .opt-label','Pastel Backdrop'],
+      ['#step4 [onclick*="pastel"] .opt-desc','Product pops · Playful'],
+      ['#step4 [onclick*="dark_wood"] .opt-label','Dark Wood'],
+      ['#step4 [onclick*="dark_wood"] .opt-desc','Premium · Moody evening'],
+      ['#step4 [onclick*="white_seamless"] .opt-label','White Seamless'],
+      ['#step4 [onclick*="white_seamless"] .opt-desc','E-commerce · Cleanest'],
+      ['#step4 [onclick*="flatlay"] .opt-label','Overhead Flat Lay'],
+      ['#step4 [onclick*="flatlay"] .opt-desc','Top-down · Ingredient arrangement'],
+      ['#step4 [onclick*="eyelevel"] .opt-label','Eye-Level Lifestyle'],
+      ['#step4 [onclick*="eyelevel"] .opt-desc','Natural height · Ambassador scene'],
+      ['#step4 [onclick*="45deg"] .opt-label','45° Angle'],
+      ['#step4 [onclick*="45deg"] .opt-desc','Classic food photography angle'],
+      ['#step4 [onclick*="macro"] .opt-label','Macro Close-up'],
+      ['#step4 [onclick*="macro"] .opt-desc','Powder texture · Extreme detail'],
+      ['#step4 [onclick*="thirds"] .opt-label','Rule of Thirds'],
+      ['#step4 [onclick*="thirds"] .opt-desc','Off-center · Space for text'],
+      ['#step4 [onclick*="wide"] .opt-label','Wide Environmental'],
+      ['#step4 [onclick*="wide"] .opt-desc','Person + full scene visible'],
+      ['#step4 .step-nav .btn-secondary','← Back'],
+      ['#step4 .step-nav .btn-primary','Next →'],
+      ['#step5 .step-header h2','Action & Product Presence'],
+      ['#step5 .step-header p','What is the ambassador doing? How does the product appear?'],
+      ['#step5 .section-label:nth-of-type(1)','🧍 Ambassador Action'],
+      ['#step5 .section-label:nth-of-type(2)','📦 Product Presence'],
+      ['#step5 [onclick*="hold_both"] .opt-label','Hold — Both Hands'],
+      ['#step5 [onclick*="hold_both"] .opt-desc','Classic endorsement · Product front and center'],
+      ['#step5 [onclick*="hold_casual"] .opt-label','Hold — One Hand Casual'],
+      ['#step5 [onclick*="hold_casual"] .opt-desc','Natural lifestyle · Relaxed'],
+      ['#step5 [onclick*="show_label"] .opt-label','Show Product Label'],
+      ['#step5 [onclick*="show_label"] .opt-desc','Point to label · Educational'],
+      ['#step5 [onclick*="cooking"] .opt-label','Cooking with Product'],
+      ['#step5 [onclick*="cooking"] .opt-desc','Sprinkling/pouring · Authentic'],
+      ['#step5 [onclick*="tasting"] .opt-label','Tasting Reaction'],
+      ['#step5 [onclick*="tasting"] .opt-desc','Eyes closed · Deeply satisfied'],
+      ['#step5 [onclick*="gifting"] .opt-label','Gifting Pose'],
+      ['#step5 [onclick*="gifting"] .opt-desc','Offering to camera · Festive'],
+      ['#step5 [onclick*="feeding_baby"] .opt-label','Feeding Baby'],
+      ['#step5 [onclick*="feeding_baby"] .opt-desc','Parent-child · Baby products'],
+      ['#step5 [onclick*="talking_camera"] .opt-label','Talking to Camera'],
+      ['#step5 [onclick*="talking_camera"] .opt-desc','Talking head · For video'],
+      ['#step5 [onclick*="portrait_only"] .opt-label','Lifestyle Portrait'],
+      ['#step5 [onclick*="portrait_only"] .opt-desc','Ambassador as background only'],
+      ['#step5 [onclick*="hold_front"] .opt-label','Product Facing Camera'],
+      ['#step5 [onclick*="hold_front"] .opt-desc','Packaging clearly visible front-on'],
+      ['#step5 [onclick*="use_active"] .opt-label','Product in Use (pour/sprinkle)'],
+      ['#step5 [onclick*="use_active"] .opt-desc','Liquid or powder in motion'],
+      ['#step5 [onclick*="product_beside"] .opt-label','Product Beside Ambassador'],
+      ['#step5 [onclick*="product_beside"] .opt-desc','Both visible in frame'],
+      ['#step5 [onclick*="product_foreground"] .opt-label','Product in Foreground'],
+      ['#step5 [onclick*="product_foreground"] .opt-desc','Product sharp · Ambassador blurred behind'],
+      ['#step5 [onclick*="product_only"] .opt-label','Product Only'],
+      ['#step5 [onclick*="product_only"] .opt-desc','No ambassador · Pure still life'],
+      ['#step5 [onclick*="unboxing"] .opt-label','Unboxing'],
+      ['#step5 [onclick*="unboxing"] .opt-desc','Opening delivery · Excitement'],
+      ['#step5 .step-nav .btn-secondary','← Back'],
+      ['#step5 .step-nav .btn-primary','View Summary →'],
+      ['#step6 .step-header h2','✨ Ready to Generate'],
+      ['#step6 .step-header p','Confirm your selections, then generate'],
+      ['#loadingIndicator p:first-of-type','AI is polishing your prompt...'],
+      ['#loadingIndicator p:last-of-type','Usually takes 5–10 seconds'],
+      ['#outputPanel .output-section:nth-child(1) h3','🖼️ Image Prompt (Midjourney / Canva / Leonardo)'],
+      ['#outputPanel .output-section:nth-child(2) h3','🎬 Video Prompt (Kling / Seedance / Runway)'],
+      ['#outputPanel .output-section:nth-child(3) h3','📝 Social Media Caption'],
+      ['#outputPanel .tool-links span:first-child','Use this prompt in:'],
+      ['#outputPanel .output-section:nth-child(2) .tool-links span:first-child','Generate video in:'],
+      ['[onclick="saveToHistory()"]','📋 Save to History'],
+      ['#historyDrawer h2','📋 Generation History'],
+      ['#photoDrawer .photo-drawer-header h2','🛍️ Product Manager'],
+      ['#tabPhotos','📷 Photo Library'],
+      ['#tabCustom','➕ My Products'],
+      // Quick Mode Panel
+      ['#quickModePanel .step-header h2','⚡ Quick Mode — 3 Steps'],
+      ['#quickModePanel .step-header p','Product first — AI auto-configures the best settings'],
+      ['#quickModePanel .section-label:nth-of-type(1)','① Choose a product'],
+      ['#qmUploadPlaceholder div:nth-child(2)','Upload product photo'],
+      ['#qmUploadPlaceholder div:nth-child(3)','Or pick quickly from below'],
+      ['#quickModePanel .section-label:nth-of-type(2)','② What do you want to create?'],
+      ['#quickModePanel .section-label:nth-of-type(3)','③ Ambassador (optional)'],
+      ['#quickModePanel .expert-hint','⚙ Need more control? Switch to Expert Mode →'],
+      // Quick Mode purpose cards
+      ['#quickModePanel .purpose-card:nth-child(1) .pn','Shopee Main Image'],
+      ['#quickModePanel .purpose-card:nth-child(1) .ps','1:1 · E-commerce'],
+      ['#quickModePanel .purpose-card:nth-child(2) .pn','Instagram Feed'],
+      ['#quickModePanel .purpose-card:nth-child(2) .ps','4:5 · Lifestyle scene'],
+      ['#quickModePanel .purpose-card:nth-child(3) .pn','TikTok / Reel'],
+      ['#quickModePanel .purpose-card:nth-child(3) .ps','9:16 · Video'],
+      ['#quickModePanel .purpose-card:nth-child(4) .pn','Raya Festive'],
+      ['#quickModePanel .purpose-card:nth-child(4) .ps','Warm gold festive'],
+      ['#quickModePanel .purpose-card:nth-child(5) .pn','Benefits Education'],
+      ['#quickModePanel .purpose-card:nth-child(5) .ps','Ingredients · Health'],
+      ['#quickModePanel .purpose-card:nth-child(6) .pn','Facebook Post'],
+      ['#quickModePanel .purpose-card:nth-child(6) .ps','16:9 · Wide format'],
+      // Quick Mode ambassador chips
+      ['#quickModePanel .qm-amb-row .qm-amb-chip:nth-child(1)','Skip'],
+      // Live Preview — Quick Mode panel (specific)
+      ['#quickModePanel .lp-header span','Live Prompt Preview'],
+      ['#quickModePanel .lp-copy-btn','Copy Prompt'],
+      ['#quickModePanel .lp-save-btn','📋 Save'],
+      ['#lpBody .lp-placeholder','Select product + content type — Prompt updates here live ✨'],
+      // Gallery section
+      ['#step0 .gallery-section-header h3','✨ Team Best Cases — Click to Reuse Config'],
+      ['#step0 .gallery-add-btn','+ Add Case'],
+      // Negative Prompt section
+      ['#step6 .neg-prompt-wrap label','🚫 Negative Prompt — What to exclude'],
+      // Image to Prompt (step 7) — full translation
+      ['#step7 .step-header h2','📷 Image to Prompt'],
+      ['#step7 .step-header p','Upload your best product photo → AI extracts style → Get a reusable Love Earth prompt recipe'],
+      ['#step7 .green-info-box strong','💡 How to use?'],
+      ['#i2pInfoTitle','💡 How to use?'],
+      ['#i2pInfoBody','Upload your best product photo. AI will analyse its lighting, composition, background and colour mood — giving you a complete prompt recipe. Use this to replicate the same style, or apply it directly to the generator.'],
+      ['#i2pPlaceholder div:nth-child(2)','Click to upload photo'],
+      ['#i2pPlaceholder div:nth-child(3)','JPG / PNG · Max 10MB · High quality photo recommended'],
+      ['#i2pAnalyzing p:first-of-type','AI is analysing your photo...'],
+      ['#i2pAnalyzing p:last-of-type','Analysing lighting, composition, background, mood — ~8–15 sec'],
+      ['#step7 .step-nav .btn-secondary','← Back to Generate'],
+      // Image to Prompt result sections
+      ['#step7 .i2p-section:nth-child(1) .i2p-section-header span:first-child','✨ Style Essence (one-line summary)'],
+      ['#step7 .i2p-section:nth-child(2) .i2p-section-header','🔍 Extracted Shoot Parameters'],
+      ['#step7 .i2p-section:nth-child(3) .i2p-section-header span:first-child','🎨 Midjourney Prompt (ready to use)'],
+      ['#step7 .i2p-section:nth-child(4) .i2p-section-header span:first-child','🎬 Kling AI Video Prompt'],
+      ['#step7 .i2p-section:nth-child(5) .i2p-section-header','🚫 Suggested Negative Prompt'],
+      // Expert Live Preview — right panel (specific)
+      ['#expertLivePreview .lp-header span','Live Prompt Preview'],
+      ['#expertLivePreview .lp-copy-btn','Copy Prompt'],
+      ['#expertLivePreview .lp-save-btn','→ Generate'],
+      ['#expertLivePreview div[style*="font-size:11px"]','More selections = more precise prompt'],
+      // Step 6 titles + buttons (now have IDs)
+      ['#s6Title','✨ Ready to Generate'],
+      ['#s6Desc','Confirm your selections, then generate'],
+      ['#btnGenerate','✨ Generate Prompt'],
+      ['#btnRestart','🔄 Start Over'],
+      ['#loadingText','AI is polishing your prompt...'],
+      ['#loadingSubText','Usually takes 5–10 seconds'],
+      ['#negPromptLabel','🚫 Negative Prompt — What to exclude'],
+      // API warning banner
+      ['#apiBannerTitle','⚠️ API Not Configured'],
+      ['#apiBannerBody','Your Cloudflare Worker URL is not yet set. Enter an API Key below to call directly, or contact your admin to configure the Worker.'],
+      // Header buttons
+      ['#historyBtn','📋 History'],
+      ['#photoLibBtn','📷 Product Library'],
+      // Quick Mode new elements
+      ['#qmGenBtnText','Generate Prompt'],
+      ['#qmExpertHint','⚙ Need more control? Switch to Expert Mode →'],
+      ['#i2pShortcutTitle','📷 Image to Prompt — Upload photo to analyse style'],
+      ['#i2pShortcutDesc','Upload your best product photo, AI analyses lighting & composition'],
+      // Nav 7 sidebar item
+      ['#nav7 span:last-child','Image to Prompt 📷'],
+      // Image generation section (step 6)
+      ['.gen-image-title','✨ Generate image right here'],
+      ['.gen-image-badge','Free · No account needed'],
+      ['#genBtnText','🎨 Generate Image Now'],
+      ['.gen-label:nth-of-type(1)','Style:'],
+      ['.gen-label:nth-of-type(2)','Ratio:'],
+      // Image gen style chips
+      ['#genImageSection .gen-chip:nth-child(1)','Auto'],
+      ['#genImageSection .gen-chip:nth-child(2)','Photorealistic'],
+      ['#genImageSection .gen-chip:nth-child(3)','Watercolour'],
+      ['#genImageSection .gen-chip:nth-child(4)','Flat design'],
+      ['#genImageSection .gen-chip:nth-child(5)','Cinematic'],
+      // Image gen result actions
+      ['#genResult .gen-action-btn:nth-child(1)','🔄 Regenerate'],
+      ['#genResult .gen-action-btn:nth-child(2)','✨ Generate 4 Variations'],
+      ['#genResult .gen-action-btn:nth-child(3)','💾 Save to Gallery'],
+      // Step 6 IDs
+      ['#s6Title','✨ Ready to Generate'],
+      ['#s6Desc','Confirm your selections, then generate'],
+      ['#btnGenerate','✨ Generate Prompt'],
+      ['#btnRestart','🔄 Start Over'],
+      ['#loadingText','AI is polishing your prompt...'],
+      ['#loadingSubText','Usually takes 5–10 seconds'],
+      ['#negPromptLabel','🚫 Negative Prompt — What to exclude'],
+      // API Warning Banner
+      ['#apiBannerTitle','⚠️ API not configured'],
+      ['#apiBannerBody','Your Cloudflare Worker URL is not set up yet. Enter your API Key below to call directly, or ask Jason to configure the Worker.'],
+      // Header buttons
+      ['#historyBtn','📋 History'],
+      ['#photoLibBtn','📷 Product Library'],
+      // Quick Mode
+      ['#qmGenBtnText','Generate Prompt'],
+      ['#qmExpertHint','⚙ Need more control? Switch to Expert Mode →'],
+      ['#i2pShortcutTitle','📷 Image to Prompt — Upload photo to analyse style'],
+      ['#i2pShortcutDesc','Upload your best product photo — AI analyses lighting & composition'],
+    ]
+  };
+
+  // Apply all text updates
+  UI[lang].forEach(([selector, text]) => {
+    if(!text) return; // skip empty entries
+    document.querySelectorAll(selector).forEach(el => { el.textContent = text; });
   });
+
   // Update placeholders
+  const placeholders = {
+    cn: { productSearch:'搜索产品...' },
+    en: { productSearch:'Search products...' }
+  };
+  const ph = placeholders[lang];
+  const searchEl = document.getElementById('productSearch');
+  if(searchEl && ph) searchEl.placeholder = ph.productSearch;
+
+  // Update Quick Mode product chip labels (bilingual)
+  const prodChipLabels = {
+    cn: ['🍄 蘑菇粉','👶 Baby Rice','🥣 Granolove','🟡 姜黄粉','🥜 坚果','🥛 燕麦饮'],
+    en: ['🍄 Mushroom','👶 Baby Rice','🥣 Granolove','🟡 Turmeric','🥜 Nuts','🥛 Oat Drink']
+  };
+  const chips = document.querySelectorAll('#quickModePanel .qm-left > div:nth-child(4) .qm-amb-chip');
+  chips.forEach((chip, i) => {
+    if(prodChipLabels[lang][i]) chip.textContent = prodChipLabels[lang][i];
+  });
+
+  // Update live preview placeholder if empty state
+  const lpBody = document.getElementById('lpBody');
+  if(lpBody && lpBody.querySelector('.lp-placeholder')) {
+    lpBody.innerHTML = `<div class="lp-placeholder">${lang==='en' ? 'Select product + content type — Prompt updates here live ✨' : '选择产品 + 内容类型后，Prompt 会在这里实时出现 ✨'}</div>`;
+  }
+  const lpBodyExpert = document.getElementById('lpBodyExpert');
+  if(lpBodyExpert && lpBodyExpert.querySelector('.lp-placeholder')) {
+    lpBodyExpert.innerHTML = `<div class="lp-placeholder">${lang==='en' ? 'Select options — Prompt updates here live ✨' : '选择选项后，Prompt 在这里实时更新 ✨'}</div>`;
+  }
+
+  // Also update all data-i18n-placeholder elements
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
-    if(i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
+    if(i18n[lang]?.[key]) el.placeholder = i18n[lang][key];
   });
-  // Re-render products in new language
+
+  // Re-render products and copy buttons in new language
   renderProducts(currentCat, document.getElementById('productSearch')?.value || '');
+
+  // Update copy buttons that are currently showing default state
+  document.querySelectorAll('.btn-copy').forEach(btn => {
+    if(!btn.classList.contains('copied')) {
+      btn.textContent = lang === 'en' ? 'Copy' : '复制';
+    }
+  });
+
+  // Refresh sidebar tip in new language
+  updateSidebarTip();
+  // Refresh summary if on step 6 (so labels update immediately)
+  if(currentStep === 6) buildSummary();
+  // Refresh gallery (reuse button labels)
+  renderGallery();
 }
 
 function t(key) { return i18n[currentLang][key] || key; }
@@ -1359,11 +2663,15 @@ function renderProducts(cat, search) {
   grid.innerHTML = filtered.map(p => {
     const pData = p[currentLang] || p.cn;
     const sel = isSelected(p.id) ? 'selected' : '';
-    const imgEl = p.img
-      ? `<img src="${p.img}" alt="${pData.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\"font-size:32px\\">${p.emoji}</span>'">`
-      : `<span style="font-size:32px">${p.emoji}</span>`;
-    return `<div class="opt-card ${sel}" id="prodCard_${p.id}" onclick="selectProduct('${p.id}',this)">
-      <div class="opt-img placeholder" style="display:flex;align-items:center;justify-content:center">${imgEl}</div>
+    const uploadedPhoto = getProductPhoto(p.id);
+    const imgEl = uploadedPhoto
+      ? `<img src="data:image/jpeg;base64,${uploadedPhoto}" alt="${pData.name}" style="width:100%;height:100%;object-fit:cover">`
+      : p.img
+        ? `<img src="${p.img}" alt="${pData.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\"font-size:32px\\">${p.emoji}</span>'">`
+        : `<span style="font-size:32px">${p.emoji}</span>`;
+    const photoBadge = uploadedPhoto ? '<span class="photo-badge">📷</span>' : '';
+    return `<div class="opt-card ${sel}" id="prodCard_${p.id}" onclick="selectProduct('${p.id}',this)" style="position:relative">
+      <div class="opt-img placeholder" style="display:flex;align-items:center;justify-content:center;position:relative">${imgEl}${photoBadge}</div>
       <div class="opt-body">
         <span class="opt-label">${pData.name}</span>
         <span class="opt-desc">${pData.desc}</span>
@@ -1609,40 +2917,85 @@ function applyTemplate(tpl) {
 
 // ─── SUMMARY ───
 const stepLabels = {
-  ambassador:'代言人', platform:'平台', content_type:'内容类型', language:'语言',
-  product:'产品', campaign:'活动主题', lighting:'灯光', background:'背景',
-  composition:'构图', action:'动作', product_presence:'产品出现方式'
+  cn: {
+    ambassador:'代言人', platform:'平台', content_type:'内容类型', language:'语言',
+    product:'产品', campaign:'活动主题', lighting:'灯光', background:'背景',
+    composition:'构图', action:'动作', product_presence:'产品出现方式'
+  },
+  en: {
+    ambassador:'Ambassador', platform:'Platform', content_type:'Content Type', language:'Language',
+    product:'Product', campaign:'Campaign', lighting:'Lighting', background:'Background',
+    composition:'Composition', action:'Action', product_presence:'Product Presence'
+  }
 };
 const stepLabelValues = {
-  ambassador:{aisyah:'Aisyah 🧕',meilin:'Mei Lin 👩',linda:'Linda 👩‍🦱',daniel:'Daniel 👨',none:'无代言人'},
-  platform:{instagram_feed:'Instagram Feed 📸',instagram_story:'IG Story 📱',tiktok:'TikTok 🎵',facebook:'Facebook 👥',shopee:'Shopee 🛒',pinterest:'Pinterest 📌'},
-  content_type:{product_hero:'产品主角',lifestyle:'生活方式',educational:'教育',promotional:'促销',seasonal:'节庆',recipe:'食谱'},
-  language:{bm:'Bahasa Malaysia 🇲🇾',cn:'中文 🇨🇳',en:'English 🌐'},
-  product:{mushroom:'蘑菇调味粉 🍄',baby_rice:'Baby Rice 👶',granolove:'Granolove 🥣',turmeric:'姜黄粉 🟡',ginger:'生姜粉 🌱',nuts:'坚果 🥜',oat_drink:'燕麦饮 🥛',bundle:'Bundle 礼盒 🎁'},
-  campaign:{raya:'Raya 2026 🌙',cny:'农历新年 🏮',mothers_day:"母亲节 💐",ramadan:'斋月 ⭐',sale:'促销 🏷️',new_launch:'新品发布 🆕',null:'无'},
-  lighting:{window:'窗边自然光 ☀️',golden:'黄金时段 🌅',overcast:'阴天光 ☁️',candle:'烛光 🕯️',softbox:'柔光箱 🔆',morning:'清晨光 🌤️'},
-  background:{light_wood:'浅木板 🪵',marble:'大理石 ⬜',linen:'麻布 🧵',tiles:'厨房砖 🔲',garden:'花园 🌿',pastel:'粉色背景 🎨',dark_wood:'深木板 🌑',white_seamless:'白无缝 🟦'},
-  composition:{flatlay:'俯拍平铺 ⬆️',eyelevel:'平视 👁️','45deg':'45度 📐',macro:'微距 🔍',thirds:'三分法 📋',wide:'宽景 🌐'},
-  action:{hold_both:'双手持产品 🤲',hold_casual:'单手拿 ✋',show_label:'展示标签 🏷️',cooking:'下厨 🍳',tasting:'品尝 😋',gifting:'赠礼 🎁',feeding_baby:'喂宝宝 🥄',talking_camera:'对镜说话 🗣️',portrait_only:'生活肖像 🙋'},
-  product_presence:{hold_front:'持产品面镜 📸',use_active:'使用中 🫗',product_beside:'产品旁边 ↔️',product_foreground:'产品前景 🔭',product_only:'只有产品 🎯',unboxing:'开箱 📬'}
+  cn: {
+    ambassador:{aisyah:'Aisyah 🧕',meilin:'Mei Lin 👩',linda:'Linda 👩‍🦱',daniel:'Daniel 👨',none:'无代言人'},
+    platform:{instagram_feed:'Instagram Feed 📸',instagram_story:'IG Story 📱',tiktok:'TikTok 🎵',facebook:'Facebook 👥',shopee:'Shopee 🛒',pinterest:'Pinterest 📌'},
+    content_type:{product_hero:'产品主角',lifestyle:'生活方式',educational:'教育',promotional:'促销',seasonal:'节庆',recipe:'食谱'},
+    language:{bm:'Bahasa Malaysia 🇲🇾',cn:'中文 🇨🇳',en:'English 🌐'},
+    product:{mushroom:'蘑菇调味粉 🍄',baby_rice:'Baby Rice 👶',granolove:'Granolove 🥣',turmeric:'姜黄粉 🟡',ginger:'生姜粉 🌱',nuts:'坚果 🥜',oat_drink:'燕麦饮 🥛',bundle:'Bundle 礼盒 🎁'},
+    campaign:{raya:'Raya 2026 🌙',cny:'农历新年 🏮',mothers_day:"母亲节 💐",ramadan:'斋月 ⭐',sale:'促销 🏷️',new_launch:'新品发布 🆕'},
+    lighting:{window:'窗边自然光 ☀️',golden:'黄金时段 🌅',overcast:'阴天光 ☁️',candle:'烛光 🕯️',softbox:'柔光箱 🔆',morning:'清晨光 🌤️'},
+    background:{light_wood:'浅木板 🪵',marble:'大理石 ⬜',linen:'麻布 🧵',tiles:'厨房砖 🔲',garden:'花园 🌿',pastel:'粉色背景 🎨',dark_wood:'深木板 🌑',white_seamless:'白无缝 🟦'},
+    composition:{flatlay:'俯拍平铺 ⬆️',eyelevel:'平视 👁️','45deg':'45度 📐',macro:'微距 🔍',thirds:'三分法 📋',wide:'宽景 🌐'},
+    action:{hold_both:'双手持产品 🤲',hold_casual:'单手拿 ✋',show_label:'展示标签 🏷️',cooking:'下厨 🍳',tasting:'品尝 😋',gifting:'赠礼 🎁',feeding_baby:'喂宝宝 🥄',talking_camera:'对镜说话 🗣️',portrait_only:'生活肖像 🙋'},
+    product_presence:{hold_front:'持产品面镜 📸',use_active:'使用中 🫗',product_beside:'产品旁边 ↔️',product_foreground:'产品前景 🔭',product_only:'只有产品 🎯',unboxing:'开箱 📬'}
+  },
+  en: {
+    ambassador:{aisyah:'Aisyah 🧕',meilin:'Mei Lin 👩',linda:'Linda 👩‍🦱',daniel:'Daniel 👨',none:'No Ambassador'},
+    platform:{instagram_feed:'Instagram Feed 📸',instagram_story:'IG Story 📱',tiktok:'TikTok 🎵',facebook:'Facebook 👥',shopee:'Shopee 🛒',pinterest:'Pinterest 📌'},
+    content_type:{product_hero:'Product Hero',lifestyle:'Lifestyle',educational:'Educational',promotional:'Promotional',seasonal:'Seasonal',recipe:'Recipe'},
+    language:{bm:'Bahasa Malaysia 🇲🇾',cn:'中文 🇨🇳',en:'English 🌐'},
+    product:{mushroom:'Mushroom Seasoning 🍄',baby_rice:'Baby Rice 👶',granolove:'Granolove 🥣',turmeric:'Turmeric 🟡',ginger:'Ginger 🌱',nuts:'Nuts 🥜',oat_drink:'Oat Drink 🥛',bundle:'Bundle 🎁'},
+    campaign:{raya:'Raya 2026 🌙',cny:'Chinese New Year 🏮',mothers_day:"Mother's Day 💐",ramadan:'Ramadan ⭐',sale:'Promo Sale 🏷️',new_launch:'New Launch 🆕'},
+    lighting:{window:'Window Light ☀️',golden:'Golden Hour 🌅',overcast:'Overcast ☁️',candle:'Candle Light 🕯️',softbox:'Softbox 🔆',morning:'Morning Haze 🌤️'},
+    background:{light_wood:'Light Wood 🪵',marble:'White Marble ⬜',linen:'Linen 🧵',tiles:'Kitchen Tiles 🔲',garden:'Garden 🌿',pastel:'Pastel Backdrop 🎨',dark_wood:'Dark Wood 🌑',white_seamless:'White Seamless 🟦'},
+    composition:{flatlay:'Flat Lay ⬆️',eyelevel:'Eye Level 👁️','45deg':'45° Angle 📐',macro:'Macro 🔍',thirds:'Rule of Thirds 📋',wide:'Wide Shot 🌐'},
+    action:{hold_both:'Hold — Both Hands 🤲',hold_casual:'Hold — Casual ✋',show_label:'Show Label 🏷️',cooking:'Cooking 🍳',tasting:'Tasting 😋',gifting:'Gifting 🎁',feeding_baby:'Feeding Baby 🥄',talking_camera:'Talking to Camera 🗣️',portrait_only:'Lifestyle Portrait 🙋'},
+    product_presence:{hold_front:'Product to Camera 📸',use_active:'In Active Use 🫗',product_beside:'Product Beside 🎁️',product_foreground:'Product Foreground 🔭',product_only:'Product Only 🎯',unboxing:'Unboxing 📬'}
+  }
 };
 
 function buildSummary() {
   const grid = document.getElementById('summaryGrid');
   const entries = ['ambassador','platform','content_type','language','product','campaign','lighting','background','composition','action','product_presence'];
+  const labels = stepLabels[currentLang] || stepLabels.cn;
+  const values = stepLabelValues[currentLang] || stepLabelValues.cn;
+  const unset = currentLang === 'en' ? '<span style="color:var(--text-soft)">Not selected</span>' : '<span style="color:var(--text-soft)">未选择</span>';
+  const editHint = currentLang === 'en' ? 'Click to edit' : '点击修改';
+  const customAmbLabel = currentLang === 'en' ? 'Custom Ambassador ✏️' : (state.customAmbassadorName || '自定义代言人') + ' ✏️';
+  const customProdLabel = currentLang === 'en' ? 'Custom Product ✏️' : (state.customProductName || '自定义产品') + ' ✏️';
+
   grid.innerHTML = entries.map(k => {
     const raw = state[k];
     let display;
     if(k==='ambassador' && raw==='custom') {
-      display = (state.customAmbassadorName || '自定义代言人') + ' ✏️';
+      display = currentLang==='en' ? customAmbLabel : (state.customAmbassadorName || '自定义代言人') + ' ✏️';
     } else if(k==='product' && raw==='custom_product') {
-      display = (state.customProductName || '自定义产品') + ' ✏️';
+      display = currentLang==='en' ? customProdLabel : (state.customProductName || '自定义产品') + ' ✏️';
     } else {
-      display = raw ? (stepLabelValues[k]?.[raw] || raw) : '<span style="color:var(--text-soft)">未选择</span>';
+      display = raw ? (values[k]?.[raw] || raw) : unset;
     }
     const targetStep = summaryStepMap[k] || 1;
-    return `<div class="summary-item" onclick="goStep(${targetStep})" title="点击修改"><label>${stepLabels[k]}</label><span>${display}</span></div>`;
+    return `<div class="summary-item" onclick="goStep(${targetStep})" title="${editHint}"><label>${labels[k]}</label><span>${display}</span></div>`;
   }).join('');
+
+  // Show product photo status
+  const hasPhoto = state.product && state.product !== 'custom_product'
+    ? !!getProductPhoto(state.product)
+    : !!state.customProductPhotoB64;
+  const photoLabel = currentLang === 'en' ? 'Product Reference Photo' : '产品参考图';
+  const photoRow = document.createElement('div');
+  photoRow.className = 'summary-item';
+  photoRow.style.gridColumn = '1 / -1';
+  photoRow.style.background = hasPhoto ? 'var(--green-light)' : 'var(--white)';
+  photoRow.style.borderColor = hasPhoto ? 'var(--green)' : '';
+  photoRow.style.cursor = 'default';
+  photoRow.innerHTML = hasPhoto
+    ? `<label>${photoLabel}</label><span style="color:var(--green-dark)">📷 ${currentLang==='en'?'Uploaded — AI will reference the actual packaging ✓':'已上传 — AI 会参考真实包装生成 prompt ✓'}</span>`
+    : `<label>${photoLabel}</label><span style="color:var(--text-soft)">${currentLang==='en'?'Not uploaded — ':'未上传 — '}<button onclick="togglePhotoManager()" style="background:none;border:none;color:var(--green-dark);font-weight:600;cursor:pointer;font-size:14px;font-family:inherit">${currentLang==='en'?'Upload photo →':'点击上传产品照片 →'}</button></span>`;
+  grid.appendChild(photoRow);
 }
 
 // ─── PROMPT ASSEMBLER (Method B) ───
@@ -1671,6 +3024,15 @@ function assembleBasePrompt() {
   const plat = DATA.platform[state.platform] || {ratio:'--ar 4:5'};
   const camp = state.campaign ? DATA.campaign[state.campaign] : null;
 
+  // Auto-use uploaded product photo if available
+  // Priority: custom product upload > product library upload
+  let productPhotoB64 = null;
+  if(state.product === 'custom_product' && state.customProductPhotoB64) {
+    productPhotoB64 = state.customProductPhotoB64;
+  } else if(state.product && state.product !== 'custom_product') {
+    productPhotoB64 = getProductPhoto(state.product);
+  }
+
   let imgParts = [];
   if(ambDesc) imgParts.push(ambDesc);
   if(act) imgParts.push(act);
@@ -1694,8 +3056,8 @@ function assembleBasePrompt() {
   return {
     imageBase: imgParts.join(', '),
     videoBase: vidParts.join(', '),
-    hasProductPhoto: !!state.customProductPhotoB64,
-    productPhotoB64: state.customProductPhotoB64,
+    hasProductPhoto: !!productPhotoB64,
+    productPhotoB64,
     meta: {
       ambassador: state.ambassador, product: prod,
       platform: state.platform, language: state.language,
@@ -1704,15 +3066,43 @@ function assembleBasePrompt() {
   };
 }
 
-// ─── GENERATE ───
+// ─── NEGATIVE PROMPT ───
+function toggleNeg(el, term) {
+  el.classList.toggle('active');
+  const ta = document.getElementById('negativePrompt');
+  let val = ta.value;
+  if(el.classList.contains('active')) {
+    val = val ? val + ', ' + term : term;
+  } else {
+    val = val.split(',').map(s=>s.trim()).filter(s=>s!==term).join(', ');
+  }
+  ta.value = val;
+}
+function getNegativePrompt() {
+  return document.getElementById('negativePrompt')?.value?.trim() || '';
+}
 // ⚙️ 部署后把这里换成你的 Cloudflare Worker URL
-const WORKER_URL = 'https://love-earth-ai.jason01108.workers.dev';
+const WORKER_URL = 'https://love-earth-ai.YOUR_SUBDOMAIN.workers.dev';
 
 async function generatePrompt() {
   if(!state.product) {
     alert(currentLang === 'cn' ? '请至少选择一个产品！' : 'Please select a product first!');
     return;
   }
+
+  // FIX 1: Check if Worker URL or API key is configured
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
+  const workerReady = WORKER_URL && !WORKER_URL.includes('YOUR_SUBDOMAIN');
+  if(!apiKey && !workerReady) {
+    const banner = document.getElementById('apiWarningBanner');
+    if(banner) banner.style.display = 'block';
+    // Show API key input area
+    const apiSection = document.getElementById('apiKeySection');
+    if(apiSection) { apiSection.style.display = 'block'; apiSection.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+    return;
+  }
+  const banner = document.getElementById('apiWarningBanner');
+  if(banner) banner.style.display = 'none';
 
   const base = assembleBasePrompt();
   const lang = {bm:'Bahasa Malaysia', cn:'Mandarin Chinese', en:'English'}[state.language] || 'English';
@@ -1729,6 +3119,7 @@ VIDEO BASE: ${base.videoBase}
 Product: ${base.meta.product}
 Ambassador: ${base.meta.ambassador || 'none'}
 Campaign: ${base.meta.campaign || 'none'}
+${getNegativePrompt() ? `Negative (exclude from prompt): ${getNegativePrompt()}` : ''}
 ${base.hasProductPhoto ? 'A product reference photo is attached — match the product appearance accurately.' : ''}
 Respond ONLY with JSON, no markdown, no explanation.`;
 
@@ -1962,25 +3353,1197 @@ function toggleDrawer() {
   renderHistory();
 }
 
+// ══════════════════════════════════════════
+// ─── CUSTOM PRODUCTS (CRUD) ───
+// ══════════════════════════════════════════
+
+function getCustomProducts() {
+  try { return JSON.parse(localStorage.getItem('le_custom_products') || '[]'); }
+  catch { return []; }
+}
+function saveCustomProducts(arr) {
+  localStorage.setItem('le_custom_products', JSON.stringify(arr));
+}
+
+// Merge custom products into PRODUCTS array at runtime
+function loadCustomProductsIntoList() {
+  const custom = getCustomProducts();
+  // Remove previously-loaded custom products to avoid dupes on re-render
+  const baseIds = new Set(PRODUCTS.filter(p => !p._custom).map(p => p.id));
+  // Remove stale custom entries
+  while(PRODUCTS.length && PRODUCTS[PRODUCTS.length-1]._custom) PRODUCTS.pop();
+  // Re-add all current custom products
+  custom.forEach(p => {
+    if(!baseIds.has(p.id)) PRODUCTS.push(p);
+  });
+}
+
+let _editingProductId = null;
+let _pfPhotoB64 = null;
+
+function switchPMTab(tab) {
+  document.getElementById('pmTabPhotos').style.display = tab === 'photos' ? 'block' : 'none';
+  document.getElementById('pmTabCustom').style.display  = tab === 'custom'  ? 'block' : 'none';
+  document.getElementById('tabPhotos').classList.toggle('active', tab === 'photos');
+  document.getElementById('tabCustom').classList.toggle('active', tab === 'custom');
+  if(tab === 'custom') renderCustomProductList();
+  if(tab === 'photos') renderPhotoManager();
+}
+
+function openProductForm(editId) {
+  _editingProductId = editId || null;
+  _pfPhotoB64 = null;
+
+  // Reset form
+  ['pf_nameCN','pf_nameEN','pf_descCN','pf_descEN','pf_prompt','pf_emoji'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('pf_cat').value = 'seasoning';
+  document.getElementById('pf_photoPreviewWrap').style.display = 'none';
+  document.getElementById('pf_photoPlaceholder').style.display = 'block';
+  document.getElementById('pf_photoInput').value = '';
+
+  if(editId) {
+    // Prefill for edit
+    const all = [...PRODUCTS, ...getCustomProducts()];
+    const p = all.find(x => x.id === editId);
+    if(p) {
+      document.getElementById('pf_nameCN').value = p.cn?.name || '';
+      document.getElementById('pf_nameEN').value = p.en?.name || '';
+      document.getElementById('pf_descCN').value = p.cn?.desc || '';
+      document.getElementById('pf_descEN').value = p.en?.desc || '';
+      document.getElementById('pf_cat').value = p.cat || 'seasoning';
+      document.getElementById('pf_prompt').value = p.prompt || '';
+      document.getElementById('pf_emoji').value = p.emoji || '🌿';
+      // Load existing photo
+      const existingPhoto = getProductPhoto(editId);
+      if(existingPhoto) {
+        _pfPhotoB64 = existingPhoto;
+        document.getElementById('pf_photoPreview').src = `data:image/jpeg;base64,${existingPhoto}`;
+        document.getElementById('pf_photoPreviewWrap').style.display = 'block';
+        document.getElementById('pf_photoPlaceholder').style.display = 'none';
+      }
+    }
+    document.getElementById('productFormTitle').textContent = '✏️ 编辑产品';
+  } else {
+    document.getElementById('productFormTitle').textContent = '➕ 新增产品';
+  }
+
+  document.getElementById('productForm').style.display = 'block';
+}
+
+function closeProductForm() {
+  document.getElementById('productForm').style.display = 'none';
+  _editingProductId = null;
+  _pfPhotoB64 = null;
+}
+
+function handlePFPhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024) { alert('图片不能超过 5MB'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const max = 800;
+      let w = img.width, h = img.height;
+      if(w > max || h > max) {
+        if(w > h) { h = Math.round(h*max/w); w = max; }
+        else { w = Math.round(w*max/h); h = max; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      _pfPhotoB64 = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
+      document.getElementById('pf_photoPreview').src = `data:image/jpeg;base64,${_pfPhotoB64}`;
+      document.getElementById('pf_photoPreviewWrap').style.display = 'block';
+      document.getElementById('pf_photoPlaceholder').style.display = 'none';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveProductForm() {
+  const nameCN = document.getElementById('pf_nameCN').value.trim();
+  if(!nameCN) { alert('请填写产品中文名称！'); return; }
+
+  const nameEN  = document.getElementById('pf_nameEN').value.trim() || nameCN;
+  const descCN  = document.getElementById('pf_descCN').value.trim() || '';
+  const descEN  = document.getElementById('pf_descEN').value.trim() || descCN;
+  const cat     = document.getElementById('pf_cat').value;
+  const prompt  = document.getElementById('pf_prompt').value.trim() || `${nameEN} (Love Earth organic product)`;
+  const emoji   = document.getElementById('pf_emoji').value.trim() || '🌿';
+
+  const id = _editingProductId || 'custom_' + Date.now();
+
+  const product = {
+    id, cat, emoji, img: null, _custom: true,
+    cn: { name: nameCN, desc: descCN },
+    en: { name: nameEN, desc: descEN },
+    prompt
+  };
+
+  // Save product data
+  const customs = getCustomProducts();
+  const idx = customs.findIndex(p => p.id === id);
+  if(idx >= 0) customs[idx] = product;
+  else customs.push(product);
+  saveCustomProducts(customs);
+
+  // Save photo if uploaded
+  if(_pfPhotoB64) {
+    const photos = getProductPhotos();
+    photos[id] = _pfPhotoB64;
+    saveProductPhotos(photos);
+  }
+
+  // Reload into PRODUCTS list
+  loadCustomProductsIntoList();
+  renderProducts(currentCat, currentProductSearch);
+  renderCustomProductList();
+  closeProductForm();
+}
+
+function deleteCustomProduct(id) {
+  if(!confirm('确定要删除这个产品吗？')) return;
+  const customs = getCustomProducts().filter(p => p.id !== id);
+  saveCustomProducts(customs);
+  // Remove photo too
+  const photos = getProductPhotos();
+  delete photos[id];
+  saveProductPhotos(photos);
+  loadCustomProductsIntoList();
+  renderProducts(currentCat, currentProductSearch);
+  renderCustomProductList();
+}
+
+const CAT_LABELS = {
+  seasoning:'🍄 调味品', breakfast:'🥣 早餐', baby:'👶 妈妈宝宝',
+  snacks:'🥜 零食', grains:'🌾 米面杂粮', bake:'🧁 烘焙烹饪',
+  drinks:'🥤 饮品', superfood:'🌟 超级食物', bundle:'🎁 礼盒'
+};
+
+function renderCustomProductList() {
+  const list = document.getElementById('customProductList');
+  const customs = getCustomProducts();
+  const photos = getProductPhotos();
+
+  if(!customs.length) {
+    list.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--text-soft);font-size:14px">
+      还没有自定义产品。<br>点击"新增产品"开始添加。
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = customs.map(p => {
+    const pData = p[currentLang] || p.cn;
+    const photo = photos[p.id];
+    const thumbContent = photo
+      ? `<img src="data:image/jpeg;base64,${photo}" alt="${pData.name}">`
+      : `<span>${p.emoji}</span>`;
+    return `
+    <div class="cp-list-item">
+      <div class="cp-list-thumb">${thumbContent}</div>
+      <div class="cp-list-info">
+        <span class="cp-list-name">${pData.name}</span>
+        <div class="cp-list-desc">${pData.desc || ''}</div>
+        <span class="cp-list-cat">${CAT_LABELS[p.cat] || p.cat}</span>
+      </div>
+      <div class="cp-list-actions">
+        <button class="btn-edit" onclick="openProductForm('${p.id}')">✏️ 编辑</button>
+        <button class="btn-delete" onclick="deleteCustomProduct('${p.id}')">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// ─── PRODUCT PHOTO MANAGER ───
+// ══════════════════════════════════════════
+
+// Load/save product photos from localStorage (base64)
+function getProductPhotos() {
+  try { return JSON.parse(localStorage.getItem('le_product_photos') || '{}'); }
+  catch { return {}; }
+}
+function saveProductPhotos(photos) {
+  try { localStorage.setItem('le_product_photos', JSON.stringify(photos)); }
+  catch(e) { alert('存储空间不足，请删除部分图片后再试。'); }
+}
+function getProductPhoto(productId) {
+  return getProductPhotos()[productId] || null;
+}
+
+// Open/close photo manager
+let _pendingPhotoProductId = null;
+function togglePhotoManager() {
+  document.getElementById('photoDrawer').classList.toggle('open');
+  document.getElementById('photoOverlay').classList.toggle('open');
+  renderPhotoManager();
+}
+
+// Render all products in the photo manager grid
+function renderPhotoManager() {
+  const grid = document.getElementById('photoManagerGrid');
+  const photos = getProductPhotos();
+
+  grid.innerHTML = PRODUCTS.map(p => {
+    const pData = p[currentLang] || p.cn;
+    const hasPhoto = !!photos[p.id];
+    const photoSrc = photos[p.id] ? `data:image/jpeg;base64,${photos[p.id]}` : null;
+
+    const imgContent = photoSrc
+      ? `<img src="${photoSrc}" alt="${pData.name}" style="width:100%;height:100%;object-fit:cover">`
+      : `<span style="font-size:36px">${p.emoji}</span>`;
+
+    return `
+    <div class="photo-card ${hasPhoto ? 'has-photo' : ''}">
+      <div class="photo-card-img" onclick="triggerPhotoUpload('${p.id}')">
+        ${imgContent}
+        <div class="upload-overlay">
+          <span style="font-size:20px">📷</span>
+          <span>${hasPhoto ? '更换照片' : '上传照片'}</span>
+        </div>
+        ${hasPhoto ? '<span class="photo-badge">✓ 已上传</span>' : ''}
+      </div>
+      <div class="photo-card-body">
+        <span class="photo-card-name" title="${pData.name}">${pData.name}</span>
+        <div class="photo-card-actions">
+          <span class="photo-card-status ${hasPhoto ? 'uploaded' : ''}">
+            ${hasPhoto ? '📷 有参考图' : '无图片'}
+          </span>
+          <button class="btn-upload-photo" onclick="triggerPhotoUpload('${p.id}')">
+            ${hasPhoto ? '更换' : '上传'}
+          </button>
+          ${hasPhoto ? `<button class="btn-remove-photo" onclick="removeProductPhoto2('${p.id}')">✕</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function triggerPhotoUpload(productId) {
+  _pendingPhotoProductId = productId;
+  document.getElementById('photoUploadInput').click();
+}
+
+function handlePhotoManagerUpload(input) {
+  const file = input.files[0];
+  if(!file || !_pendingPhotoProductId) return;
+
+  if(file.size > 5 * 1024 * 1024) {
+    alert('图片不能超过 5MB，请压缩后再上传。');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    // Compress to max 800px and 200KB to save localStorage space
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxSize = 800;
+      let w = img.width, h = img.height;
+      if(w > maxSize || h > maxSize) {
+        if(w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+        else { w = Math.round(w * maxSize / h); h = maxSize; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
+
+      const photos = getProductPhotos();
+      photos[_pendingPhotoProductId] = compressed;
+      saveProductPhotos(photos);
+
+      // Refresh photo manager and product grid
+      renderPhotoManager();
+      renderProducts(currentCat, currentProductSearch);
+
+      // Clear input for re-upload
+      input.value = '';
+      _pendingPhotoProductId = null;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProductPhoto2(productId) {
+  const photos = getProductPhotos();
+  delete photos[productId];
+  saveProductPhotos(photos);
+  renderPhotoManager();
+  renderProducts(currentCat, currentProductSearch);
+}
+
+// ══════════════════════════════════════════
+// ─── DIRECT IMAGE GENERATION (Pollinations.ai) ───
+// ══════════════════════════════════════════
+const genState = {
+  stylePrefix: '',
+  width: 1024,
+  height: 1024,
+  lastPrompt: '',
+  generating: false
+};
+
+function setGenStyle(el, prefix) {
+  document.querySelectorAll('.gen-chip:not(.ratio-chip)').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  genState.stylePrefix = prefix;
+}
+
+function setGenRatio(el, w, h) {
+  document.querySelectorAll('.ratio-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  genState.width = w;
+  genState.height = h;
+}
+
+function buildPollinationsUrl(prompt, seed) {
+  const style = genState.stylePrefix;
+  const fullPrompt = style ? `${style} ${prompt}` : prompt;
+  // Remove Midjourney params from prompt
+  const cleanPrompt = fullPrompt.replace(/--ar \S+|--style \S+|--v \S+|--q \S+/g, '').trim();
+  const encoded = encodeURIComponent(cleanPrompt);
+  const s = seed || Math.floor(Math.random() * 999999);
+  return `https://image.pollinations.ai/prompt/${encoded}?width=${genState.width}&height=${genState.height}&seed=${s}&nologo=true&enhance=true`;
+}
+
+async function generateImageDirect(count) {
+  const promptText = document.getElementById('imgPrompt')?.textContent?.trim();
+  if(!promptText) {
+    alert(currentLang === 'en' ? 'Please generate a prompt first!' : '请先生成 Prompt！');
+    return;
+  }
+  if(genState.generating) return;
+
+  const n = count || 1;
+  genState.generating = true;
+  genState.lastPrompt = promptText;
+
+  const btn = document.getElementById('genImgBtn');
+  const loading = document.getElementById('genLoading');
+  const result = document.getElementById('genResult');
+  const grid = document.getElementById('genResultGrid');
+  const loadingText = document.getElementById('genLoadingText');
+
+  btn.disabled = true;
+  result.classList.remove('show');
+  grid.innerHTML = '';
+  loading.classList.add('show');
+  loadingText.textContent = currentLang === 'en'
+    ? `Generating ${n > 1 ? n + ' images' : 'image'}, ~15–30 sec...`
+    : `正在生成${n > 1 ? ' ' + n + ' 张图片' : '图片'}，约 15–30 秒...`;
+
+  try {
+    const seeds = Array.from({length: n}, () => Math.floor(Math.random() * 999999));
+    const urls = seeds.map(seed => buildPollinationsUrl(promptText, seed));
+
+    // Load all images in parallel
+    const imgLoads = urls.map((url, i) => new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve({url, seed: seeds[i], ok: true});
+      img.onerror = () => resolve({url, seed: seeds[i], ok: false});
+      img.src = url;
+    }));
+
+    const results = await Promise.all(imgLoads);
+
+    loading.classList.remove('show');
+    grid.innerHTML = '';
+
+    results.forEach(({url, seed, ok}) => {
+      if(!ok) {
+        const errDiv = document.createElement('div');
+        errDiv.className = 'gen-result-img-wrap';
+        errDiv.style.display = 'flex';
+        errDiv.style.alignItems = 'center';
+        errDiv.style.justifyContent = 'center';
+        errDiv.style.fontSize = '12px';
+        errDiv.style.color = 'var(--text-soft)';
+        errDiv.style.padding = '16px';
+        errDiv.textContent = currentLang === 'en' ? 'Failed to load — try again' : '加载失败 — 请重试';
+        grid.appendChild(errDiv);
+        return;
+      }
+
+      const wrap = document.createElement('div');
+      wrap.className = 'gen-result-img-wrap';
+
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Generated image';
+
+      const overlay = document.createElement('div');
+      overlay.className = 'gen-img-overlay';
+      overlay.innerHTML = `
+        <button class="gen-img-dl-btn" onclick="downloadGenImage('${url}', ${seed})">⬇️ ${currentLang === 'en' ? 'Download' : '下载'}</button>
+        <button class="gen-img-set-btn" onclick="openImageFull('${url}')">🔍 ${currentLang === 'en' ? 'Full size' : '查看大图'}</button>
+      `;
+
+      wrap.appendChild(img);
+      wrap.appendChild(overlay);
+      grid.appendChild(wrap);
+    });
+
+    result.classList.add('show');
+    btn.disabled = false;
+    genState.generating = false;
+
+    // Store last generated for gallery save
+    window._lastGenImages = results.filter(r => r.ok).map(r => r.url);
+
+  } catch(err) {
+    loading.classList.remove('show');
+    btn.disabled = false;
+    genState.generating = false;
+    alert(currentLang === 'en' ? `Generation failed: ${err.message}` : `生成失败: ${err.message}`);
+  }
+}
+
+function generateVariations() {
+  generateImageDirect(4);
+}
+
+function downloadGenImage(url, seed) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `love-earth-${seed}.jpg`;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function openImageFull(url) {
+  window.open(url, '_blank');
+}
+
+function saveToGallery() {
+  const imgs = window._lastGenImages;
+  if(!imgs || !imgs.length) return;
+  // Save first image URL to gallery localStorage as external URL
+  const title = prompt(currentLang === 'en'
+    ? 'Case title (e.g. Mushroom Raya IG Post):'
+    : '案例名称（例：蘑菇粉 Raya IG 帖子）:');
+  if(!title) return;
+  const gallery = getGallery();
+  gallery.unshift({
+    id: 'gal_'+Date.now(),
+    title,
+    meta: [state.ambassador?'Amb: '+state.ambassador:'',state.lighting?'Light: '+state.lighting:'',state.background?'Bg: '+state.background:''].filter(Boolean).join(' · '),
+    stat: currentLang==='en'?'AI Generated':'AI 生成',
+    emoji: '✨',
+    thumbnailUrl: imgs[0],
+    config: {...state}
+  });
+  if(gallery.length > 9) gallery.pop();
+  saveGallery(gallery);
+  renderGallery();
+  alert(currentLang === 'en' ? '✅ Saved to gallery!' : '✅ 已保存到画廊！');
+}
+let _i2pPhotoB64 = null;
+let _i2pResult = null;
+
+function handleI2PUpload(input) {
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 10*1024*1024) { alert('图片不能超过 10MB'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const max = 1200;
+      let w = img.width, h = img.height;
+      if(w > max || h > max) { if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;} }
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      _i2pPhotoB64 = canvas.toDataURL('image/jpeg',0.85).split(',')[1];
+      // Show preview
+      const preview = document.getElementById('i2pPreview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      document.getElementById('i2pPlaceholder').style.display = 'none';
+      document.getElementById('i2pChangeHint').style.display = 'block';
+      document.getElementById('i2pZone').classList.add('has-image');
+      // Auto-analyse
+      analyzeImage();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+async function analyzeImage() {
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
+  document.getElementById('i2pAnalyzing').classList.add('show');
+  document.getElementById('i2pResult').classList.remove('show');
+
+  const systemPrompt = `You are an expert photography analyst and creative director for Love Earth Organic Malaysia — a warm, earthy, nature-connected organic food brand.
+Analyze the uploaded photo and extract its visual style DNA. Respond ONLY in valid JSON with exactly these keys:
+{
+  "brand_match": "Strong" | "Moderate" | "Weak",
+  "brand_match_reason": "1 sentence",
+  "style_essence": "1 vivid sentence capturing the overall feel",
+  "lighting": "specific lighting description",
+  "background": "background material and color",
+  "composition": "composition style",
+  "color_mood": "2-3 dominant colors and mood",
+  "props": ["list", "of", "visible", "props"],
+  "midjourney_prompt": "complete ready-to-use Midjourney prompt replicating this style, ending with --ar [ratio] --style raw --v 6.1 --q 2",
+  "kling_prompt": "complete Kling AI / video prompt replicating this style for a 10-second lifestyle clip",
+  "negative_prompt": "what to exclude to maintain this style quality",
+  "apply_settings": {
+    "lighting": "window|golden|overcast|candle|softbox|morning",
+    "background": "light_wood|marble|linen|tiles|garden|pastel|dark_wood|white_seamless",
+    "composition": "flatlay|eyelevel|45deg|macro|thirds|wide"
+  }
+}`;
+
+  const userContent = [
+    {type:'image', source:{type:'base64', media_type:'image/jpeg', data: _i2pPhotoB64}},
+    {type:'text', text:'Analyze this Love Earth product photo and extract its complete visual style DNA. Be specific and actionable.'}
+  ];
+
+  try {
+    let res;
+    if(apiKey) {
+      // Direct API call if key available
+      res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:systemPrompt,messages:[{role:'user',content:userContent}]})
+      });
+    } else {
+      // Via Worker
+      res = await fetch(WORKER_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})
+      });
+    }
+
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const raw = data.content[0].text.replace(/```json|```/g,'').trim();
+    _i2pResult = JSON.parse(raw);
+    renderI2PResult(_i2pResult);
+  } catch(err) {
+    document.getElementById('i2pAnalyzing').classList.remove('show');
+    alert(`分析失败: ${err.message}\n\n请确认 API Key 已填写（在第7步生成页面）`);
+  }
+}
+
+function renderI2PResult(r) {
+  document.getElementById('i2pAnalyzing').classList.remove('show');
+
+  // Brand score
+  const scoreEl = document.getElementById('i2pScoreLabel');
+  const emojiEl = document.getElementById('i2pScoreEmoji');
+  if(r.brand_match === 'Strong') {
+    scoreEl.className = 'brand-score score-high';
+    scoreEl.textContent = '★★★★★ 非常符合品牌';
+    emojiEl.textContent = '🌿';
+  } else if(r.brand_match === 'Moderate') {
+    scoreEl.className = 'brand-score score-mid';
+    scoreEl.textContent = '★★★☆☆ 基本符合品牌';
+    emojiEl.textContent = '🍂';
+  } else {
+    scoreEl.className = 'brand-score score-low';
+    scoreEl.textContent = '★★☆☆☆ 有改进空间';
+    emojiEl.textContent = '⚠️';
+  }
+
+  document.getElementById('i2pEssence').textContent = r.style_essence || '';
+  document.getElementById('i2pLighting').textContent = r.lighting || '—';
+  document.getElementById('i2pBackground').textContent = r.background || '—';
+  document.getElementById('i2pComposition').textContent = r.composition || '—';
+  document.getElementById('i2pMood').textContent = r.color_mood || '—';
+  document.getElementById('i2pMJPrompt').textContent = r.midjourney_prompt || '';
+  document.getElementById('i2pKlingPrompt').textContent = r.kling_prompt || '';
+
+  // Props tags
+  const propsEl = document.getElementById('i2pProps');
+  propsEl.innerHTML = (r.props || []).map(p => `<span class="i2p-tag">${p}</span>`).join('');
+
+  // Negative
+  const negEl = document.getElementById('i2pNegative');
+  negEl.innerHTML = `<span style="font-family:monospace;font-size:12px;color:var(--text-mid);line-height:1.7">${r.negative_prompt || ''}</span>`;
+
+  document.getElementById('i2pResult').classList.add('show');
+}
+
+function applyI2PToGenerator() {
+  if(!_i2pResult?.apply_settings) return;
+  const s = _i2pResult.apply_settings;
+  // Apply to state
+  if(s.lighting) state.lighting = s.lighting;
+  if(s.background) state.background = s.background;
+  if(s.composition) state.composition = s.composition;
+  // Apply negative prompt
+  if(_i2pResult.negative_prompt) {
+    const ta = document.getElementById('negativePrompt');
+    if(ta) ta.value = _i2pResult.negative_prompt;
+  }
+  alert('✅ 风格已应用到生成器！\n灯光、背景、构图已预设。\nNegative Prompt 已填入。\n现在去第7步生成即可。');
+  goStep(6);
+}
+
+function saveI2PToPhotoLib() {
+  if(!_i2pResult) return;
+  const lib = JSON.parse(localStorage.getItem('le_style_library') || '[]');
+  lib.unshift({
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    essence: _i2pResult.style_essence,
+    lighting: _i2pResult.lighting,
+    background: _i2pResult.background,
+    brand_match: _i2pResult.brand_match,
+    mj_prompt: _i2pResult.midjourney_prompt,
+    thumbnail: _i2pPhotoB64?.substring(0, 200) // store small ref
+  });
+  if(lib.length > 20) lib.pop();
+  localStorage.setItem('le_style_library', JSON.stringify(lib));
+  alert('✅ 风格配方已保存到风格库！');
+}
+
+function copyI2P(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard?.writeText(el.textContent);
+  const btn = event.target;
+  btn.textContent = '✓ 已复制';
+  setTimeout(()=>btn.textContent='复制', 2000);
+}
+
+function resetI2P() {
+  _i2pPhotoB64 = null;
+  _i2pResult = null;
+  document.getElementById('i2pPreview').style.display = 'none';
+  document.getElementById('i2pPlaceholder').style.display = 'block';
+  document.getElementById('i2pChangeHint').style.display = 'none';
+  document.getElementById('i2pZone').classList.remove('has-image');
+  document.getElementById('i2pResult').classList.remove('show');
+  document.getElementById('i2pAnalyzing').classList.remove('show');
+  document.getElementById('i2pInput').value = '';
+}
+
+// ══════════════════════════════════════════
+// ─── MODE TOGGLE (QUICK / EXPERT) ───
+// ══════════════════════════════════════════
+let currentMode = 'quick';
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('modeQuick').classList.toggle('active', mode==='quick');
+  document.getElementById('modeExpert').classList.toggle('active', mode==='expert');
+
+  const app = document.querySelector('.app');
+  const sidebar = document.querySelector('.sidebar');
+  const main = document.querySelector('.main');
+  const quickPanel = document.getElementById('quickModePanel');
+  const expertPanel = document.getElementById('expertLivePreview');
+
+  if(mode === 'quick') {
+    sidebar.style.display = 'none';
+    main.style.display = 'none';
+    expertPanel.style.display = 'none';
+    quickPanel.style.display = 'block';
+    app.style.gridTemplateColumns = '1fr';
+  } else {
+    sidebar.style.display = '';
+    main.style.display = '';
+    expertPanel.style.display = 'block';
+    quickPanel.style.display = 'none';
+    app.style.gridTemplateColumns = '220px 1fr 320px';
+    goStep(0);
+  }
+}
+
+// ══════════════════════════════════════════
+// ─── QUICK MODE STATE & LOGIC ───
+// ══════════════════════════════════════════
+const qmState = { product: null, productName: '', purpose: null, purposeLabel: '', purposeKey: '', amb: 'none', photoB64: null, lpTab: 'img' };
+
+function handleQMPhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const max = 800; let w=img.width,h=img.height;
+      if(w>max||h>max){if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      qmState.photoB64 = canvas.toDataURL('image/jpeg',0.8).split(',')[1];
+      const preview = document.getElementById('qmPhotoPreview');
+      preview.src = e.target.result; preview.style.display='block';
+      document.getElementById('qmUploadPlaceholder').style.display='none';
+      document.getElementById('qmUploadZone').classList.add('has-img');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+}
+
+function qmPickProduct(el, id, name) {
+  document.querySelectorAll('.qm-amb-chip[onclick*="qmPickProduct"]').forEach(c=>{c.style.borderColor='var(--cream-dark)';c.style.background='var(--white)';c.style.color='var(--text-mid)';});
+  el.style.borderColor='var(--green)';el.style.background='var(--green-light)';el.style.color='var(--green-dark)';
+  qmState.product=id; qmState.productName=name;
+  updateLivePreview();
+}
+
+function qmSelectPurpose(el, platform, label, key) {
+  document.querySelectorAll('.purpose-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  qmState.purpose=platform; qmState.purposeLabel=label; qmState.purposeKey=key;
+  updateLivePreview();
+}
+
+function qmSelectAmb(el, id) {
+  document.querySelectorAll('.qm-amb-chip[onclick*="qmSelectAmb"]').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  qmState.amb=id;
+  updateLivePreview();
+}
+
+function switchLPTab(tab, btn) {
+  document.querySelectorAll('.lp-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); qmState.lpTab=tab;
+  updateLivePreview();
+}
+
+// ── Live Preview Builder (Quick Mode) ──
+const QM_RATIO = {shopee:'--ar 1:1',instagram_feed:'--ar 4:5',tiktok:'--ar 9:16',raya:'--ar 4:5',edu:'--ar 4:5',fb:'--ar 16:9'};
+const QM_SCENE = {
+  shopee:'clean product hero shot, white seamless background, sharp focus, professional e-commerce lighting',
+  instagram_feed:'lifestyle scene, soft natural window light, warm earthy tones, organic aesthetic',
+  tiktok:'vertical lifestyle video, 9:16, cinematic warm color grade, 10 seconds',
+  raya:'Raya 2026 festive theme, warm gold tones, ketupat elements, family warmth, candle glow',
+  edu:'educational clean composition, product label focus, minimal background, informative layout',
+  fb:'wide lifestyle shot, 16:9, natural outdoor or kitchen setting'
+};
+const AMB_DESC = {
+  aisyah:'28-year-old Malay woman in sage green hijab, warm tan skin, friendly smile',
+  meilin:'32-year-old Chinese Malaysian woman, black ponytail, minimal makeup, white linen shirt',
+  linda:'42-year-old Chinese Malaysian woman, shoulder-length wavy hair, graceful expression',
+  daniel:'35-year-old Malay man, neat black hair, athletic build, friendly energy'
+};
+
+function updateLivePreview() {
+  const prod = DATA.product?.[qmState.product] || qmState.productName || null;
+  const scene = QM_SCENE[qmState.purposeKey] || '';
+  const ratio = QM_RATIO[qmState.purpose] || '--ar 4:5';
+  const ambDesc = qmState.amb !== 'none' ? AMB_DESC[qmState.amb] : null;
+
+  // Completeness
+  const filled = [qmState.product, qmState.purpose].filter(Boolean).length;
+  const total = 3;
+  const pct = Math.round((filled / total) * 100);
+
+  ['lpBarFill','lpBarFillExpert'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';});
+  ['lpCompleteNum','lpCompleteNumExpert'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=filled+'/'+total;});
+  const ready = filled >= 2;
+  ['lpBadge','lpBadgeExpert'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.textContent=ready?'✓ 可以生成':'选择产品和用途';el.className='lp-badge'+(ready?' ready':'');});
+
+  if(!prod && !scene) {
+    ['lpBody','lpBodyExpert'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<div class="lp-placeholder">选择产品 + 内容类型后，<br>Prompt 会在这里实时出现 ✨</div>';});
+    return;
+  }
+
+  const tab = qmState.lpTab;
+  let html = '';
+
+  if(tab === 'img') {
+    const parts = [];
+    if(ambDesc) parts.push({t:ambDesc,c:'lpc-amb'});
+    if(prod) parts.push({t:prod,c:'lpc-product'});
+    if(scene) parts.push({t:scene,c:'lpc-scene'});
+    parts.push({t:'organic lifestyle photography, Love Earth brand aesthetic, warm earthy tones',c:'lpc-scene'});
+    parts.push({t:ratio+' --style raw --v 6.1 --q 2',c:'lpc-platform'});
+    html = parts.map(p=>`<span class="lp-chunk ${p.c}">${p.t}</span>`).join(', ');
+  } else if(tab === 'video') {
+    const vparts = [];
+    if(ambDesc) vparts.push({t:ambDesc,c:'lpc-amb'});
+    if(prod) vparts.push({t:'holding '+prod+', natural interaction',c:'lpc-product'});
+    vparts.push({t:scene||'lifestyle cooking scene',c:'lpc-scene'});
+    vparts.push({t:'cinematic warm color grade, natural ambient sound, 10 seconds',c:'lpc-scene'});
+    html = vparts.map(p=>`<span class="lp-chunk ${p.c}">${p.t}</span>`).join(', ');
+  } else {
+    if(!prod) { html='<div class="lp-placeholder">选择产品后生成 Caption...</div>'; }
+    else {
+      html = `<span class="lp-chunk lpc-platform">[Caption Draft]</span><br><br>`;
+      html += `<span class="lp-chunk lpc-product">${prod}</span> — 点击生成获得完整三语 Caption (BM/中文/EN)`;
+    }
+  }
+
+  ['lpBody','lpBodyExpert'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
+
+  // Store for expert mode use too
+  window._qmLivePrompt = { img: buildQMImgPrompt(), video: buildQMVideoPrompt() };
+}
+
+function buildQMImgPrompt() {
+  const prod = DATA.product?.[qmState.product] || qmState.productName || 'Love Earth organic product';
+  const scene = QM_SCENE[qmState.purposeKey] || 'lifestyle scene';
+  const ratio = QM_RATIO[qmState.purpose] || '--ar 4:5';
+  const ambDesc = qmState.amb !== 'none' ? AMB_DESC[qmState.amb] : null;
+  const parts = [ambDesc, prod, scene, 'organic lifestyle photography, Love Earth brand aesthetic, warm earthy tones', ratio+' --style raw --v 6.1 --q 2'].filter(Boolean);
+  return parts.join(', ');
+}
+
+function buildQMVideoPrompt() {
+  const prod = DATA.product?.[qmState.product] || qmState.productName || 'Love Earth organic product';
+  const scene = QM_SCENE[qmState.purposeKey] || 'lifestyle scene';
+  const ambDesc = qmState.amb !== 'none' ? AMB_DESC[qmState.amb] : null;
+  const parts = [ambDesc, 'holding '+prod+', natural interaction', scene, 'cinematic warm color grade, natural ambient sound, 10 seconds'].filter(Boolean);
+  return parts.join(', ');
+}
+
+function copyLivePrompt() {
+  const el = document.getElementById('lpBody');
+  if(!el) return;
+  const text = el.innerText;
+  navigator.clipboard?.writeText(text);
+  event.target.textContent = '✓ 已复制';
+  setTimeout(()=>event.target.textContent='复制 Prompt', 2000);
+}
+
+function copyLivePromptExpert() {
+  const el = document.getElementById('lpBodyExpert');
+  if(!el) return;
+  navigator.clipboard?.writeText(el.innerText);
+  event.target.textContent = '✓ 已复制';
+  setTimeout(()=>event.target.textContent='复制 Prompt', 2000);
+}
+
+function switchLPTabExpert(tab, btn) {
+  document.querySelectorAll('#expertLivePreview .lp-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  qmState.lpTab = tab;
+  updateLivePreviewFromState(); // use expert mode state
+}
+
+function updateLivePreviewFromState() {
+  // Use main state to build live preview in expert mode
+  const base = assembleBasePrompt();
+  const tab = qmState.lpTab;
+  let html = '';
+
+  if(tab === 'img') {
+    html = `<span class="lp-chunk lpc-product">${base.imageBase.substring(0,300)}${base.imageBase.length>300?'...':''}</span>`;
+  } else if(tab === 'video') {
+    html = `<span class="lp-chunk lpc-scene">${base.videoBase.substring(0,300)}${base.videoBase.length>300?'...':''}</span>`;
+  } else {
+    const lang = state.language ? {bm:'Bahasa Malaysia',cn:'中文',en:'English'}[state.language]||'?' : '?';
+    html = `<span class="lp-chunk lpc-platform">Language: ${lang}</span><br><span class="lp-chunk lpc-scene">Caption will be generated when you click ✨ Generate</span>`;
+  }
+
+  const expertBody = document.getElementById('lpBodyExpert');
+  if(expertBody) expertBody.innerHTML = html;
+
+  // Completeness for expert mode (out of 11 fields)
+  const fields = ['ambassador','platform','content_type','language','product','lighting','background','composition','action','product_presence'];
+  const filled = fields.filter(k=>state[k]).length;
+  const pct = Math.round((filled/fields.length)*100);
+  const barEl = document.getElementById('lpBarFillExpert');
+  if(barEl) barEl.style.width = pct+'%';
+  const numEl = document.getElementById('lpCompleteNumExpert');
+  if(numEl) numEl.textContent = filled+'/'+fields.length;
+  const badge = document.getElementById('lpBadgeExpert');
+  if(badge){badge.textContent=filled>=5?'✓ 可以生成':'继续选择...';badge.className='lp-badge'+(filled>=5?' ready':'');}
+}
+
+function saveLiveToHistory() {
+  if(!qmState.product && !qmState.purpose) { alert('请先选择产品和内容类型！'); return; }
+  const history = JSON.parse(localStorage.getItem('le_history')||'[]');
+  history.unshift({id:Date.now(),timestamp:new Date().toISOString(),ambassador:qmState.amb,product:qmState.productName,platform:qmState.purpose,imagePrompt:buildQMImgPrompt(),videoPrompt:buildQMVideoPrompt(),caption:'[Quick Mode — Caption generated at generate step]'});
+  if(history.length>30) history.pop();
+  localStorage.setItem('le_history',JSON.stringify(history));
+  alert('✅ 已保存到历史记录！');
+}
+
+async function runQuickGenerate() {
+  if(!qmState.product) { alert(currentLang==='cn'?'请选择一个产品！':'Please select a product!'); return; }
+  if(!qmState.purpose) { alert(currentLang==='cn'?'请选择内容用途！':'Please select content purpose!'); return; }
+
+  // Check API configured
+  const apiKey = document.getElementById('apiKeyInput')?.value?.trim() || '';
+  const workerReady = WORKER_URL && !WORKER_URL.includes('YOUR_SUBDOMAIN');
+  if(!apiKey && !workerReady) {
+    const msg = currentLang==='cn'
+      ? '需要配置 API Key 才能生成。\n请切换到 Expert Mode → 第7步，填写 API Key 后再试。'
+      : 'API Key required to generate.\nSwitch to Expert Mode → Step 7 and enter your API Key.';
+    alert(msg);
+    return;
+  }
+
+  // Map Quick Mode state to main state
+  state.product = qmState.product;
+  state.platform = qmState.purpose;
+  state.ambassador = qmState.amb !== 'none' ? qmState.amb : 'none';
+  state.content_type = 'lifestyle';
+  state.language = currentLang === 'cn' ? 'cn' : 'en';
+  state.lighting = state.lighting || 'window';
+  state.background = state.background || 'light_wood';
+  state.composition = state.composition || 'eyelevel';
+  if(qmState.purposeKey === 'raya') { state.campaign = 'raya'; state.lighting = 'candle'; }
+
+  // Show loading in Quick Mode result panel
+  const resultPanel = document.getElementById('qmResultPanel');
+  const resultGrid = document.getElementById('qmResultGrid');
+  if(resultPanel) { resultPanel.style.display = 'block'; resultGrid.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-soft)"><div class="loader" style="margin:0 auto 10px"></div><p>'+(currentLang==='cn'?'AI 正在生成 Prompt...':'AI is generating...')+'</p></div>'; }
+
+  try {
+    const base = assembleBasePrompt();
+    const lang = {bm:'Bahasa Malaysia',cn:'Mandarin Chinese',en:'English'}[state.language]||'English';
+    const systemPrompt = `You are a creative director for Love Earth Organic Malaysia. Polish these prompts into production-ready outputs. Brand voice: warm, honest, nature-connected. Always respond in valid JSON only with keys: image_prompt, video_prompt, caption. Caption language: ${lang}.`;
+    const neg = document.getElementById('negativePrompt')?.value?.trim() || '';
+    const userText = `Polish for ${base.meta.platform}: IMAGE: ${base.imageBase} VIDEO: ${base.videoBase} ${neg?'Exclude: '+neg:''} JSON only.`;
+    let userContent = base.hasProductPhoto ? [{type:'image',source:{type:'base64',media_type:'image/jpeg',data:base.productPhotoB64}},{type:'text',text:userText}] : userText;
+
+    let res;
+    if(apiKey) {
+      res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+    } else {
+      res = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+    }
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const raw = data.content[0].text.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(raw);
+    window._lastResult = {result, base, timestamp: new Date().toISOString()};
+
+    // Render result inline in Quick Mode
+    if(resultGrid) {
+      const imgP = result.image_prompt || base.imageBase;
+      const vidP = result.video_prompt || base.videoBase;
+      const cap = result.caption || '';
+      resultGrid.innerHTML = `
+        <div style="background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--cream-dark);padding:14px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--green-dark);margin-bottom:8px">🖼️ ${currentLang==='cn'?'图片 Prompt':'Image Prompt'}</div>
+          <div id="qmImgPrompt" style="font-size:12px;line-height:1.7;color:var(--text);font-family:monospace">${imgP}</div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+            <button onclick="copyText('qmImgPrompt',this)" style="padding:5px 12px;background:var(--green-dark);color:white;border:none;border-radius:8px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif">${currentLang==='cn'?'复制':'Copy'}</button>
+            <button onclick="generateImageFromQM('${encodeURIComponent(imgP)}')" style="padding:5px 12px;background:var(--green);color:var(--green-dark);border:none;border-radius:8px;font-size:11px;cursor:pointer;font-weight:600;font-family:'Poppins',sans-serif">✨ ${currentLang==='cn'?'直接出图':'Generate Image'}</button>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--cream-dark);padding:14px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--green-dark);margin-bottom:8px">📝 Caption</div>
+          <div id="qmCaption" style="font-size:13px;line-height:1.7;color:var(--text);white-space:pre-line">${cap}</div>
+          <button onclick="copyText('qmCaption',this)" style="margin-top:8px;padding:5px 12px;background:var(--green-dark);color:white;border:none;border-radius:8px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif">${currentLang==='cn'?'复制':'Copy'}</button>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:4px">
+          <button onclick="setMode('expert');goStep(6)" style="padding:8px 18px;background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:20px;font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--text-mid)">${currentLang==='cn'?'⚙ 在 Expert 里查看完整结果':'⚙ View full results in Expert'}</button>
+          <button onclick="runQuickGenerate()" style="padding:8px 18px;background:var(--green-dark);color:white;border:none;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif">🔄 ${currentLang==='cn'?'重新生成':'Regenerate'}</button>
+        </div>`;
+    }
+  } catch(err) {
+    if(resultGrid) resultGrid.innerHTML = `<div style="text-align:center;padding:20px;color:var(--warn)">❌ ${currentLang==='cn'?'生成失败':'Failed'}: ${err.message}</div>`;
+  }
+}
+
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard?.writeText(el.textContent||el.innerText);
+  const orig = btn.textContent;
+  btn.textContent = '✓';
+  setTimeout(()=>btn.textContent=orig, 2000);
+}
+
+function generateImageFromQM(encodedPrompt) {
+  const prompt = decodeURIComponent(encodedPrompt);
+  // Scroll to and populate the image gen section, switch to Expert
+  state.product = qmState.product;
+  setMode('expert');
+  goStep(6);
+  // Trigger generate after brief delay
+  setTimeout(() => {
+    document.getElementById('imgPrompt').textContent = prompt;
+    document.getElementById('outputPanel').classList.add('show');
+    document.getElementById('genImageSection').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }, 300);
+}
+
+// ══════════════════════════════════════════
+// ─── BEFORE/AFTER GALLERY ───
+// ══════════════════════════════════════════
+let _pendingGalleryConfig = null;
+
+function getGallery() { try{return JSON.parse(localStorage.getItem('le_gallery')||'[]');}catch{return[];} }
+function saveGallery(g) { localStorage.setItem('le_gallery',JSON.stringify(g)); }
+
+function renderGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if(!grid) return;
+  const items = getGallery();
+
+  // Empty state with guidance
+  if(items.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;background:var(--cream);border:2px dashed var(--cream-dark);border-radius:var(--radius);padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:8px">🖼️</div>
+        <div style="font-size:14px;font-weight:600;color:var(--green-dark);font-family:'Fredoka',sans-serif;margin-bottom:6px">${currentLang==='en'?'No cases yet — add your best results!':'还没有案例 — 添加你们最好的生成结果！'}</div>
+        <div style="font-size:12px;color:var(--text-soft);line-height:1.7;margin-bottom:12px">${currentLang==='en'?'How it works: Generate a prompt → Create the image → Upload the result here → Config saves automatically → Anyone on the team can reuse it next time with 1 click':'使用流程：生成 Prompt → 在 AI 工具出图 → 把结果图上传到这里 → 配置自动保存 → 下次团队任何人一键复用'}</div>
+        <button onclick="openGalleryUpload()" style="padding:9px 20px;background:var(--green-dark);color:white;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif">${currentLang==='en'?'+ Add First Case':'+ 添加第一个案例'}</button>
+      </div>`;
+    return;
+  }
+
+  let html = items.map(item => {
+    const reuseLabel = currentLang==='en'?'♻ Reuse Config':'♻ 复用配置';
+    const imgEl = item.thumbnailUrl
+      ? `<img src="${item.thumbnailUrl}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover">`
+      : item.thumbnail
+        ? `<img src="data:image/jpeg;base64,${item.thumbnail}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover">`
+        : `<span style="font-size:28px">${item.emoji||'📸'}</span>`;
+    return `<div class="gallery-card" onclick="reuseGalleryConfig('${item.id}')">
+      <div class="gallery-img">${imgEl}<span class="gallery-after-badge">✓ After</span></div>
+      <div class="gallery-card-body">
+        <span class="gallery-card-title">${item.title}</span>
+        <div class="gallery-card-meta">${item.meta||''}</div>
+        <div class="gallery-card-meta" style="margin-top:2px;color:var(--green-dark)">${item.stat||''}</div>
+        <span class="gallery-reuse-btn">${reuseLabel}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Add "+" card
+  html += `<div class="gallery-empty-card" onclick="openGalleryUpload()">
+    <div style="font-size:24px;color:var(--green-dark);margin-bottom:6px">+</div>
+    <div style="font-size:12px;font-weight:600;color:var(--green-dark);font-family:'Fredoka',sans-serif">${currentLang==='en'?'Add Best Case':'添加成功案例'}</div>
+    <div style="font-size:10px;color:var(--text-soft);margin-top:3px">${currentLang==='en'?'Upload result → config auto-saved → 1-click reuse':'上传结果图 → 配置自动保存 → 下次一键复用'}</div>
+  </div>`;
+
+  grid.innerHTML = html;
+}
+
+function openGalleryUpload() {
+  const title = prompt(currentLang==='cn'?'案例名称（例：蘑菇粉 Raya IG 帖子）:':'Case title (e.g. Mushroom Raya IG Post):');
+  if(!title) return;
+  _pendingGalleryConfig = {
+    title,
+    id: 'gal_'+Date.now(),
+    meta: [state.ambassador?'Amb: '+state.ambassador:'', state.lighting?'灯光: '+state.lighting:'', state.background?'背景: '+state.background:''].filter(Boolean).join(' · '),
+    stat: '',
+    emoji: state.product==='mushroom'?'🍄':state.product==='granolove'?'🥣':state.product==='baby_rice'?'👶':'📸',
+    config: {...state}
+  };
+  document.getElementById('galleryUploadInput').click();
+}
+
+function handleGalleryUpload(input) {
+  const file = input.files[0];
+  if(!file || !_pendingGalleryConfig) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const max=300; let w=img.width,h=img.height;
+      if(w>max||h>max){if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const thumb = canvas.toDataURL('image/jpeg',0.7).split(',')[1];
+      const item = {..._pendingGalleryConfig, thumbnail: thumb};
+      const gallery = getGallery();
+      gallery.unshift(item);
+      if(gallery.length > 9) gallery.pop();
+      saveGallery(gallery);
+      renderGallery();
+      _pendingGalleryConfig = null;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+}
+
+function reuseGalleryConfig(id) {
+  const gallery = getGallery();
+  const item = gallery.find(g=>g.id===id);
+  if(!item?.config) return;
+  Object.assign(state, item.config);
+  // Reflect in UI
+  const t = item.config;
+  Object.entries(t).forEach(([key,val]) => {
+    if(!val) return;
+    const cards = document.querySelectorAll(`[onclick*="'${key}','${val}'"], [data-value="${val}"]`);
+    cards.forEach(c => { const grid=c.closest('.options-grid'); if(grid)grid.querySelectorAll('.opt-card').forEach(x=>x.classList.remove('selected')); c.classList.add('selected'); });
+    if(key==='platform'){document.querySelectorAll('.plat-card').forEach(c=>c.classList.remove('selected'));const pc=document.querySelector(`[onclick*="'${val}'"]`);if(pc)pc.classList.add('selected');}
+  });
+  setMode('expert');
+  goStep(6);
+  alert('✅ 配置已加载！所有参数已预填，点击生成即可。');
+}
+
+// Wire live preview into expert mode selections — hook after existing functions
+const _origSelect = window.select;
+window.select = function(key, val, el) {
+  _origSelect(key, val, el);
+  if(currentMode==='expert') updateLivePreviewFromState();
+};
+const _origSelectPlat = window.selectPlat;
+window.selectPlat = function(val, el) {
+  _origSelectPlat(val, el);
+  if(currentMode==='expert') updateLivePreviewFromState();
+};
+const _origToggleCampaign = window.toggleCampaign;
+window.toggleCampaign = function(val, el) {
+  _origToggleCampaign(val, el);
+  if(currentMode==='expert') updateLivePreviewFromState();
+};
+
 // ─── SIDEBAR TIPS ───
-const tips = [
-  {step:0, text:'💡 使用模板可以一键预填所有选项，适合新手快速上手。'},
-  {step:1, text:'💡 Aisyah 适合马来受众内容，Mei Lin 适合华人健康类，Linda 适合养生教育类。'},
-  {step:2, text:'💡 TikTok/Reels 用 9:16 竖屏。Shopee主图用 1:1。Instagram Feed 用 4:5。'},
-  {step:3, text:'💡 蘑菇调味粉是主力产品，配合 Aisyah 或 Linda 效果最佳。'},
-  {step:4, text:'💡 浅木板+窗边光是最万能的组合，99%的场景都适用。'},
-  {step:5, text:'💡 "双手持产品"是最清晰的代言pose，让产品包装最突出。'},
-  {step:6, text:'💡 生成完成后记得保存到历史，下次可以快速复用好的组合。'}
-];
+const tips = {
+  cn: [
+    {step:0, text:'使用模板可以一键预填所有选项，适合新手快速上手。'},
+    {step:1, text:'Aisyah 适合马来受众内容，Mei Lin 适合华人健康类，Linda 适合养生教育类。'},
+    {step:2, text:'TikTok/Reels 用 9:16 竖屏。Shopee主图用 1:1。Instagram Feed 用 4:5。'},
+    {step:3, text:'蘑菇调味粉是主力产品，配合 Aisyah 或 Linda 效果最佳。'},
+    {step:4, text:'浅木板+窗边光是最万能的组合，99%的场景都适用。'},
+    {step:5, text:'"双手持产品"是最清晰的代言pose，让产品包装最突出。'},
+    {step:6, text:'Negative Prompt 点击标签快速添加，减少生成失败次数！'},
+    {step:7, text:'上传你们最好的产品照片，AI 分析后点"应用到生成器"直接用这个风格！'}
+  ],
+  en: [
+    {step:0, text:'Use templates to pre-fill all options instantly — great for new users.'},
+    {step:1, text:'Aisyah for Malay audience, Mei Lin for Chinese wellness content, Linda for family cooking.'},
+    {step:2, text:'TikTok/Reels use 9:16. Shopee main image uses 1:1. Instagram Feed uses 4:5.'},
+    {step:3, text:'Mushroom Seasoning is the hero product — pairs best with Aisyah or Linda.'},
+    {step:4, text:'Light wood + window light is the most versatile combo for any scene.'},
+    {step:5, text:'"Hold product with both hands" is the clearest endorsement pose — product stands out most.'},
+    {step:6, text:'Click Negative Prompt tags to quickly add exclusions — reduces failed generations!'},
+    {step:7, text:'Upload your best product photo — AI analyses it, click "Apply to Generator" to use that style!'}
+  ]
+};
 function updateSidebarTip() {
-  const tip = tips.find(t => t.step === currentStep);
-  if(tip) document.getElementById('sidebarTip').innerHTML = `<strong>💡 小提示</strong>${tip.text}`;
+  const langTips = tips[currentLang] || tips.cn;
+  const tip = langTips.find(t => t.step === currentStep);
+  const label = currentLang === 'en' ? '💡 Tip' : '💡 小提示';
+  if(tip) document.getElementById('sidebarTip').innerHTML = `<strong>${label}</strong><br>${tip.text}`;
 }
 
 // Init
+loadCustomProductsIntoList();
 renderHistory();
 renderProducts('all', '');
+renderGallery();
 setLang('cn');
+// Start in Quick Mode by default
+setMode('quick');
 </script>
 </body>
 </html>
