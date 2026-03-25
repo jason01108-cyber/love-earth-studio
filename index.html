@@ -1619,6 +1619,30 @@ select.form-input{cursor:pointer}
         <div class="qm-amb-chip" onclick="qmSelectAmb(this,'daniel')">👨 Daniel</div>
       </div>
 
+      <!-- Quick Mode Caption Format -->
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-soft);margin-bottom:8px">📝 Caption 格式</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+          <div class="cf-card sel" id="qm_cf_viral" onclick="selectCaptionFormat('viral',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">🔥</span><span class="cf-name" style="font-size:10px">Viral Hook</span>
+          </div>
+          <div class="cf-card" id="qm_cf_xhs" onclick="selectCaptionFormat('xhs',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">🌸</span><span class="cf-name" style="font-size:10px">小红书</span>
+          </div>
+          <div class="cf-card" id="qm_cf_story" onclick="selectCaptionFormat('story',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">📖</span><span class="cf-name" style="font-size:10px">Story</span>
+          </div>
+          <div class="cf-card" id="qm_cf_tips" onclick="selectCaptionFormat('tips',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">💡</span><span class="cf-name" style="font-size:10px">Tips</span>
+          </div>
+          <div class="cf-card" id="qm_cf_question" onclick="selectCaptionFormat('question',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">❓</span><span class="cf-name" style="font-size:10px">Question</span>
+          </div>
+          <div class="cf-card" id="qm_cf_b2b" onclick="selectCaptionFormat('b2b',this);document.querySelectorAll('#qm_cf_viral,#qm_cf_story,#qm_cf_question,#qm_cf_tips,#qm_cf_xhs,#qm_cf_b2b').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')" style="padding:8px 6px">
+            <span class="cf-icon" style="font-size:14px">🤝</span><span class="cf-name" style="font-size:10px">B2B</span>
+          </div>
+        </div>
+      </div>
       <button onclick="runQuickGenerate()" style="width:100%;padding:13px;background:var(--green-dark);color:var(--white);border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:'Fredoka',sans-serif;transition:.2s;margin-top:4px;letter-spacing:0.3px" onmouseover="this.style.background='#007a3d'" onmouseout="this.style.background='var(--green-dark)'">✨ <span id="qmGenBtnText">生成 Prompt</span></button>
 
       <!-- Quick Mode Result Panel -->
@@ -3062,6 +3086,7 @@ const templates = {
 
 function applyTemplate(tpl) {
   const t = templates[tpl];
+  if(!t) return;
   Object.assign(state, t);
   // Update UI selections
   Object.entries(t).forEach(([key, val]) => {
@@ -3082,6 +3107,12 @@ function applyTemplate(tpl) {
       if(cc) cc.classList.add('selected');
     }
   });
+  // Mark all steps as done
+  [1,2,3,4,5].forEach(i => markDone(i));
+  // Highlight the template card
+  document.querySelectorAll('.tq-card').forEach(c => c.classList.remove('active'));
+  event?.currentTarget?.classList.add('active');
+  updateLivePreviewFromState();
   goStep(6);
 }
 
@@ -3354,7 +3385,7 @@ Respond ONLY with JSON, no markdown, no explanation.`;
     const res = await fetch(WORKER_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({system: systemPrompt, messages: [{role:'user', content: userContent}]})
+      body: JSON.stringify({system: systemPrompt, messages: [{role:'user', content: userContent}], max_tokens: 3000})
     });
 
     if(!res.ok) {
@@ -3534,24 +3565,46 @@ function copyOutput(id, btn) {
 }
 
 // ─── HISTORY ───
+function showToast(msg, type) {
+  let toast = document.getElementById('leToast');
+  if(!toast) {
+    toast = document.createElement('div');
+    toast.id = 'leToast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green-dark);color:white;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:600;font-family:Poppins,sans-serif;z-index:9999;transition:opacity .3s;pointer-events:none';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.background = type==='warn' ? 'var(--terracotta)' : 'var(--green-dark)';
+  toast.style.opacity = '1';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.style.opacity = '0', 2500);
+}
+
 function saveToHistory() {
-  if(!window._lastResult) return;
+  if(!window._lastResult) {
+    showToast(currentLang==='cn'?'请先生成 Prompt！':'Generate a prompt first!', 'warn');
+    return;
+  }
+  const {result, base, timestamp} = window._lastResult;
+  const productName = base?.meta?.product || state.product || 'Product';
+  const platform = base?.meta?.platform || state.platform || 'IG';
+  const autoName = `${productName} · ${platform} · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}`;
   const history = JSON.parse(localStorage.getItem('le_history') || '[]');
-  const item = {
+  history.unshift({
     id: Date.now(),
-    timestamp: window._lastResult.timestamp,
-    ambassador: window._lastResult.base.meta.ambassador,
-    product: window._lastResult.base.meta.product,
-    platform: window._lastResult.base.meta.platform,
-    imagePrompt: document.getElementById('imgPrompt').textContent,
-    videoPrompt: document.getElementById('videoPrompt').textContent,
-    caption: document.getElementById('captionOut').textContent
-  };
-  history.unshift(item);
+    timestamp: timestamp || new Date().toISOString(),
+    ambassador: state.ambassador,
+    product: productName,
+    platform: platform,
+    imagePrompt: result.image_prompt || '',
+    videoPrompt: result.video_prompt || '',
+    caption: result.caption || result.caption_cn || '',
+    title: autoName,
+    config: {...state}
+  });
   if(history.length > 30) history.pop();
   localStorage.setItem('le_history', JSON.stringify(history));
-  renderHistory();
-  alert('✅ 已保存到历史记录！');
+  showToast(currentLang==='cn'?'✅ 已自动保存到历史记录！':'✅ Saved to history!');
 }
 
 function renderHistory() {
@@ -3951,97 +4004,30 @@ function buildPollinationsUrl(prompt, seed) {
   return `https://image.pollinations.ai/prompt/${encoded}?width=${genState.width}&height=${genState.height}&seed=${s}&nologo=true&enhance=true`;
 }
 
-async function generateImageDirect(count) {
-  const promptText = document.getElementById('imgPrompt')?.textContent?.trim();
-  if(!promptText) {
-    alert(currentLang === 'en' ? 'Please generate a prompt first!' : '请先生成 Prompt！');
-    return;
-  }
-  if(genState.generating) return;
+async function generateImageDirect(count = 1) {
+  // Pollinations API deprecated — show redirect panel
+  const prompt = document.getElementById('imgPrompt')?.textContent?.trim() || '';
+  if(!prompt) { alert(currentLang==='cn'?'请先生成 Prompt！':'Please generate a prompt first!'); return; }
 
-  const n = count || 1;
-  genState.generating = true;
-  genState.lastPrompt = promptText;
-
-  const btn = document.getElementById('genImgBtn');
-  const loading = document.getElementById('genLoading');
-  const result = document.getElementById('genResult');
-  const grid = document.getElementById('genResultGrid');
-  const loadingText = document.getElementById('genLoadingText');
-
-  btn.disabled = true;
-  result.classList.remove('show');
-  grid.innerHTML = '';
-  loading.classList.add('show');
-  loadingText.textContent = currentLang === 'en'
-    ? `Generating ${n > 1 ? n + ' images' : 'image'}, ~15–30 sec...`
-    : `正在生成${n > 1 ? ' ' + n + ' 张图片' : '图片'}，约 15–30 秒...`;
-
-  try {
-    const seeds = Array.from({length: n}, () => Math.floor(Math.random() * 999999));
-    const urls = seeds.map(seed => buildPollinationsUrl(promptText, seed));
-
-    // Load all images in parallel
-    const imgLoads = urls.map((url, i) => new Promise((resolve) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => resolve({url, seed: seeds[i], ok: true});
-      img.onerror = () => resolve({url, seed: seeds[i], ok: false});
-      img.src = url;
-    }));
-
-    const results = await Promise.all(imgLoads);
-
-    loading.classList.remove('show');
-    grid.innerHTML = '';
-
-    results.forEach(({url, seed, ok}) => {
-      if(!ok) {
-        const errDiv = document.createElement('div');
-        errDiv.className = 'gen-result-img-wrap';
-        errDiv.style.display = 'flex';
-        errDiv.style.alignItems = 'center';
-        errDiv.style.justifyContent = 'center';
-        errDiv.style.fontSize = '12px';
-        errDiv.style.color = 'var(--text-soft)';
-        errDiv.style.padding = '16px';
-        errDiv.textContent = currentLang === 'en' ? 'Failed to load — try again' : '加载失败 — 请重试';
-        grid.appendChild(errDiv);
-        return;
-      }
-
-      const wrap = document.createElement('div');
-      wrap.className = 'gen-result-img-wrap';
-
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = 'Generated image';
-
-      const overlay = document.createElement('div');
-      overlay.className = 'gen-img-overlay';
-      overlay.innerHTML = `
-        <button class="gen-img-dl-btn" onclick="downloadGenImage('${url}', ${seed})">⬇️ ${currentLang === 'en' ? 'Download' : '下载'}</button>
-        <button class="gen-img-set-btn" onclick="openImageFull('${url}')">🔍 ${currentLang === 'en' ? 'Full size' : '查看大图'}</button>
-      `;
-
-      wrap.appendChild(img);
-      wrap.appendChild(overlay);
-      grid.appendChild(wrap);
-    });
-
-    result.classList.add('show');
-    btn.disabled = false;
-    genState.generating = false;
-
-    // Store last generated for gallery save
-    window._lastGenImages = results.filter(r => r.ok).map(r => r.url);
-
-  } catch(err) {
-    loading.classList.remove('show');
-    btn.disabled = false;
-    genState.generating = false;
-    alert(currentLang === 'en' ? `Generation failed: ${err.message}` : `生成失败: ${err.message}`);
-  }
+  const encoded = encodeURIComponent(prompt.substring(0, 800));
+  const resultGrid = document.getElementById('genResultGrid');
+  const genResult = document.getElementById('genResult');
+  const genLoading = document.getElementById('genLoading');
+  if(genLoading) genLoading.classList.remove('show');
+  if(genResult) genResult.classList.add('show');
+  if(resultGrid) resultGrid.innerHTML = `
+    <div style="background:var(--green-light);border-radius:var(--radius);padding:18px 20px;text-align:center;width:100%">
+      <div style="font-size:24px;margin-bottom:8px">🎨</div>
+      <div style="font-size:14px;font-weight:600;color:var(--green-dark);font-family:'Fredoka',sans-serif;margin-bottom:6px">Prompt 已准备好，选择你的出图工具：</div>
+      <div style="font-size:12px;color:var(--text-soft);margin-bottom:14px">Prompt 已复制到剪贴板，直接粘贴进下方工具即可</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+        <a href="https://www.canva.com/ai-image-generator/" target="_blank" onclick="navigator.clipboard?.writeText(prompt)" style="padding:10px 18px;background:var(--green-dark);color:white;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif">🎨 Canva AI</a>
+        <a href="https://app.leonardo.ai/image-generation" target="_blank" style="padding:10px 18px;background:#5B4FE9;color:white;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif">🖌️ Leonardo AI</a>
+        <a href="https://klingai.com" target="_blank" style="padding:10px 18px;background:#FF5C5C;color:white;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif">🎬 Kling AI</a>
+        <a href="https://www.freepik.com/ai/image-generator" target="_blank" style="padding:10px 18px;background:var(--terracotta);color:white;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif">⚡ Freepik AI</a>
+      </div>
+      <button onclick="navigator.clipboard?.writeText(document.getElementById('imgPrompt')?.textContent||'');this.textContent='✅ 已复制！';setTimeout(()=>this.textContent='📋 复制 Prompt',2000)" style="margin-top:12px;padding:9px 20px;background:var(--cream);border:1.5px solid var(--green-dark);color:var(--green-dark);border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif">📋 复制 Prompt</button>
+    </div>`;
 }
 
 function generateVariations() {
@@ -4157,14 +4143,14 @@ Analyze the uploaded photo and extract its visual style DNA. Respond ONLY in val
       res = await fetch('https://api.anthropic.com/v1/messages', {
         method:'POST',
         headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:systemPrompt,messages:[{role:'user',content:userContent}]})
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,system:systemPrompt,messages:[{role:'user',content:userContent}]})
       });
     } else {
       // Via Worker
       res = await fetch(WORKER_URL, {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})
+        body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}],max_tokens:3000})
       });
     }
 
@@ -4362,14 +4348,17 @@ function switchLPTab(tab, btn) {
 }
 
 // ── Live Preview Builder (Quick Mode) ──
-const QM_RATIO = {shopee:'--ar 1:1',instagram_feed:'--ar 4:5',tiktok:'--ar 9:16',raya:'--ar 4:5',edu:'--ar 4:5',fb:'--ar 16:9'};
+const QM_RATIO = {shopee:'--ar 1:1',instagram_feed:'--ar 4:5',ig:'--ar 4:5',tiktok:'--ar 9:16',reel:'--ar 9:16',raya:'--ar 4:5',edu:'--ar 4:5',fb:'--ar 16:9',facebook:'--ar 16:9'};
 const QM_SCENE = {
   shopee:'clean product hero shot, white seamless background, sharp focus, professional e-commerce lighting',
   instagram_feed:'lifestyle scene, soft natural window light, warm earthy tones, organic aesthetic',
+  ig:'lifestyle scene, soft natural window light, warm earthy tones, organic aesthetic',
   tiktok:'vertical lifestyle video, 9:16, cinematic warm color grade, 10 seconds',
+  reel:'vertical lifestyle video, 9:16, cinematic warm color grade, 10 seconds',
   raya:'Raya 2026 festive theme, warm gold tones, ketupat elements, family warmth, candle glow',
   edu:'educational clean composition, product label focus, minimal background, informative layout',
-  fb:'wide lifestyle shot, 16:9, natural outdoor or kitchen setting'
+  fb:'wide lifestyle shot, 16:9, natural outdoor or kitchen setting',
+  facebook:'wide lifestyle shot, 16:9, natural outdoor or kitchen setting'
 };
 const AMB_DESC = {
   aisyah:'28-year-old Malay woman in sage green hijab, warm tan skin, friendly smile',
@@ -4552,9 +4541,9 @@ async function runQuickGenerate() {
 
     let res;
     if(apiKey) {
-      res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+      res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,system:systemPrompt,messages:[{role:'user',content:userContent}]})});
     } else {
-      res = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}]})});
+      res = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userContent}],max_tokens:3000})});
     }
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -4670,16 +4659,23 @@ function copyText(id, btn) {
 
 function generateImageFromQM(encodedPrompt) {
   const prompt = decodeURIComponent(encodedPrompt);
-  // Scroll to and populate the image gen section, switch to Expert
+  const lastResult = window._lastResult?.result;
   state.product = qmState.product;
   setMode('expert');
   goStep(6);
-  // Trigger generate after brief delay
   setTimeout(() => {
     document.getElementById('imgPrompt').textContent = prompt;
+    // Also populate video and caption from last Quick Mode result
+    if(lastResult) {
+      if(lastResult.video_prompt) document.getElementById('videoPrompt').textContent = lastResult.video_prompt;
+      if(lastResult.caption) {
+        document.getElementById('captionOut').textContent = lastResult.caption;
+        document.getElementById('captionOut').style.display = 'block';
+      }
+    }
     document.getElementById('outputPanel').classList.add('show');
-    document.getElementById('genImageSection').scrollIntoView({behavior:'smooth',block:'nearest'});
-  }, 300);
+    generateImageDirect();
+  }, 400);
 }
 
 // ══════════════════════════════════════════
