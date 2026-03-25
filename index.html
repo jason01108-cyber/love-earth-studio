@@ -3051,7 +3051,13 @@ const templates = {
   mum_baby: {ambassador:'aisyah', platform:'instagram_feed', content_type:'lifestyle', language:'bm', product:'baby_rice', lighting:'window', background:'light_wood', composition:'eyelevel', action:'feeding_baby', product_presence:'product_beside'},
   healthy_lifestyle: {ambassador:'meilin', platform:'tiktok', content_type:'lifestyle', language:'cn', product:'granolove', lighting:'morning', background:'light_wood', composition:'eyelevel', action:'tasting', product_presence:'product_beside'},
   product_closeup: {ambassador:'none', platform:'shopee', content_type:'product_hero', language:'en', product:'mushroom', lighting:'softbox', background:'white_seamless', composition:'flatlay', action:'portrait_only', product_presence:'product_only'},
-  reel_15s: {ambassador:'aisyah', platform:'tiktok', content_type:'recipe', language:'bm', product:'mushroom', lighting:'window', background:'tiles', composition:'eyelevel', action:'cooking', product_presence:'use_active'}
+  reel_15s: {ambassador:'aisyah', platform:'tiktok', content_type:'recipe', language:'bm', product:'mushroom', lighting:'window', background:'tiles', composition:'eyelevel', action:'cooking', product_presence:'use_active'},
+  social_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'eyelevel', action:'hold_front', product_presence:'product_beside', language:'cn'},
+  shopee_hero: {ambassador:'none', platform:'shopee', content_type:'product_hero', lighting:'softbox', background:'white_seamless', composition:'flatlay', action:'portrait_only', product_presence:'product_only', language:'en'},
+  tiktok_ugc: {ambassador:'aisyah', platform:'tiktok', content_type:'ugc', lighting:'morning', background:'light_wood', composition:'eyelevel', action:'tasting', product_presence:'use_active', language:'bm'},
+  xhs_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'flatlay', action:'hold_casual', product_presence:'product_beside', language:'cn'},
+  raya_festive: {ambassador:'aisyah', platform:'instagram_feed', content_type:'seasonal', lighting:'candle', background:'linen', composition:'eyelevel', action:'gifting', product_presence:'hold_front', language:'bm', campaign:'raya'},
+  b2b_catalogue: {ambassador:'none', platform:'facebook', content_type:'b2b', lighting:'softbox', background:'white_seamless', composition:'eyelevel', action:'portrait_only', product_presence:'product_only', language:'en'},
 };
 
 function applyTemplate(tpl) {
@@ -4652,36 +4658,6 @@ function pickHoliday(key, name, el) {
 }
 
 // ── Brand Templates ──
-function applyTemplate(tpl) {
-  const templates = {
-    social_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'eyelevel', action:'hold_front', product_presence:'product_beside', language:'cn'},
-    shopee_hero: {ambassador:'none', platform:'shopee', content_type:'product_hero', lighting:'softbox', background:'white_seamless', composition:'flatlay', action:'portrait_only', product_presence:'product_only', language:'en'},
-    tiktok_ugc: {ambassador:'aisyah', platform:'tiktok', content_type:'ugc', lighting:'morning', background:'light_wood', composition:'eyelevel', action:'tasting', product_presence:'use_active', language:'bm'},
-    xhs_lifestyle: {ambassador:'meilin', platform:'instagram_feed', content_type:'lifestyle', lighting:'window', background:'light_wood', composition:'flatlay', action:'hold_casual', product_presence:'product_beside', language:'cn'},
-    raya_festive: {ambassador:'aisyah', platform:'instagram_feed', content_type:'seasonal', lighting:'candle', background:'linen', composition:'eyelevel', action:'gifting', product_presence:'hold_front', language:'bm', campaign:'raya'},
-    b2b_catalogue: {ambassador:'none', platform:'facebook', content_type:'b2b', lighting:'softbox', background:'white_seamless', composition:'eyelevel', action:'portrait_only', product_presence:'product_only', language:'en'},
-  };
-  const t = templates[tpl];
-  if(!t) return;
-  Object.keys(t).forEach(k => state[k] = t[k]);
-  // Update UI
-  document.querySelectorAll('[data-field]').forEach(el => {
-    const field = el.getAttribute('data-field');
-    const val = el.getAttribute('data-val');
-    if(field && t[field]) {
-      if(val === t[field]) el.classList.add('selected');
-      else el.classList.remove('selected');
-    }
-  });
-  // Highlight the template card
-  document.querySelectorAll('.tq-card').forEach(c => c.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  // Mark steps done and advance
-  [1,2,3,4,5].forEach(i => markDone(i));
-  updateLivePreviewFromState();
-  goStep(6);
-  alert(`✅ 模板已套用！请选择产品后点击"生成 Prompt"`);
-}
 
 function copyText(id, btn) {
   const el = document.getElementById(id);
